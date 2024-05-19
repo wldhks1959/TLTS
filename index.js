@@ -39,21 +39,21 @@ app.use(express.static('public'));
 
 // 라우트 설정
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/public/index.html');
+  res.sendFile(__dirname + '/public/html/index.html');
 });
 
 app.get('/register', (req, res) => {
-  res.sendFile(__dirname + '/public/register.html');
+  res.sendFile(__dirname + '/public/html/register.html');
 });
 
 app.get('/login', (req, res) => {
-  res.sendFile(__dirname + '/public/login.html');
+  res.sendFile(__dirname + '/public/html/login.html');
 });
 
 
 // 취미 사이트 
 app.get('/hobby', (req,res)=>{
-  res.sendFile(__dirname + '/public/hobby.html')
+  res.sendFile(__dirname + '/public/html/hobby.html')
 });
 
 app.post('/register', async (req, res) => {
