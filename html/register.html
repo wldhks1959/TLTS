@@ -8,12 +8,29 @@
 </head>
 <body>
     <div class="register-wrapper">
-        <h1>회원가입</h1>
+        <h1>Sign Up</h1>
         <form action="/register" method="POST" id="register-form">
+            <span>ID</span>
             <input type="text" id="username" name="username" required placeholder="example@gmail.com"><br><br>
-            <input type="password" id="password" name="password" required placeholder="password"><br><br>
+            <span>NAME</span>
+            <input type="text" id="name" name="name" required placeholder="NAME"><br><br>
+            <span>PASSWORD</span>
+            <input type="password" id="password" name="password" required placeholder="PASSWORD"><br><br>
+            <span>CHECK PASSWORD</span>
+            <input type="password" id="checkpassword" name="checkpassword" required placeholder="CHECK PASSWORD"><br><br>
             <input type="submit" value="Regist">
         </form>
+        <div class="sns-signup">
+            <button class="sns-button kakao" onclick="location.href='카카오톡회원가입URL'">
+                <img src="/images/kakao.png" alt="Kakao" class="icon"> 카카오톡으로 회원가입
+            </button>
+            <button class="sns-button gmail" onclick="location.href='Gmail회원가입URL'">
+                <img src="/images/google.png" alt="Gmail" class="icon"> Gmail로 회원가입
+            </button>
+            <button class="sns-button facebook" onclick="location.href='Facebook회원가입URL'">
+                <img src="/images/facebook.png" alt="Facebook" class="icon"> Facebook으로 회원가입
+            </button>
+        </div>
     </div>
 </body>
 </html>
