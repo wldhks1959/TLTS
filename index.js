@@ -68,6 +68,15 @@ app.get('/login', (req, res) => {
   res.sendFile(__dirname + '/public/html/login.html');
 });
 
+// 로그인 상태 체크 API
+app.get('/check-login', (req, res) => {
+  if (req.session.username) {
+    res.json({ loggedIn: true });
+  } else {
+    res.json({ loggedIn: false });
+  }
+});
+
 // 취미 사이트 
 app.get('/hobby', (req,res)=>{
   res.sendFile(__dirname + '/public/html/hobby.html')
