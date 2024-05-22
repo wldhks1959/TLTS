@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>당신도 취미 가질 수 있다@@</title>
+    <link rel="stylesheet" href="/css/common.css">
+</head>
+<body>
+    <div class="container">
+    <h1 style="color:rgb(0, 0, 0)">취미 추천 해줄게</h1>
+    <p>취미를 가지고 싶은데, 어떤 취미가 있는지 모르는 당신에게 추천해줄게요!</p>
+    <hr>
+        <h2>이색 취미</h2>
+        <p>
+            스킨스쿠버 승마 요트 아이스스케이트 수상스키 제트스키 행글라이더 패러글라이더 낙하산 열기구 비행선 펜싱 활쏘기 사격 농사 태보 
+            파쿠르 스노쿨링 카약킹 카누타기 짚라인 동굴탐험 절벽다이빙 꽃꽂이 사냥 서예 캘리그래피 코스프레 동전수집 골동품수집 모형조립 천체관측
+        </p>
+    <hr>
+        <h2>보편적 취미</h2>
+        <p>
+            미식축구 축구 농구 야구 배구 배드민턴 탁구 파워리프팅 헬스 볼링 맨몸운동 달리기 마라톤 산책 등산 쇼핑 골프 자전거 캠핑 스노보드 서핑 조깅 
+            오토바이 여행 태권도 검도 유도 격투기 주짓수 크로스핏 드라이브 테니스 족구 필라테스 요가  줄넘기 권투 인라인스케이트 컴퓨터게임 
+            애니메이션시청 만화시청  독서 영화관람 보드게임 유튜브시청 낚시 일광욕 전시회관람 스포츠관람  드라마감상 공연관람 음악감상 SNS 향수수집 
+            트럼프 도둑잡기 포커 시가 그림그리기 뜨개질 칵테일 사진촬영  밴드 연극 당구 베이킹 온천 장기 요리하기 퍼즐맞추기 스도쿠 노래부르기 방탈출카페 
+        </p>
+    <hr>
+    <div class="inline-links">
+        <a href="/html/register.html" class="link button">회원가입</a>
+        <a href="/html/login.html" class="link button">로그인</a>
+    </div>
+         <p><a href="#" class="link button" id="find-hobby-link">취미 찾으러 가기!</a>
+    </div>
+    <script>
+        document.getElementById('find-hobby-link').addEventListener('click', function(event) {
+            event.preventDefault();
+            fetch('/check-login', {
+                method: 'GET',
+                credentials: 'include'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.loggedIn) {
+                    window.location.href = '/hobby';
+                } else {
+                    alert('로그인부터 해주세요.');
+                    window.location.href = '/html/login.html';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
