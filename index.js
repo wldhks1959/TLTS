@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql2');
 const bcrypt = require('bcrypt');
+const session = require('express-session');
 const app = express();
 const port = 3000;
 
@@ -37,6 +38,23 @@ db.query(createUserTable, (err, result) => {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
+// session 사용 
+app.use(session({
+  secret : 'secret-key',
+  resave : false,
+  saveUninitialized: false,
+  cookie: { secure: false } // https 사용 시 true로 변경 
+}));
+
+// 로그인 체크 미들웨어
+const loginCheck = (req, res, next) => {
+  if (req.session.username) {
+    next();
+  } else {
+    res.send(`<script>alert('로그인부터 해주세요.'); window.location.href = '/login';</script>`);
+  }
+};
+
 // 라우트 설정
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/public/html/index.html');
@@ -64,9 +82,9 @@ app.post('/register', async (req, res) => {
   db.query('INSERT INTO users SET ?', newUser, (err, result) => {
     if (err) {
       console.log(err);
-      res.send('회원가입 실패');
+      res.send(`<script>alert('이미 존재하는 아이디입니다. 다른 아이디를 입력하세요'); window.location.href = '/register';</script>`);
     } else {
-      res.send('회원가입 성공');
+      res.send(`<script>alert('회원가입 성공'); window.location.href = '/';</script>`);
     }
   });
 });
@@ -83,19 +101,19 @@ app.post('/login', async (req, res) => {
         const foundUser = results[0];
         const match = await bcrypt.compare(password, foundUser.password);
         if (match) {
-          res.send('로그인 성공');
+          res.send(`<script>alert('로그인 성공'); window.location.href = '/';</script>`);
         } else {
-          res.send('비밀번호 불일치');
+          res.send(`<script>alert('비밀번호 불일치.'); window.location.href = '/login';</script>`);
         }
       } else {
-        res.send('회원을 찾을 수 없음');
+        res.send(`<script>alert('회원을 찾을 수 없음.'); window.location.href = '/login';</script>`);
       }
     }
   });
 });
 
 // hobby 찾는 함수 
-app.post('/hobby', (req, res) => {
+app.post('/hobby', loginCheck, (req, res) => {
   const keywords = req.body.keywords;
 
   if (!keywords) {
