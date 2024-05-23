@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+        <title>관련 장소 지도에서 찾기</title>
+        <script type="text/javascript" 
+            src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=mc8mm4oocr"></script>
+        <script type="text/javascript"
+            src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    </head>
+    <body style="text-align: center">
+    <h1> 동아대학교 S06 기준 </h1>
+    <div>
+        <input type="text" id="keyword" placeholder="키워드 입력">
+        <button onclick="searchPlace()">검색</button>
+    </div>
+
+    <div id="map" style="width:75%;height:400px; margin:0 auto;"></div>
+        <script>
+            // 좌표 
+            var coordinates = new naver.maps.LatLng(
+                35.11719379721626, 128.96776005910738);
+
+            var mapOptions = 
+            {
+                center: coordinates, // 동아대학교 S06 기준 
+                zoom: 12.5
+            };
+            var map = new naver.maps.Map('map', mapOptions);
+
+            // 마커 추가 
+            var markeer = new naver.maps.Marker({
+                position: coordinates,
+                map : map,
+                title : '동아대학교 S06'
+            })
+
+            function searchPlace(){
+                var keyword = document.getElementById('keyword').value;
+
+                if(keyword.trim() === ""){
+                    alert("키워드를 입력하세요.");
+                    return ;
+                }
+                
+                $.ajax({
+                    url: "https://openapi.naver.com/v1/search/local.json",
+                    type: "GET",
+                    dataType: "json",
+                    data: {
+                        query: keyword,
+                        display: 1
+                    },
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader("X-Naver-Client-Id", "YOUR_NAVER_CLIENT_ID");
+                        xhr.setRequestHeader("X-Naver-Client-Secret", "YOUR_NAVER_CLIENT_SECRET");
+                    },
+                    success: function(data) {
+                        if (data.items.length > 0) {
+                            var item = data.items[0];
+                            var point = new naver.maps.Point(item.mapx, item.mapy);
+                            var coordinates = naver.maps.TransCoord.fromTM128ToLatLng(point);
+                            
+                            map.setCenter(coordinates);
+                            marker.setPosition(coordinates);
+                            marker.setTitle(item.title.replace(/<[^>]*>/g, '')); // HTML 태그 제거
+                        } else {
+                            alert("검색 결과가 없습니다.");
+                        }
+                    },
+                    error: function() {
+                        alert("장소 검색에 실패했습니다.");
+                    }
+                });
+            }
+        </script>
+    </body>
+</html>
