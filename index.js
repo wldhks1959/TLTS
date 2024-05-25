@@ -4,14 +4,15 @@ const mysql = require('mysql2');
 const bcrypt = require('bcrypt');
 const session = require('express-session');
 const app = express();
-const port = 3000;
+const port = 3000; // Express 서버의 포트 번호로 수정
 
 // MySQL 연결 설정
 const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: '1234',
-  database: 'user_db' // db 이름 설정
+  password: '0116',
+  database: 'user_db',
+  connectTimeout: 5000
 });
 
 db.connect((err) => {
@@ -25,9 +26,9 @@ db.connect((err) => {
 // User 테이블 생성
 const createUserTable = `
   CREATE TABLE IF NOT EXISTS users (
-    username VARCHAR(50) NOT NULL PRIMARY KEY,
+    username varchar(30) not null primary key,
     password VARCHAR(200) NOT NULL
-  )
+  );
 `;
 
 db.query(createUserTable, (err, result) => {
@@ -40,10 +41,13 @@ app.use(express.static('public'));
 
 // session 사용 
 app.use(session({
-  secret : 'secret-key',
-  resave : false,
+  secret: 'secret-key',
+  resave: false,
   saveUninitialized: false,
-  cookie: { secure: false } // https 사용 시 true로 변경 
+  cookie: { 
+    secure: false, // https 사용 시 true로 변경 
+    maxAge: 30 * 60 * 1000 // 세션 유효 기간: 30분
+   } 
 }));
 
 // 로그인 체크 미들웨어
@@ -68,9 +72,76 @@ app.get('/login', (req, res) => {
   res.sendFile(__dirname + '/public/html/login.html');
 });
 
-// 취미 사이트 
-app.get('/hobby', (req,res)=>{
-  res.sendFile(__dirname + '/public/html/hobby.html')
+app.get('/hobby', loginCheck, (req, res) => {
+  res.sendFile(__dirname + '/public/html/hobby.html');
+});
+app.get('/main', loginCheck,  (req,res) => {
+  res.sendFile(__dirname + '/public/html/main.html');
+});
+// 로그아웃 핸들러 변경
+app.get('/logout', (req, res) => {
+  req.session.destroy(err => {
+    if (err) {
+      console.error('Error destroying session:', err);
+      res.sendStatus(500);
+    } else {
+      res.send('<script>alert("로그아웃 되었습니다."); window.location.href = "/";</script>');
+    }
+  });
+});
+
+const fs = require('fs');
+
+app.get('/modify', loginCheck, (req, res) => {
+  // 현재 로그인한 사용자의 아이디(username)를 가져옵니다.
+  const username = req.session.username;
+  
+  // 사용자의 아이디로 DB에서 해당 사용자의 정보를 가져옵니다.
+  db.query('SELECT * FROM users WHERE username = ?', [username], (err, results) => {
+    if (err) {
+      console.error('Error fetching user information:', err);
+      res.sendStatus(500);
+      return;
+    }
+    res.sendFile(__dirname + '/public/html/modify.html');
+    // 결과가 있을 때만 사용자 정보를 클라이언트에게 전송합니다.
+    
+  });
+});
+
+app.get('/get-username', loginCheck, (req, res) => {
+  // 현재 로그인한 사용자의 아이디(username)를 가져옵니다.
+  const username = req.session.username;
+
+  res.json({ username: username });
+});
+
+
+app.post('/modify', loginCheck, async (req, res) => {
+  const { username, password, confirmPassword } = req.body;
+
+  // 입력한 비밀번호와 비밀번호 확인 값이 일치하는지 확인합니다.
+  if (password !== confirmPassword) {
+    return res.send('<script>alert("새로운 비밀번호와 비밀번호 확인이 일치하지 않습니다."); window.location.href = "/modify";</script>');
+  }
+
+  try {
+    // 입력한 비밀번호를 해싱합니다.
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // DB에 저장된 해당 사용자의 비밀번호를 업데이트합니다.
+    db.query('UPDATE users SET password = ? WHERE username = ?', [hashedPassword, username], (err, result) => {
+      if (err) {
+        console.error('Error updating password:', err);
+        res.sendStatus(500);
+      } else {
+        res.send('<script>alert("비밀번호가 성공적으로 변경되었습니다."); window.location.href = "/main";</script>');
+      }
+    });
+  } catch (error) {
+    console.error('Error hashing password:', error);
+    res.sendStatus(500);
+  }
 });
 
 // 로그인 상태 체크 API
@@ -104,28 +175,20 @@ app.post('/login', (req, res) => {
     password: req.body.password
   };
 
-  // 변수 안전하게 삽입
   db.query('SELECT password FROM users WHERE username = ?', [user.username], async (err, results) => {
     if (err) {
       console.log(err);
       return res.send('로그인 오류');
     }
 
-    // 쿼리 결과 로그
-    console.log(results);
-
     if (results.length > 0) {
       const storedPassword = results[0].password;
-
-      // bcrypt.compare는 async 함수이므로 await 사용
       const match = await bcrypt.compare(user.password, storedPassword);
 
-      if (match) 
-      {
-        return res.send(`<script>alert('로그인 성공'); window.location.href = '/';</script>`);
-      } 
-      else 
-      {
+      if (match) {
+        req.session.username = user.username; // 세션에 사용자 정보 저장
+        return res.send(`<script>alert('로그인 성공'); window.location.href = '/main';</script>`);
+      } else {
         return res.send(`<script>alert('비밀번호 불일치.'); window.location.href = '/login';</script>`);
       }
     } else {
@@ -134,9 +197,7 @@ app.post('/login', (req, res) => {
   });
 });
 
-// hobby 찾는 함수 
-app.post('/hobby', (req, res) => {
-  // app.post('/hobby', loginCheck, (req, res) => {
+app.post('/hobby', loginCheck, (req, res) => {
   const keywords = req.body.keywords;
 
   if (!keywords) {
@@ -144,7 +205,6 @@ app.post('/hobby', (req, res) => {
     return;
   }
 
-  // keywords가 배열이 아닌 경우 배열로 변환
   const keywordArray = Array.isArray(keywords) ? keywords : [keywords];
 
   const conditions = keywordArray.map(keyword => {

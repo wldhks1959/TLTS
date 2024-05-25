@@ -10,12 +10,12 @@
     <div class="login-wrapper">
         <h2>Login</h2>
         <form method="post" action="/login" id="login-form">
-            <input type="text" name="username" placeholder="ID">
-            <input type="password" name="password" placeholder="password">
+            <input type="text" name="username" placeholder="ID" required>
+            <input type="password" name="password" placeholder="password" required>
             <label for="remember-check">
                 <input type="checkbox" id="remember-check">&nbsp;아이디 저장하기 
             </label>
-            <a href="./register.html" id="register-link">회원가입</a>
+            <a href="/register" id="register-link">회원가입</a>
             <input type="submit" value="Login"><br>
         </form>
     </div>
