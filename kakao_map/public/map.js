@@ -145,24 +145,13 @@ function displayMarker(place) {
                  '<div class="category">' + (place.category_name ? '카테고리명: ' + place.category_name : '카테고리 정보 없음') + '</div></div>'
     });
 
-    var localInfowindowOpen = false;
-
     // 마커에 클릭 이벤트를 등록합니다
     kakao.maps.event.addListener(marker, "click", function () {
-        if (localInfowindowOpen) {
-            // 인포윈도우가 열려 있으면 닫습니다
-            localInfowindow.close();
-            localInfowindowOpen = false;
-            currentInfowindow = null;
-        } else {
-            // 인포윈도우가 닫혀 있으면 엽니다
-            if (currentInfowindow) {
-                currentInfowindow.close();
-            }
-            localInfowindow.open(map, marker);
-            localInfowindowOpen = true;
-            currentInfowindow = localInfowindow;
+        if (currentInfowindow) {
+            currentInfowindow.close();
         }
+        localInfowindow.open(map, marker);
+        currentInfowindow = localInfowindow;
     });
 
     // 생성된 마커를 배열에 추가
