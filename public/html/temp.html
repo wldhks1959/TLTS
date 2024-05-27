@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hobby Check</title>
+    <script>
+        let currentIndex = 0;
+        let enumData = {};
+
+        function loadEnumData() {
+            fetch('/enumData')
+                .then(response => response.json())
+                .then(data => {
+                    enumData = data;
+                    showNextEnum();
+                });
+        }
+
+        function showNextEnum() {
+            const keys = Object.keys(enumData);
+            if (currentIndex >= keys.length) {
+                document.getElementById('enumContainer').innerHTML = '<p>All enums are processed.</p>';
+                return;
+            }
+
+            const key = keys[currentIndex];
+            const values = enumData[key];
+
+            let html = `<h1>${key}</h1>`;
+            values.forEach(value => {
+                html += `
+                    <div>
+                        <input type="checkbox" id="${key}_${value}" name="${key}" value="${value}">
+                        <label for="${key}_${value}">${value}</label>
+                    </div>
+                `;
+            });
+
+            html += `<button onclick="nextEnum()">Next</button>`;
+            document.getElementById('enumContainer').innerHTML = html;
+        }
+
+        function nextEnum() {
+            currentIndex++;
+            showNextEnum();
+        }
+
+        window.onload = loadEnumData;
+    </script>
+</head>
+<body>
+    <h1>Hobby Check</h1>
+    <div id="enumContainer"></div>
+</body>
+</html>
