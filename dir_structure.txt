@@ -1,0 +1,18 @@
+/project-root
+├── app.js
+├── config
+│   └── db.js
+├── controllers
+│   ├── userController.js
+│   └── hobbyController.js
+├── services
+│   ├── userService.js
+│   └── hobbyService.js
+├── repositories
+│   ├── userRepository.js
+│   └── hobbyRepository.js
+└── public
+    └── html
+        ├── index.html
+        ├── register.html
+        └── login.html
