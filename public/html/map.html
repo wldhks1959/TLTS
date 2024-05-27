@@ -1,0 +1,27 @@
+<!-- map.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>지도 이동시키기</title>
+    <link rel="stylesheet" type="text/css" href="../css/map.css">
+</head>
+<body>
+<div id="map"></div>
+<p style="text-align: center;">
+    <button onclick="setCenter()">지도 중심 이동</button> 
+    <button onclick="panTo()">부드럽게 이동</button>
+</p>
+<p>
+    <input type="text" id="keyword" placeholder="키워드를 입력하세요">
+    <button onclick="search()">검색하기</button>
+</p>
+
+<script type="text/javascript" 
+    src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9b239552d7fea333313301df3f07f361&libraries=services"></script>
+
+<script type="text/javascript" 
+    src="/services/map.js"></script>
+
+</body>
+</html>

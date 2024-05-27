@@ -1,14 +1,18 @@
+// app.js
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const db = require('./config/db');
 const userController = require('./controllers/userController');
 const hobbyController = require('./controllers/hobbyController');
+
 const app = express();
 const port = 3000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
+app.use('/services',express.static('services')); 
+
 app.use(session({
   secret: 'secret-key',
   resave: false,
@@ -30,6 +34,10 @@ app.get('/login', (req, res) => {
 
 app.get('/hobby', (req, res) => {
   res.sendFile(__dirname + '/public/html/hobby.html');
+});
+
+app.get('/map', (req, res) => {
+  res.sendFile(__dirname + '/public/html/map.html');
 });
 
 app.get('/check-login', userController.checkLogin);
