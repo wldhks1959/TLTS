@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hoppy 취미 추천 웹사이트</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <script>
+        function redirectToLogin() {
+            window.location.href = '/html/login.html';
+        }
+        function redirectToHobby() {
+            window.location.href = '/html/hobby.html';
+        }
+        window.onload = function() {
+            document.getElementById('start-btn').addEventListener('click', function(event) {
+                event.preventDefault();
+                fetch('/check-login', {
+                    method: 'GET',
+                    credentials: 'include'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.loggedIn) {
+                        window.location.href = '/html/hobby.html';
+                    } else {
+                        alert('로그인부터 해주세요.');
+                        window.location.href = '/html/login.html';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+        };
+    </script>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <h1>취미 추천 웹사이트</h1>
+            <nav>
+                <button class="login-btn" onclick="redirectToLogin()">로그인</button>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <section class="intro">
+            <h2>새로운 취미를 찾아보세요!</h2>
+            <p>당신에게 딱 맞는 취미를 추천해드립니다.</p>
+            <button id="start-btn" class="start-btn">취미 진단 시작</button>
+        </section>
+        <section class="recommendations">
+            <h2>추천 취미</h2>
+            <div class="hobby-list">
+                <div class="hobby-row">
+                    <div class="hobby-item">
+                        <img src="/images/hobby1.jpg" alt="취미 1">
+                        <p>취미 1 설명</p>
+                    </div>
+                    <div class="hobby-item">
+                        <img src="/images/hobby2.jpg" alt="취미 2">
+                        <p>취미 2 설명</p>
+                    </div>
+                    <div class="hobby-item">
+                        <img src="/images/hobby3.jpg" alt="취미 3">
+                        <p>취미 3 설명</p>
+                    </div>
+                </div>
+                <div class="hobby-row">
+                    <div class="hobby-item">
+                        <img src="hobby4.jpg" alt="취미 4">
+                        <p>취미 4 설명</p>
+                    </div>
+                    <div class="hobby-item">
+                        <img src="hobby5.jpg" alt="취미 5">
+                        <p>취미 5 설명</p>
+                    </div>
+                    <div class="hobby-item">
+                        <img src="hobby6.jpg" alt="취미 6">
+                        <p>취미 6 설명</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 취미 추천 웹사이트</p>
+    </footer>
+</body>
+</html>

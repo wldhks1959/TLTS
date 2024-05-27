@@ -1,0 +1,148 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #fde0c9, #c1e1e9); /* 배경 색상 변경 */
+}
+
+.project-name {
+    font-size: 50px; /* 더 큰 글자 크기 */
+    color: #FF7F50; /* 포인트 색상 */
+    margin-bottom: 50px; /* 위로 더 올리기 */
+    font-weight: 900; /* 더 굵게 */
+    text-transform: uppercase; /* 대문자 변환 */
+    letter-spacing: 2px; /* 글자 간격 조정 */
+}
+
+.register-wrapper {
+    width: 500px; /* 가로 길이 증가 */
+    padding: 40px;
+    background-color: #ffffff; /* 배경 흰색 */
+    border-radius: 12px; /* 둥근 테두리 */
+    border: 1px solid #e0e0e0; /* 연한 회색 테두리 */
+    text-align: center;
+    box-shadow: none; /* 음영 제거 */
+}
+
+.sign-up {
+    font-size: 24px;
+    color: #FF7F50; /* 포인트 색상 */
+    margin-bottom: 20px;
+}
+
+#register-form > input {
+    width: 100%;
+    height: 48px;
+    padding: 0 15px; /* 패딩 조정 */
+    margin-bottom: 20px; /* 간격 조정 */
+    border-radius: 6px;
+    background-color: #fafafa; /* 더 밝은 배경색 */
+    border: 1px solid #dddddd; /* 연한 테두리 */
+    font-size: 16px;
+    transition: border-color 0.3s, background-color 0.3s; /* 전환 효과 추가 */
+}
+
+#register-form > input:focus {
+    border-color: #FF7F50; /* 포인트 색상 */
+    background-color: #ffffff; /* 포커스 시 배경색 변경 */
+    outline: none;
+}
+
+#register-form > input::placeholder {
+    color: #b0b0b0;
+}
+
+#register-form > span {
+    display: block;
+    margin-bottom: 8px;
+    color: #757575;
+    font-weight: bold;
+    text-align: left;
+}
+
+#register-form input[type="submit"] {
+    width: 100%;
+    padding: 14px;
+    color: #ffffff;
+    font-size: 18px;
+    background-color: #FF7F50; /* 포인트 색상 */
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s; /* 전환 효과 추가 */
+}
+
+#register-form input[type="submit"]:hover {
+    background-color: #FF5733; /* 조금 더 어두운 포인트 색상 */
+    transform: scale(1.02); /* 호버 시 크기 증가 효과 */
+}
+
+.sns-signup {
+    margin-top: 20px;
+}
+
+.sns-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 48px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    color: #fff;
+    border: none;
+    transition: opacity 0.3s, transform 0.3s; /* 전환 효과 추가 */
+}
+
+.sns-button:hover {
+    opacity: 0.8;
+    transform: scale(1.02); /* 호버 시 크기 증가 효과 */
+}
+
+.sns-button img.icon {
+    margin-right: 10px; /* 아이콘과 텍스트 사이의 간격 */
+    height: 24px; /* 아이콘의 높이 */
+    width: 24px; /* 아이콘의 너비 */
+}
+
+.sns-button.kakao {
+    background-color: #FFEB00;
+    color: #3C1E1E;
+}
+
+.sns-button.gmail {
+    background-color: #DB4437;
+}
+
+.sns-button:hover {
+    opacity: 0.8;
+    transform: scale(1.02); /* 호버 시 크기 증가 효과 */
+}
+
+@media (max-width: 600px) {
+    .register-wrapper {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .project-name {
+        font-size: 40px;
+        margin-bottom: 40px;
+    }
+
+    #register-form > input {
+        font-size: 14px;
+        padding: 12px;
+    }
+}
