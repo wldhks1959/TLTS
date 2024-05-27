@@ -1,27 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>지도 이동시키기</title>
-</head>
-<body>
-<div id="map" style="width:75%;height:450px; margin:0 auto;"></div>
-<p style="text-align: center;">
-    <button onclick="setCenter()">지도 중심 이동</button> 
-    <button onclick="panTo()">부드럽게 이동</button>
-</p>
-<p style="text-align: center;">
-    <input type="text" id="keyword" placeholder="키워드를 입력하세요">
-    <button onclick="search()">검색하기</button>
-</p>
-
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9b239552d7fea333313301df3f07f361&libraries=services"></script>
-<script>
 // 지도를 표시할 div와 옵션을 설정합니다
 var mapContainer = document.getElementById("map"), // 지도를 표시할 div
     mapOption = { 
         center: new kakao.maps.LatLng(35.11719379721626, 128.96776005910738), // 지도의 중심좌표
-        level: 3, // 지도의 확대 레벨
+        level: 5, // 지도의 확대 레벨
     };
 
 // 지도를 생성합니다
@@ -32,13 +13,13 @@ var centerCoords = new kakao.maps.LatLng(35.11719379721626, 128.96776005910738);
 
 // 기준 마커 아이콘을 설정합니다
 var centerMarkerImage = new kakao.maps.MarkerImage(
-    "http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png",
+    "./img/marker_red.png",
     new kakao.maps.Size(24, 35)
 );
 
 // 검색 마커 아이콘을 설정합니다
 var searchMarkerImage = new kakao.maps.MarkerImage(
-    "http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png",
+    "./img/marker_yellow.png",
     new kakao.maps.Size(24, 35)
 );
 
@@ -67,7 +48,11 @@ kakao.maps.event.addListener(marker, "click", function () {
         infowindowOpen = false;
     } else {
         // 인포윈도우가 닫혀 있으면 엽니다
+        if (currentInfowindow) {
+            currentInfowindow.close();
+        }
         infowindow.open(map, marker);
+        currentInfowindow = infowindow;
         infowindowOpen = true;
     }
 });
@@ -84,10 +69,10 @@ function setCenter() {
 // 지도 중심을 부드럽게 이동시키는 함수
 function panTo() {
     // 지도 중심을 부드럽게 이동시킵니다
-    // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
+    // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동
     map.panTo(centerCoords);
 
-    // 마커 위치도 이동 시킵니다
+    // 마커 위치도 이동
     marker.setPosition(centerCoords);
 }
 
@@ -107,7 +92,11 @@ function searchKeyword(callback) {
         if (status === kakao.maps.services.Status.OK) {
             // 기존 마커를 모두 제거
             clearMarkers();
-
+            // debugging 용 
+            console.log(data);
+            console.log(data.length);
+            console.log(status);
+            
             // 검색된 장소 위치를 기준으로 마커를 생성
             var bounds = new kakao.maps.LatLngBounds();
             for (var i = 0; i < data.length; i++) {
@@ -131,61 +120,20 @@ function searchKeyword(callback) {
     ps.keywordSearch(keyword, placesSearchCB, options);
 }
 
-// 카테고리로 장소를 검색하는 함수
-function searchCategory(callback) {
-    var keyword = document.getElementById("keyword").value;
-    if (!keyword.trim()) {
-        alert("카테고리를 입력하세요.");
-        return;
-    }
-
-    // 장소 검색 객체를 생성
-    var ps = new kakao.maps.services.Places();
-
-    // 현재 지도 중심을 기준으로 1km 반경 내에서 카테고리로 장소를 검색
-    var placesSearchCB = function (data, status, pagination) {
-        if (status === kakao.maps.services.Status.OK) {
-            // 기존 마커를 모두 제거
-            clearMarkers();
-
-            // 검색된 장소 위치를 기준으로 마커를 생성
-            var bounds = new kakao.maps.LatLngBounds();
-            for (var i = 0; i < data.length; i++) {
-                displayMarker(data[i]);
-                bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
-            }
-            map.setBounds(bounds);
-            callback(true);
-        } else {
-            callback(false);
-        }
-    };
-
-    // 현재 지도 중심 좌표를 기준으로 검색
-    var center = map.getCenter();
-    var options = {
-        location: center,
-        radius: 1000, // 1km 반경
-        sort: kakao.maps.services.SortBy.DISTANCE,
-    };
-    ps.categorySearch(keyword, placesSearchCB, options);
-}
-
 // 검색하기 버튼을 눌렀을 때 실행되는 함수
 function search() {
     searchKeyword(function(keywordSuccess) {
         if (!keywordSuccess) {
-            searchCategory(function(categorySuccess) {
-                if (!categorySuccess) {
-                    alert("검색 결과가 없습니다.");
-                }
-            });
+            alert("검색 결과가 없습니다.");
         }
     });
 }
 
 // 마커를 담을 배열입니다
 var markers = [];
+
+// 현재 열린 인포윈도우를 저장할 변수
+var currentInfowindow = null;
 
 // 마커를 생성하고 지도에 표시하는 함수
 function displayMarker(place) {
@@ -195,14 +143,19 @@ function displayMarker(place) {
         image: searchMarkerImage,
     });
 
+    var localInfowindow = new kakao.maps.InfoWindow({
+        content: '<div class="info-window"><div class="title">' + place.place_name + '</div>' +
+                 '<div class="address">' + (place.address_name ? '주소: ' + place.address_name : '주소 정보 없음') + '</div>' +
+                 '<div class="category">' + (place.category_name ? '카테고리명: ' + place.category_name : '카테고리 정보 없음') + '</div></div>'
+    });
+
     // 마커에 클릭 이벤트를 등록합니다
     kakao.maps.event.addListener(marker, "click", function () {
-        // 인포윈도우에 장소명을 표시하고, 추가 정보를 표시합니다
-        var content = '<div style="padding:5px;">' + place.place_name + '</div>';
-        content += '<div style="padding:5px;">' + (place.phone ? '전화번호: ' + place.phone : '전화번호 정보 없음') + '</div>';
-        content += '<div style="padding:5px;">' + (place.address_name ? '주소: ' + place.address_name : '주소 정보 없음') + '</div>';
-        infowindow.setContent(content);
-        infowindow.open(map, marker);
+        if (currentInfowindow) {
+            currentInfowindow.close();
+        }
+        localInfowindow.open(map, marker);
+        currentInfowindow = localInfowindow;
     });
 
     // 생성된 마커를 배열에 추가
@@ -214,7 +167,8 @@ function clearMarkers() {
     for (var i = 0; i < markers.length; i++) 
         markers[i].setMap(null);
     markers = [];
+    if (currentInfowindow) {
+        currentInfowindow.close();
+        currentInfowindow = null;
+    }
 }
-</script>
-</body>
-</html>

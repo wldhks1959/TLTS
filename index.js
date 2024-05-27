@@ -176,3 +176,9 @@ app.post('/hobby', (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
+
+// Rest한 MVC 구조  // return 제이슨 
+
+
+// 이 api 쓰려면 프런트에서 요청해약되 
+제이슨 데이터가지고 프론트에서 활용하는거지.  
