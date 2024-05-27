@@ -1,31 +1,6 @@
-# /project-root
-├── app.js
-├── config
-│   └── db.js
-├── controllers
-│   ├── userController.js
-│   └── hobbyController.js
-├── services
-│   ├── userService.js
-│   └── hobbyService.js
-├── repo
-│   ├── userRepo.js
-│   └── hobbyRepo.js
-└── public
-    ├── css 
-    │   ├── common.css
-    │   ├── hobby.css
-    │   ├── login.css
-    │   ├── main.css
-    │   ├── modify.css
-    │   ├── register.css
-    └── html
-        ├── index.html
-        ├── register.html
-        ├── login.html
-        ├── main.html
-        ├── modify.html
-        └── hobby.html
+# dir_structure
+![image](https://github.com/wldhks1959/TLTS/assets/69555890/23517b31-15ec-4d5d-b3d7-df39ba8e156b)
+
 
 # index.html
 ![index](https://github.com/wldhks1959/TLTS/assets/69555890/a6ec038f-347c-4634-b26f-76dddc411947)
