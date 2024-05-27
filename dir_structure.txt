@@ -8,11 +8,21 @@
 ├── services
 │   ├── userService.js
 │   └── hobbyService.js
-├── repositories
-│   ├── userRepository.js
-│   └── hobbyRepository.js
+├── repo
+│   ├── userRepo.js
+│   └── hobbyRepo.js
 └── public
+    ├── css 
+    │   ├── common.css
+    │   ├── hobby.css
+    │   ├── login.css
+    │   ├── main.css
+    │   ├── modify.css
+    │   ├── register.css
     └── html
         ├── index.html
         ├── register.html
-        └── login.html
+        ├── login.html
+        ├── main.html
+        ├── modify.html
+        └── hobby.html
