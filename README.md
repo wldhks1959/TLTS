@@ -2,13 +2,19 @@
 ![image](https://github.com/wldhks1959/TLTS/assets/69555890/419ba40d-25b5-4afc-8977-a2ac7a469a6e)
 
 # index.html
-![index](https://github.com/wldhks1959/TLTS/assets/69555890/a6ec038f-347c-4634-b26f-76dddc411947)
+![image](https://github.com/wldhks1959/TLTS/assets/69555890/2f5a041e-88e8-4e41-bd70-2cf3695f4e2e)
+
 
 # register.html
-<img width="503" alt="스크린샷 2024-05-20 오후 8 52 08" src="https://github.com/wldhks1959/TLTS/assets/64916999/5696a340-c117-4b23-ae34-72893a4c74c0">
+![image](https://github.com/wldhks1959/TLTS/assets/69555890/46eac83b-35c1-494f-9e2d-09bba939e71f)
+
 
 # login.html
-<img width="550" alt="스크린샷 2024-05-20 오후 8 54 02" src="https://github.com/wldhks1959/TLTS/assets/64916999/b5f4eba0-96ad-4d5b-9eee-fa565b31640c">
+![image](https://github.com/wldhks1959/TLTS/assets/69555890/7b19e394-3da6-442f-bfd8-37cffaabb822)
+
 
 # hobby.html
 ![hobby](https://github.com/wldhks1959/TLTS/assets/69555890/5148385b-11d8-432b-a4b0-c1ec15d35c0b)
+
+# map.html
+![image](https://github.com/wldhks1959/TLTS/assets/69555890/a18f452b-4afd-4387-a8be-3f99e9cb98a6)
