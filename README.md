@@ -1,6 +1,5 @@
 # dir_structure
-![image](https://github.com/wldhks1959/TLTS/assets/69555890/23517b31-15ec-4d5d-b3d7-df39ba8e156b)
-
+![image](https://github.com/wldhks1959/TLTS/assets/69555890/419ba40d-25b5-4afc-8977-a2ac7a469a6e)
 
 # index.html
 ![index](https://github.com/wldhks1959/TLTS/assets/69555890/a6ec038f-347c-4634-b26f-76dddc411947)
