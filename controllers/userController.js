@@ -32,3 +32,15 @@ exports.login = async (req, res) => {
     res.send(`<script>alert('회원을 찾을 수 없음.'); window.location.href = '/login';</script>`);
   }
 };
+
+exports.modify = async (req, res) => {
+  const { username, password, confirmPassword } = req.body;
+
+  try {
+    await UserService.changePassword(username, password, confirmPassword);
+    res.send('<script>alert("비밀번호가 성공적으로 변경되었습니다."); window.location.href = "/main";</script>');
+  }
+  catch (error) {
+    res.send(`<script>alert("${error.message}"); window.location.href = "/modify";</script>`);
+  }
+};

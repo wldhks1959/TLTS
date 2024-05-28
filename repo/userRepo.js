@@ -17,3 +17,16 @@ exports.findUserByUsername = (username) => {
     });
   });
 };
+
+exports.updatePassword = (username, hashedPassword) =>{
+  return new Promise((resolve, reject) => {
+    db.query('UPDATE users SET password = ? Where username = ?', [hashedPassword, username], (err,result) =>{
+      if(err){
+        reject(err);
+      }
+      else{
+        resolve(result);
+      }
+    } )
+  })
+}

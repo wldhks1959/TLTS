@@ -14,3 +14,12 @@ exports.login = async (username, password) => {
   }
   throw new Error('User not found');
 };
+
+exports.changePassword = async (username, password, confirmPassword) => {
+  if (password !== confirmPassword) {
+    throw new Error("Passwords do not match");
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+  return UserRepo.updatePassword(username, hashedPassword);
+};
