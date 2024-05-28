@@ -18,13 +18,14 @@ app.use('/services',express.static('services'));
 app.use(session({
   secret: 'secret-key',
   resave: false,
-  saveUninitialized: false,
+  saveUninitialized: true, //일단 변경
   cookie: { 
     secure: false, // https 사용 시 true로 변경 
     maxAge: 30 * 60 * 1000 // 세션 유효 기간: 30분
    } 
 }));
 
+app.use(bodyParser.json());
 
 const loginCheck = (req, res, next) => {
   if (req.session.username) {
@@ -125,6 +126,147 @@ app.get('/check-login', userController.checkLogin);
 app.post('/register', userController.register);
 app.post('/login', userController.login);
 app.post('/hobby', hobbyController.searchHobby);
+
+
+const questionsAndAnswers = [
+  {
+    question: "실내 또는 실외 활동을 선호하시나요?",
+    button1: "실내",
+    button2: "실외",
+    button3: "상관없음"
+  },
+  {
+    question: "혼자 또는 여럿이 함께 하는 활동을 선호하시나요?",
+    button1: "혼자",
+    button2: "같이",
+    button3: "상관없음"
+  },
+  {
+    question: "직접 하거나 눈으로만 보는 것을 선호하시나요?",
+    button1: "직접하기",
+    button2: "눈으로만",
+    button3: "상관없음"
+  },
+  {
+    question: "활동 강도를 어떻게 선호하시나요?",
+    button1: "가만히",
+    button2: "적당히 움직이기",
+    button3: "활발하게!",
+    button4: "상관없음"
+  },
+  {
+    question: "힐링 또는 불태우는 것을 선호하시나요?",
+    button1: "힐링하기",
+    button2: "불태우기!",
+    button3: "상관없음"
+  },
+  {
+    question: "예약이 필요한 활동을 선호하시나요?",
+    button1: "좋아",
+    button2: "싫어",
+    button3: "상관없음"
+  },
+  {
+    question: "장비가 필요한 활동을 선호하시나요?",
+    button1: "좋아",
+    button2: "싫어",
+    button3: "상관없음"
+  },
+  {
+    question: "자기개발 또는 오락을 선호하시나요?",
+    button1: "자기계발",
+    button2: "오락",
+    button3: "상관없음"
+  },
+  {
+    question: "이색적인 또는 보편적인 활동을 선호하시나요?",
+    button1: "이색적인",
+    button2: "보편적인",
+    button3: "상관없음"
+  }
+];
+
+app.get('/get-questions-and-answers', (req, res) => {
+  res.json(questionsAndAnswers);
+});
+
+
+let clickedButtonArr = [];
+
+app.post('/save-clicked-button', (req, res) => {
+  if (!req.session.clickedButtons) {
+      req.session.clickedButtons = [];
+  }
+  const { buttonContent } = req.body;
+
+  // 클라이언트로부터 받은 버튼 내용을 ENUM 값으로 변환
+  console.log(buttonContent);
+  const enumValue = convertToEnum(buttonContent);
+
+  // 변환된 ENUM 값이 유효한 경우에만 저장
+  if (enumValue) {
+      req.session.clickedButtons.push(enumValue);
+      console.log(enumValue);
+      clickedButtonArr[req.session.clickedButtons.length - 1] = enumValue; 
+  }
+
+  if (req.session.clickedButtons.length === 9) {
+    console.log(clickedButtonArr);
+      res.redirect('/html/hobby_result.html');
+  } else {
+      res.sendStatus(200);
+  }
+});
+
+app.get('/get-clicked-buttons', (req, res) => {
+    if (!req.session.clickedButtons) {
+        res.json([]);
+    } else {
+        res.json(req.session.clickedButtons);
+    }
+});
+
+
+function convertToEnum(buttonContent) {
+  switch (buttonContent) {
+    case "실내":
+      return "indoor";
+    case "실외":
+      return "outdoor";
+    case "혼자":
+      return "solo";
+    case "같이":
+      return "multi";
+    case "직접하기":
+      return "play";
+    case "눈으로만":
+      return "watch";
+    case "가만히":
+      return "static";
+    case "적당히 움직이기":
+      return "normal";
+    case "활발하게!":
+      return "dynamic";
+    case "힐링하기":
+      return "healing";
+    case "불태우기!":
+      return "burning";
+    case "좋아":
+      return "yes";
+    case "싫어":
+      return "no";
+    case "자기계발":
+      return "self development";
+    case "오락":
+      return "fun";
+    case "이색적인":
+      return "special";
+    case "보편적인":
+      return "normal";
+    default:
+        return null;
+  }
+}
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
