@@ -7,6 +7,11 @@
     <link rel="stylesheet" type="text/css" href="../css/map.css">
 </head>
 <body>
+    <header>
+        <div class="container"><nav>
+                <h1>Hoppy</h1>
+        </nav></div>
+    </header>
 <div id="map"></div>
 <p style="text-align: center;">
     <button onclick="setCenter()">지도 중심 이동</button> 
@@ -16,7 +21,9 @@
     <input type="text" id="keyword" placeholder="키워드를 입력하세요">
     <button onclick="search()">검색하기</button>
 </p>
-
+<footer>
+    <p>&copy; 2024 취미 추천 웹사이트</p>
+</footer>
 <script type="text/javascript" 
     src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9b239552d7fea333313301df3f07f361&libraries=services"></script>
 
