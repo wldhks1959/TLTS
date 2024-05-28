@@ -264,7 +264,7 @@ function convertToEnum(buttonContent) {
     case "보편적인":
       return "normal";
     default:
-        return null;
+        return "null";
   }
 }
 
