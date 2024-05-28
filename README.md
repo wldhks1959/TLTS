@@ -17,5 +17,6 @@
 ![hobby](https://github.com/wldhks1959/TLTS/assets/69555890/5148385b-11d8-432b-a4b0-c1ec15d35c0b)
 
 # map.html
-![image](https://github.com/wldhks1959/TLTS/assets/69555890/a18f452b-4afd-4387-a8be-3f99e9cb98a6)
+![image](https://github.com/wldhks1959/TLTS/assets/69555890/94d376ef-beb3-4615-bca7-fe1e53c33ed2)
+
 
