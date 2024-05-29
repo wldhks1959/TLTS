@@ -1,4 +1,3 @@
-// app.js
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
@@ -13,17 +12,16 @@ const port = 3000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
-app.use('/services',express.static('services')); 
+app.use('/services', express.static('services'));
 
-// session 사용 
 app.use(session({
   secret: 'secret-key',
   resave: false,
-  saveUninitialized: true, //일단 변경
-  cookie: { 
-    secure: false, // https 사용 시 true로 변경 
-    maxAge: 30 * 60 * 1000 // 세션 유효 기간: 30분
-   } 
+  saveUninitialized: true,
+  cookie: {
+    secure: false,
+    maxAge: 30 * 60 * 1000
+  }
 }));
 
 app.use(bodyParser.json());
@@ -46,7 +44,6 @@ app.get('/login', (req, res) => {
   res.sendFile(__dirname + '/public/html/login.html');
 });
 
-// 로그아웃 핸들러 변경
 app.get('/logout', (req, res) => {
   req.session.destroy(err => {
     if (err) {
@@ -58,7 +55,7 @@ app.get('/logout', (req, res) => {
   });
 });
 
-app.get('/main', loginCheck,  (req,res) => {
+app.get('/main', loginCheck, (req, res) => {
   res.sendFile(__dirname + '/public/html/main.html');
 });
 
@@ -73,7 +70,7 @@ app.get('/get-user_id', loginCheck, (req, res) => {
   res.json({ user_id: user_id });
 });
 
-app.get('/hobby', (req, res) => {
+app.get('/hobby', loginCheck, (req, res) => {
   res.sendFile(__dirname + '/public/html/hobby.html');
 });
 
@@ -86,8 +83,7 @@ app.get('/map', (req, res) => {
 app.get('/check-login', userController.checkLogin);
 app.post('/register', userController.register);
 app.post('/login', userController.login);
-app.post('/hobby', hobbyController.searchHobby);
-
+app.post('/hobby', loginCheck, hobbyController.searchHobby);
 
 const questionsAndAnswers = [
   {
@@ -151,42 +147,48 @@ app.get('/get-questions-and-answers', (req, res) => {
   res.json(questionsAndAnswers);
 });
 
-
 let clickedButtonArr = [];
 
 app.post('/save-clicked-button', (req, res) => {
   if (!req.session.clickedButtons) {
-      req.session.clickedButtons = [];
+    req.session.clickedButtons = [];
   }
   const { buttonContent } = req.body;
 
-  // 클라이언트로부터 받은 버튼 내용을 ENUM 값으로 변환
-  console.log(buttonContent);
   const enumValue = convertToEnum(buttonContent);
 
-  // 변환된 ENUM 값이 유효한 경우에만 저장
   if (enumValue) {
-      req.session.clickedButtons.push(enumValue);
-      console.log(enumValue);
-      clickedButtonArr[req.session.clickedButtons.length - 1] = enumValue; 
+    req.session.clickedButtons.push(enumValue);
+    clickedButtonArr[req.session.clickedButtons.length - 1] = enumValue;
   }
 
   if (req.session.clickedButtons.length === 9) {
-    console.log(clickedButtonArr);
-      res.redirect('/html/hobby_result.html');
+    res.redirect('/hobby_result');
   } else {
-      res.sendStatus(200);
+    res.sendStatus(200);
   }
 });
 
 app.get('/get-clicked-buttons', (req, res) => {
-    if (!req.session.clickedButtons) {
-        res.json([]);
-    } else {
-        res.json(req.session.clickedButtons);
-    }
+  if (!req.session.clickedButtons) {
+    res.json([]);
+  } else {
+    res.json(req.session.clickedButtons);
+  }
 });
 
+// app.get('/hobby_result', loginCheck, (req, res) => {
+//   if (req.session.clickedButtons && req.session.clickedButtons.length === 9) {
+//     res.redirect('/hobby_result_page');
+//   } else {
+//     res.send('<script>alert("모든 질문에 답변해주세요."); window.location.href = "/hobby";</script>');
+//   }
+// });
+
+// app.get('/hobby_result_page', loginCheck, (req, res) => {
+//   const choices = req.session.clickedButtons;
+//   res.sendFile(__dirname + '/public/html/hobby_result.html');
+// });
 
 function convertToEnum(buttonContent) {
   switch (buttonContent) {
@@ -225,7 +227,7 @@ function convertToEnum(buttonContent) {
     case "보편적인":
       return "normal";
     default:
-        return "ANY";
+      return "ANY";
   }
 }
 
