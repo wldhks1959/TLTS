@@ -10,6 +10,7 @@ const bcrypt = require('bcrypt');
 const app = express();
 const port = 3000;
 
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.use('/services',express.static('services')); 

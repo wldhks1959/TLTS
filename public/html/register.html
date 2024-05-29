@@ -12,11 +12,11 @@
         <h2 class="sign-up">Sign Up</h2>
         <form action="/register" method="POST" id="register-form">
             <span>ID</span>
-            <input type="text" id="username" name="username" required placeholder="ID를 입력하세요.">
+            <input type="text" id="user_id" name="user_id" required placeholder="ID를 입력하세요.">
             <span>NAME</span>
-            <input type="text" id="name" name="name" required placeholder="이름">
+            <input type="text" id="user_name" name="user_name" required placeholder="이름">
             <span>PASSWORD</span>
-            <input type="password" id="password" name="password" required placeholder="비밀번호">
+            <input type="password" id="user_pwd" name="user_pwd" required placeholder="비밀번호">
             <span>CONFIRM PASSWORD</span>
             <input type="password" id="checkpassword" name="checkpassword" required placeholder="비밀번호 확인">
             <input type="submit" value="Register">
@@ -33,7 +33,7 @@
 
     <script>
         document.getElementById('register-form').addEventListener('submit', function(event) {
-            const password = document.getElementById('password').value;
+            const password = document.getElementById('user_pwd').value;
             const checkpassword = document.getElementById('checkpassword').value;
             if (password !== checkpassword) {
                 alert('비밀번호가 다릅니다. 비밀번호를 다시 확인해주세요.');

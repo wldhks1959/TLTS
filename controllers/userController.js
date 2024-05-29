@@ -1,7 +1,7 @@
 const userService = require('../services/userService');
 
 exports.checkLogin = (req, res) => {
-  if (req.session.username) {
+  if (req.session.user_id) {
     res.json({ loggedIn: true });
   } else {
     res.json({ loggedIn: false });
@@ -9,21 +9,22 @@ exports.checkLogin = (req, res) => {
 };
 
 exports.register = async (req, res) => {
-  const { username, password } = req.body;
+  const { user_id, user_name, user_pwd } = req.body;
   try {
-    await userService.register(username, password);
+    await userService.register(user_id, user_name, user_pwd);
     res.send(`<script>alert('회원가입 성공'); window.location.href = '/login';</script>`);
   } catch (error) {
+    console.error('회원가입 에러:', error); // 에러 로그 추
     res.send(`<script>alert('이미 존재하는 아이디입니다. 다른 아이디를 입력하세요'); window.location.href = '/register';</script>`);
   }
 };
 
 exports.login = async (req, res) => {
-  const { username, password } = req.body;
+  const { user_id, user_pwd } = req.body;
   try {
-    const success = await userService.login(username, password);
+    const success = await userService.login(user_id, user_pwd);
     if (success) {
-      req.session.username = username;
+      req.session.user_id = user_pwd;
       res.send(`<script>alert('로그인 성공'); window.location.href = '/main';</script>`);
     } else {
       res.send(`<script>alert('비밀번호 불일치.'); window.location.href = '/login';</script>`);
@@ -34,10 +35,10 @@ exports.login = async (req, res) => {
 };
 
 exports.modify = async (req, res) => {
-  const { username, password, confirmPassword } = req.body;
+  const { user_id, user_pwd, confirmPassword } = req.body;
 
   try {
-    await userService.changePassword(username, password, confirmPassword);
+    await userService.changePassword(user_id, user_pwd, confirmPassword);
     res.send('<script>alert("비밀번호가 성공적으로 변경되었습니다."); window.location.href = "/main";</script>');
   }
   catch (error) {

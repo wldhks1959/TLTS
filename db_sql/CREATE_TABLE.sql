@@ -1,10 +1,11 @@
+-- SQLBook: Code
 use user_db;
 
 create table userinfo
 (
 	user_id char(32) primary key not null,
 	user_name char(8) not null,
-	user_pwd char(256) not null, -- 해시된 비밀번호
+	user_pwd char(255) not null, -- 해시된 비밀번호
 	user_addr char(40)  -- ㅇㅇ광역시 ㅇㅇ구 ㅇㅇ로 000-0 << 이런게 20글자 정도
 );
 

@@ -1,3 +1,4 @@
+-- SQLBook: Code
 -- 예시
 -- insert into hobbies value ('취미이름', '취미장소', '실내/외', '솔플/멀티', '직접/관람', '정적/적당히/동적', '힐링/버닝', '예약필요O/X', '장비필요O/X', '자기개발/오락', '평범/이색');
 -- 취미이름, 취미장소, indoor/outdoor, solo/multi, play/watch, static/normal/dynamic, healing/burning, yes/no, yes/no, self development/fun, normal/special
@@ -40,7 +41,7 @@ insert into hobbies value ('검도', '검도장', 'indoor', 'multi', 'play', 'dy
 insert into hobbies value ('펜싱', '펜싱클럽', 'indoor', 'multi', 'play', 'dynamic', 'burning', 'yes', 'yes', 'fun', 'special');
 -- 러닝, 요가, 필라테스, 헬스, 크로스핏, 파워리프팅, 테니스, 탁구, 배드민턴, 스쿼시, 
 insert into hobbies value ('러닝', 'ANY', 'ANY', 'solo', 'play', 'dynamic', 'burning', 'no', 'no', 'fun', 'normal');
-insert into hobbies value ('요가', '요가센터', 'ANY', 'indoor', 'solo', 'play', 'normal', 'healing', 'no', 'no', 'self development', 'normal');
+insert into hobbies value ('요가', '요가센터', 'indoor', 'solo', 'play', 'normal', 'healing', 'no', 'no', 'self development', 'normal');
 insert into hobbies value ('필라테스', '필라테스센터', 'indoor', 'solo', 'play', 'normal', 'burning', 'no', 'no', 'self development', 'normal');
 insert into hobbies value ('헬스', '헬스장', 'indoor', 'solo', 'play', 'dynamic', 'burning', 'yes', 'no', 'self development', 'normal');
 insert into hobbies value ('크로스핏', '크로스핏박스', 'indoor', 'solo', 'play', 'dynamic', 'burning', 'no', 'no', 'self development', 'normal');
@@ -78,7 +79,7 @@ insert into hobbies value ('소모임만들기', 'ANY', 'ANY', 'multi', 'play', 
 insert into hobbies value ('사진촬영', 'ANY', 'ANY', 'solo', 'play', 'static', 'healing', 'no', 'yes', 'fun', 'normal');
 insert into hobbies value ('국내여행', 'ANY', 'outdoor', 'ANY', 'ANY', 'normal', 'healing', 'no', 'no', 'fun', 'normal');
 insert into hobbies value ('해외여행', 'ANY', 'outdoor', 'ANY', 'ANY', 'normal', 'healing', 'yes', 'no', 'fun', 'normal');
-insert into hobbies value ('자원봉사', 'ANY', 'ANY', 'play', 'normal', 'healing', 'yes', 'no', 'fun', 'normal');
+insert into hobbies value ('자원봉사', 'ANY', 'ANY', 'ANY', 'play', 'normal', 'healing', 'yes', 'no', 'fun', 'normal');
 insert into hobbies value ('온라인게임', 'PC방', 'indoor', 'multi', 'play', 'static', 'burning', 'no', 'no', 'fun', 'normal');
 insert into hobbies value ('보드게임', '보드게임카페', 'indoor', 'multi', 'play', 'static', 'burning', 'no', 'no', 'fun', 'normal');
 insert into hobbies value ('애니메이션감상', 'ANY', 'indoor', 'solo', 'watch', 'static', 'healing', 'no', 'no', 'fun', 'normal');
@@ -105,11 +106,11 @@ insert into hobbies value ('도자기공예', '도자기공방', 'indoor', 'solo
 insert into hobbies value ('조각하기', '조각공방', 'indoor', 'solo', 'play', 'static', 'healing', 'yes', 'yes', 'fun', 'special');
 insert into hobbies value ('목공예', '목공예공방', 'indoor', 'solo', 'play', 'static', 'healing', 'yes', 'yes', 'fun', 'special');
 insert into hobbies value ('향수만들기', '향수공방', 'indoor', 'solo', 'play', 'static', 'healing', 'yes', 'yes', 'fun', 'special');
-insert into hobbies value ('애완돌키우기', 'ANY', 'indoor', 'solo', 'ANY', 'static', 'healing', 'no', 'yes', 'fun' 'special');
+insert into hobbies value ('애완돌키우기', 'ANY', 'indoor', 'solo', 'ANY', 'static', 'healing', 'no', 'yes', 'fun', 'special');
 -- 사격, DIY인테리어, 옷리폼하기, 수집하기, 덕질, 스노쿨링, 스쿠버다이빙, 패러글라이딩, 
 insert into hobbies value ('사격', '사격장', 'ANY', 'solo', 'play', 'normal', 'burning', 'yes', 'no', 'fun', 'special');
 insert into hobbies value ('DIY인테리어', 'ANY', 'indoor', 'solo', 'play', 'static', 'healing', 'no', 'yes', 'fun', 'special');
-insert into hobbies value ('옷리폼하기', 'indoor', 'solo', 'play', 'static', 'healing', 'no', 'yes', 'fun', 'special');
+insert into hobbies value ('옷리폼하기', 'ANY', 'indoor', 'solo', 'play', 'static', 'healing', 'no', 'yes', 'fun', 'special');
 insert into hobbies value ('수집하기', 'ANY', 'ANY', 'solo', 'play', 'static', 'healing', 'no', 'no', 'fun', 'special');
 insert into hobbies value ('덕질', 'ANY', 'ANY', 'solo', 'ANY', 'static', 'healing', 'no', 'no', 'fun', 'special');
 insert into hobbies value ('스노쿨링', '스노쿨링', 'outdoor', 'ANY', 'play', 'dynamic', 'burning', 'yes', 'no', 'fun', 'special');

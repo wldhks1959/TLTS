@@ -10,8 +10,8 @@ exports.searchHobby = (req, res) => {
   hobbyService.searchHobby(keywords)
     .then(results => {
       if (results.length > 0) {
-        const names = results.map(result => result.names).join(', ');
-        res.send(`Matching hobby Names: ${names}`);
+        const hobby_id = results.map(result => result.hobby_id).join(', ');
+        res.send(`Matching hobby Names: ${hobby_id}`);
       } else {
         res.send('일치하는 취미가 없습니다.');
       }
