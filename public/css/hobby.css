@@ -1,25 +1,51 @@
 body {
-    background-color: #a8b8d8; /* 배경색 설정 */
     font-family: Arial, sans-serif;
-}
-form {
-    margin: 20px;
-    padding: 20px;
-    background-color: #e0e7ff; /* 폼 배경색 설정 */
-    border-radius: 10px;
-}
-h1 {
-    text-align: center;
-}
-.keywords {
+    background-color: #fff;
+    color: #333;
+    margin: 0;
+    padding: 0;
     display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-.keywords label {
-    display: flex;
+    justify-content: center;
     align-items: center;
+    height: 100vh;
 }
-.keywords input[type="checkbox"] {
-    margin-right: 10px;
+
+.container {
+    text-align: center;
+    width: 90%;
+    max-width: 600px;
+}
+
+header h1 {
+    margin: 0;
+    padding: 20px;
+    font-size: 24px;
+}
+
+.progress {
+    margin: 20px 0;
+    font-size: 18px;
+}
+
+.question h2 {
+    margin: 20px 0;
+    font-size: 22px;
+}
+
+.options button {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    font-size: 16px;
+    color: #fff;
+    background-color: #ccc;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.options button:hover {
+    background-color: #bbb;
 }

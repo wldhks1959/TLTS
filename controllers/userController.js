@@ -37,7 +37,7 @@ exports.modify = async (req, res) => {
   const { username, password, confirmPassword } = req.body;
 
   try {
-    await UserService.changePassword(username, password, confirmPassword);
+    await userService.changePassword(username, password, confirmPassword);
     res.send('<script>alert("비밀번호가 성공적으로 변경되었습니다."); window.location.href = "/main";</script>');
   }
   catch (error) {
