@@ -44,15 +44,11 @@ const createHobbies = `
 
 const createHobbiesImage = `
   create table if not exists hobbiesimage(
-    image_name char(20),
+    hobby_id char(20),
     image_path char(60),
-    foreign key (image_name) references hobbies (hobby_id)
+    foreign key (hobby_id) references hobbies (hobby_id)
   )
 `;
-
-const initHobbies = `
-  
-` 
 
 db.query(createUserInfo, (err, result) => {
   if (err) throw err;

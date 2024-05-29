@@ -10,7 +10,7 @@ insert into hobbies value ('뜨개질', 'ANY', 'indoor', 'solo', 'play', 'static
 insert into hobbies value ('종이접기', 'ANY', 'indoor', 'solo', 'play', 'static', 'healing', 'no', 'yes', 'fun', 'special');
 insert into hobbies value ('캘리그래피', 'ANY', 'indoor', 'solo', 'play', 'static', 'healing', 'no', 'yes', 'fun', 'normal');
 insert into hobbies value ('비즈공예', 'ANY', 'indoor', 'solo', 'play', 'static', 'healing', 'no', 'yes', 'fun', 'normal');
-insert into hobbies value ('꽃꽃이', 'ANY', 'indoor', 'solo', 'play', 'static', 'healing', 'no', 'yes', 'fun', 'normal');
+insert into hobbies value ('꽃꽂이', 'ANY', 'indoor', 'solo', 'play', 'static', 'healing', 'no', 'yes', 'fun', 'normal');
 -- 하이킹, 등산, 캠핑, 낚시, 실내클라이밍, 암벽등반, 사이클링, 서핑, 수영,
 insert into hobbies value ('하이킹', '산', 'outdoor', 'ANY', 'play', 'dynamic', 'healing', 'no', 'no', 'fun', 'normal');
 insert into hobbies value ('등산', '산', 'outdoor', 'ANY', 'play', 'dynamic', 'healing', 'no', 'no', 'fun', 'normal');

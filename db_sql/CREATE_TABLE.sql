@@ -26,7 +26,7 @@ create table hobbies
 
 create table hobbiesimage
 (
-	image_name char(20),
+	hobby_id char(20),
 	image_path char(60),
-	foreign key (image_name) references hobbies (hobby_id)
+	foreign key(hobby_id) references hobbies(hobby_id)
 );
