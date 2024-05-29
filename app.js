@@ -29,11 +29,9 @@ app.use(session({
 app.use(bodyParser.json());
 
 const loginCheck = (req, res, next) => {
-  if (req.session.username) {
-    next();
-  } else {
-    res.send(`<script>alert('로그인부터 해주세요.'); window.location.href = '/login';</script>`);
-  }
+  if (req.session.user_id) { next(); } 
+  else 
+  { res.send(`<script>alert('로그인부터 해주세요.'); window.location.href = '/login';</script>`);}
 };
 
 app.get('/', (req, res) => {
@@ -68,11 +66,11 @@ app.get('/modify', loginCheck, (req, res) => {
   res.sendFile(__dirname + '/public/html/modify.html');
 });
 
-app.get('/get-username', loginCheck, (req, res) => {
-  // 현재 로그인한 사용자의 아이디(username)를 가져옵니다.
-  const username = req.session.username;
+app.get('/get-user_id', loginCheck, (req, res) => {
+  // 현재 로그인한 사용자의 아이디(user_id)를 가져옵니다.
+  const user_id = req.session.user_id;
 
-  res.json({ username: username });
+  res.json({ user_id: user_id });
 });
 
 app.get('/hobby', (req, res) => {

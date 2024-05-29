@@ -8,16 +8,13 @@ exports.register = async (user_id, user_name, user_pwd) => {
 
 exports.login = async (user_id, user_pwd) => {
   const user = await userRepo.findUserByUsername(user_id);
-  if (user) {
-    const match = await bcrypt.compare(user_pwd, user.user_pwd);
-    return match;
-  }
-  throw new Error('User not found');
+  console.log("User fetched from DB:", user);  // 사용자 정보 로그 출력
+  return user;  // user 객체를 반환
 };
 
 exports.changePassword = async (user_id, user_pwd, confirmPassword) => {
   if (user_pwd !== confirmPassword) {
-    throw new Error("Passwords do not match");
+    throw new Error("비밀번호가 일치하지 않음");
   }
 
   const hashedPassword = await bcrypt.hash(user_pwd, 10);
