@@ -3,35 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>설문조사 결과</title>
-    <link rel="stylesheet" href="/css/hobby_result.css">
+    <title>Hobby 취미 결과</title>
+    <link rel="stylesheet" href="/css/hobby.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>설문조사 결과</h1>
+            <h1>Hobby</h1>
         </header>
         <main>
+            <div class="progress">
+                <p id="progress-text">결과</p>
+            </div>
             <div class="results">
-                <h2>당신의 취미 성향</h2>
-                <ul id="result-list"></ul>
+                <h2 id="result-title">추천 취미</h2>
+                <div id="result-list"></div>
             </div>
         </main>
     </div>
 
     <script>
-        async function fetchClickedButtons() {
-            const response = await fetch('/get-clicked-buttons');
-            const clickedButtons = await response.json();
+        async function fetchHobbyResults() {
+            const response = await fetch('/hobby', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            const hobbies = await response.json();
+            displayResults(hobbies);
+        }
+
+        function displayResults(hobbies) {
             const resultList = document.getElementById('result-list');
-            clickedButtons.forEach(buttonContent => {
-                const listItem = document.createElement('li');
-                listItem.innerText = buttonContent;
-                resultList.appendChild(listItem);
+            resultList.innerHTML = '';
+            hobbies.forEach((hobby, index) => {
+                const hobbyElement = document.createElement('p');
+                hobbyElement.innerText = `취미 ${index + 1}: ${hobby.hobby_name}`;
+                resultList.appendChild(hobbyElement);
             });
         }
 
-        fetchClickedButtons();
+        fetchHobbyResults();
     </script>
 </body>
 </html>
