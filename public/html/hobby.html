@@ -1,3 +1,125 @@
+<!-- <!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hobby 취미 진단</title>
+    <link rel="stylesheet" href="/css/hobby.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Hobby</h1>
+        </header>
+        <main>
+            <div class="progress">
+                <p id="progress-text">1/9</p>
+            </div>
+            <div class="question">
+                <h2 id="question-text"></h2>
+            </div>
+            <div class="options">
+                <button class="option-btn" id="option1"></button>
+                <button class="option-btn" id="option2"></button>
+                <button class="option-btn" id="option3"></button>
+                <button class="option-btn" id="option4" style="display: none;"></button>
+            </div>
+            <div class="results" style="display: none;">
+                <h2 id="result-title">추천 취미</h2>
+                <div id="result-list"></div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        let currentQuestion = 0;
+        let questionsAndAnswers = [];
+        let selectedAnswers = [];
+
+        async function fetchQuestionsAndAnswers() {
+            const response = await fetch('/get-questions-and-answers');
+            questionsAndAnswers = await response.json();
+            displayQuestion();
+        }
+
+        function displayQuestion() {
+            const question = questionsAndAnswers[currentQuestion];
+            document.getElementById('question-text').innerText = question.question;
+            document.getElementById('option1').innerText = question.button1;
+            document.getElementById('option2').innerText = question.button2;
+            document.getElementById('option3').innerText = question.button3;
+            document.getElementById('progress-text').innerText = `${currentQuestion + 1}/9`;
+
+            if (question.button4) {
+                document.getElementById('option4').innerText = question.button4;
+                document.getElementById('option4').style.display = 'inline-block';
+            } else {
+                document.getElementById('option4').style.display = 'none';
+            }
+        }
+
+        async function handleButtonClick(event) {
+            const buttonContent = event.target.innerText;
+            selectedAnswers.push(buttonContent);
+
+            await fetch('/save-clicked-button', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ buttonContent })
+            });
+
+            currentQuestion++;
+            if (currentQuestion < questionsAndAnswers.length) {
+                displayQuestion();
+            } else {
+                // fetchHobbyResults();
+                window.location.href = '/html/hobby_result.html'; // 질문이 모두 끝났을 때 리디렉션
+            }
+        }
+
+        async function fetchHobbyResults() {
+            const response = await fetch('/hobby', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ choices: selectedAnswers })
+            });
+
+            const hobbies = await response.json();
+            displayResults(hobbies);
+        }
+
+        function displayResults(hobbies) {
+            const mainContainer = document.querySelector('main');
+            const resultList = document.getElementById('result-list');
+            const questionContainer = document.querySelector('.question');
+            const optionsContainer = document.querySelector('.options');
+            const resultsContainer = document.querySelector('.results');
+
+            questionContainer.style.display = 'none';
+            optionsContainer.style.display = 'none';
+            resultsContainer.style.display = 'block';
+
+            resultList.innerHTML = '';
+            hobbies.forEach((hobby, index) => {
+                const hobbyElement = document.createElement('p');
+                hobbyElement.innerText = `취미 ${index + 1}: ${hobby.hobby_id}`;
+                resultList.appendChild(hobbyElement);
+            });
+        }
+
+        document.querySelectorAll('.option-btn').forEach(button => {
+            button.addEventListener('click', handleButtonClick);
+        });
+
+        fetchQuestionsAndAnswers();
+    </script>
+</body>
+</html> -->
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -74,40 +196,8 @@
             if (currentQuestion < questionsAndAnswers.length) {
                 displayQuestion();
             } else {
-                fetchHobbyResults();
+                window.location.href = '/hobby_result';
             }
-        }
-
-        async function fetchHobbyResults() {
-            const response = await fetch('/hobby', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ choices: selectedAnswers })
-            });
-
-            const hobbies = await response.json();
-            displayResults(hobbies);
-        }
-
-        function displayResults(hobbies) {
-            const mainContainer = document.querySelector('main');
-            const resultList = document.getElementById('result-list');
-            const questionContainer = document.querySelector('.question');
-            const optionsContainer = document.querySelector('.options');
-            const resultsContainer = document.querySelector('.results');
-
-            questionContainer.style.display = 'none';
-            optionsContainer.style.display = 'none';
-            resultsContainer.style.display = 'block';
-
-            resultList.innerHTML = '';
-            hobbies.forEach((hobby, index) => {
-                const hobbyElement = document.createElement('p');
-                hobbyElement.innerText = `취미 ${index + 1}: ${hobby.hobby_id}`;
-                resultList.appendChild(hobbyElement);
-            });
         }
 
         document.querySelectorAll('.option-btn').forEach(button => {
@@ -118,3 +208,4 @@
     </script>
 </body>
 </html>
+

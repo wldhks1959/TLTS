@@ -154,7 +154,6 @@ app.post('/save-clicked-button', (req, res) => {
     req.session.clickedButtons = [];
   }
   const { buttonContent } = req.body;
-
   const enumValue = convertToEnum(buttonContent);
 
   if (enumValue) {
@@ -163,7 +162,12 @@ app.post('/save-clicked-button', (req, res) => {
   }
 
   if (req.session.clickedButtons.length === 9) {
-    res.redirect('/hobby_result');
+    hobbyController.searchHobby(req, res).then(() => {
+      res.redirect('/hobby_result');
+    }).catch((error) => {
+      console.error("Error searching hobby: ", error);
+      res.status(500).json({ error: error.message });
+    });
   } else {
     res.sendStatus(200);
   }
@@ -189,6 +193,19 @@ app.get('/get-clicked-buttons', (req, res) => {
 //   const choices = req.session.clickedButtons;
 //   res.sendFile(__dirname + '/public/html/hobby_result.html');
 // });
+app.get('/get-hobby-results', loginCheck, (req, res) => {
+  const hobbies = req.session.hobbyResults;
+  if (hobbies) {
+    res.json(hobbies);
+  } else {
+    res.status(404).json({ error: "No hobby results found." });
+  }
+});
+
+
+app.get('/hobby_result', loginCheck, (req, res) => {
+  res.sendFile(__dirname + '/public/html/hobby_result.html');
+});
 
 function convertToEnum(buttonContent) {
   switch (buttonContent) {

@@ -5,6 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hobby 취미 결과</title>
     <link rel="stylesheet" href="/css/hobby.css">
+    <style>
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        header {
+            background-color: #FF7043;
+            padding: 20px 0;
+            color: white;
+            font-size: 2em;
+        }
+        .results {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .result-item {
+            width: 30%;
+            margin: 15px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            background-color: white;
+        }
+        .result-item img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+        }
+        .result-item h3 {
+            margin: 15px 0 10px;
+            font-size: 1.5em;
+        }
+        .result-item p {
+            margin: 5px 0 0;
+            color: #555;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -13,19 +55,16 @@
         </header>
         <main>
             <div class="progress">
-                <p id="progress-text">결과</p>
+                <p id="progress-text">추천 취미</p>
             </div>
-            <div class="results">
-                <h2 id="result-title">추천 취미</h2>
-                <div id="result-list"></div>
-            </div>
+            <div class="results" id="result-list"></div>
         </main>
     </div>
 
     <script>
         async function fetchHobbyResults() {
-            const response = await fetch('/hobby', {
-                method: 'POST',
+            const response = await fetch('/get-hobby-results', {
+                method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -39,8 +78,13 @@
             const resultList = document.getElementById('result-list');
             resultList.innerHTML = '';
             hobbies.forEach((hobby, index) => {
-                const hobbyElement = document.createElement('p');
-                hobbyElement.innerText = `취미 ${index + 1}: ${hobby.hobby_name}`;
+                const hobbyElement = document.createElement('div');
+                hobbyElement.className = 'result-item';
+                hobbyElement.innerHTML = `
+                    <img src="/images/hobby_img/${hobby.hobby_id}.webp" alt="취미 이미지">
+                    <h3>취미 ${index + 1}: ${hobby.hobby_id}</h3>
+                    <p>카운트: ${hobby.match_count}</p>
+                    <p>취미 ${index + 1} 설명</p>`;
                 resultList.appendChild(hobbyElement);
             });
         }
