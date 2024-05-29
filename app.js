@@ -157,27 +157,20 @@ let clickedButtonArr = [];
 
 app.post('/save-clicked-button', (req, res) => {
   if (!req.session.clickedButtons) {
-      req.session.clickedButtons = [];
+    req.session.clickedButtons = [];
   }
   const { buttonContent } = req.body;
 
   // 클라이언트로부터 받은 버튼 내용을 ENUM 값으로 변환
-  console.log(buttonContent);
   const enumValue = convertToEnum(buttonContent);
 
   // 변환된 ENUM 값이 유효한 경우에만 저장
   if (enumValue) {
-      req.session.clickedButtons.push(enumValue);
-      console.log(enumValue);
-      clickedButtonArr[req.session.clickedButtons.length - 1] = enumValue; 
+    req.session.clickedButtons.push(enumValue);
+    clickedButtonArr[req.session.clickedButtons.length - 1] = enumValue;
   }
 
-  if (req.session.clickedButtons.length === 9) {
-    console.log(clickedButtonArr);
-      res.redirect('/html/hobby_result.html');
-  } else {
-      res.sendStatus(200);
-  }
+  res.sendStatus(200);
 });
 
 app.get('/get-clicked-buttons', (req, res) => {
@@ -229,6 +222,24 @@ function convertToEnum(buttonContent) {
         return "ANY";
   }
 }
+
+// app.js 추가 부분
+
+const hobbies = [
+  { name: "요가", image: "/images/hobby_img/가라데.webp", description: "심신을 단련할 수 있는 요가입니다." },
+  { name: "등산", image: "/images/hobby_img/검도.webp", description: "자연을 만끽할 수 있는 등산입니다." },
+  { name: "독서", image: "/images/hobby_img/골프.webp", description: "지식을 쌓을 수 있는 독서입니다." },
+  { name: "사진 촬영", image: "/images/hobby_img/국내여행.webp", description: "창의력을 발휘할 수 있는 사진 촬영입니다." },
+  { name: "요리", image: "/images/hobby_img/그림그리기.webp", description: "맛있는 음식을 만들 수 있는 요리입니다." },
+  { name: "수영", image: "/images/hobby_img/글쓰기.webp", description: "건강을 지킬 수 있는 수영입니다." }
+];
+
+app.get('/get-recommendations', (req, res) => {
+  // 여기서 사용자의 응답에 따라 추천 취미를 결정하는 로직을 구현합니다.
+  // 예를 들어, 간단하게 모든 취미를 추천하도록 설정했습니다.
+  res.json(hobbies);
+});
+
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);

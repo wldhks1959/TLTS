@@ -3,35 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>설문조사 결과</title>
+    <title>취미 추천 결과</title>
     <link rel="stylesheet" href="/css/hobby_result.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>설문조사 결과</h1>
-        </header>
-        <main>
-            <div class="results">
-                <h2>당신의 취미 성향</h2>
-                <ul id="result-list"></ul>
-            </div>
-        </main>
-    </div>
+    <header>
+        <div class="container">
+            <h1>취미 추천 결과</h1>
+        </div>
+    </header>
+    <main>
+        <section class="results">
+            <h2>당신에게 추천하는 취미</h2>
+            <div class="hobby-list" id="hobby-list"></div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 취미 추천 웹사이트</p>
+    </footer>
 
     <script>
-        async function fetchClickedButtons() {
-            const response = await fetch('/get-clicked-buttons');
-            const clickedButtons = await response.json();
-            const resultList = document.getElementById('result-list');
-            clickedButtons.forEach(buttonContent => {
-                const listItem = document.createElement('li');
-                listItem.innerText = buttonContent;
-                resultList.appendChild(listItem);
+        async function fetchRecommendations() {
+            const response = await fetch('/get-recommendations');
+            const recommendations = await response.json();
+            const hobbyList = document.getElementById('hobby-list');
+
+            recommendations.forEach(hobby => {
+                const hobbyItem = document.createElement('div');
+                hobbyItem.classList.add('hobby-item');
+
+                const hobbyImage = document.createElement('img');
+                hobbyImage.src = hobby.image;
+                hobbyImage.alt = hobby.name;
+
+                const hobbyDescription = document.createElement('p');
+                hobbyDescription.innerText = hobby.description;
+
+                hobbyItem.appendChild(hobbyImage);
+                hobbyItem.appendChild(hobbyDescription);
+
+                hobbyList.appendChild(hobbyItem);
             });
         }
 
-        fetchClickedButtons();
+        fetchRecommendations();
     </script>
 </body>
 </html>

@@ -70,18 +70,8 @@
             if (currentQuestion < questionsAndAnswers.length) {
                 displayQuestion();
             } else {
-                displayResults();
+                window.location.href = '/html/hobby_result.html';
             }
-        }
-
-        function displayResults() {
-            const mainContainer = document.querySelector('main');
-            mainContainer.innerHTML = '<h2>결과</h2>';
-            selectedAnswers.forEach((answer, index) => {
-                const answerElement = document.createElement('p');
-                answerElement.innerText = `질문 ${index + 1}: ${answer}`;
-                mainContainer.appendChild(answerElement);
-            });
         }
 
         document.querySelectorAll('.option-btn').forEach(button => {
