@@ -20,18 +20,25 @@ exports.searchHobby = (req, res) => {
             return;
         }
 
-        console.log("Query executed. Results: ", results);
         if (results.length === 0) {
             res.json([{ hobby_name: "결과 없음!" }]);
         } else {
-          db.query('SELECT image_path FROM test WHERE hobby_name = ?', [results], (error, results, fields) => {
-            if (error) throw error;
-        
-            if (results.length > 0) {
-              const imagePath = encodeURI(results[0].image_path);
-              console.log(imagePath);
-            }
-          });
+            const hobbyIds = results.map(result => result.hobby_id);
+            const hobbyDetailsQuery = `
+                SELECT h.hobby_name, hi.image_path, h.description
+                FROM hobbies h
+                JOIN hobbiesimage hi ON h.hobby_name = hi.hobby_name
+                WHERE h.hobby_name IN (?)`;
+
+            db.query(hobbyDetailsQuery, [hobbyIds], (error, results) => {
+                if (error) {
+                    console.error("Database query error: ", error);
+                    res.status(500).json({ error: error.message });
+                    return;
+                }
+
+                res.json(results);
+            });
         }
     });
 };

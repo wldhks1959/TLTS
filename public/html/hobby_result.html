@@ -33,13 +33,17 @@
                 hobbyItem.classList.add('hobby-item');
 
                 const hobbyImage = document.createElement('img');
-                hobbyImage.src = hobby.image;
-                hobbyImage.alt = hobby.name;
+                hobbyImage.src = hobby.image_path;
+                hobbyImage.alt = hobby.hobby_name;
+
+                const hobbyName = document.createElement('h3');
+                hobbyName.innerText = hobby.hobby_name;
 
                 const hobbyDescription = document.createElement('p');
                 hobbyDescription.innerText = hobby.description;
 
                 hobbyItem.appendChild(hobbyImage);
+                hobbyItem.appendChild(hobbyName);
                 hobbyItem.appendChild(hobbyDescription);
 
                 hobbyList.appendChild(hobbyItem);
