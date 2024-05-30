@@ -10,6 +10,7 @@ const bcrypt = require('bcrypt');
 const app = express();
 const port = 3000;
 
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.use('/services',express.static('services')); 
@@ -28,11 +29,9 @@ app.use(session({
 app.use(bodyParser.json());
 
 const loginCheck = (req, res, next) => {
-  if (req.session.username) {
-    next();
-  } else {
-    res.send(`<script>alert('로그인부터 해주세요.'); window.location.href = '/login';</script>`);
-  }
+  if (req.session.user_id) { next(); } 
+  else 
+  { res.send(`<script>alert('로그인부터 해주세요.'); window.location.href = '/login';</script>`);}
 };
 
 app.get('/', (req, res) => {
@@ -67,11 +66,11 @@ app.get('/modify', loginCheck, (req, res) => {
   res.sendFile(__dirname + '/public/html/modify.html');
 });
 
-app.get('/get-username', loginCheck, (req, res) => {
-  // 현재 로그인한 사용자의 아이디(username)를 가져옵니다.
-  const username = req.session.username;
+app.get('/get-user_id', loginCheck, (req, res) => {
+  // 현재 로그인한 사용자의 아이디(user_id)를 가져옵니다.
+  const user_id = req.session.user_id;
 
-  res.json({ username: username });
+  res.json({ user_id: user_id });
 });
 
 app.get('/hobby', (req, res) => {
@@ -152,33 +151,78 @@ app.get('/get-questions-and-answers', (req, res) => {
   res.json(questionsAndAnswers);
 });
 
-
-let clickedButtonArr = [];
-
 app.post('/save-clicked-button', (req, res) => {
   if (!req.session.clickedButtons) {
     req.session.clickedButtons = [];
   }
   const { buttonContent } = req.body;
-
-  // 클라이언트로부터 받은 버튼 내용을 ENUM 값으로 변환
   const enumValue = convertToEnum(buttonContent);
 
-  // 변환된 ENUM 값이 유효한 경우에만 저장
   if (enumValue) {
     req.session.clickedButtons.push(enumValue);
-    clickedButtonArr[req.session.clickedButtons.length - 1] = enumValue;
   }
 
   res.sendStatus(200);
 });
 
-app.get('/get-clicked-buttons', (req, res) => {
-    if (!req.session.clickedButtons) {
-        res.json([]);
-    } else {
-        res.json(req.session.clickedButtons);
+
+const getRecommendations = (choices, callback) => {
+  let allResults = [];
+  let excludedHobbies = [];
+
+  const queryWithConditions = (remainingConditions, callback) => {
+    if (remainingConditions === 0 || allResults.length >= 9) {
+      callback(null, allResults.slice(0, 9));
+      return;
     }
+    console.log(remainingConditions);
+
+    const conditions = choices.slice(0, remainingConditions).map((choice, index) => `h.${getColumnName(index)} = ?`).join(' AND ');
+    const exclusionCondition = excludedHobbies.length > 0 ? `AND h.hobby_id NOT IN (${excludedHobbies.map(() => '?').join(', ')})` : '';
+    const query = `
+      SELECT h.hobby_id, hi.image_path
+      FROM hobbies h
+      JOIN hobbiesimage hi ON h.hobby_id = hi.hobby_id
+      ${conditions ? `WHERE ${conditions} ${exclusionCondition}` : exclusionCondition}
+      LIMIT ${9 - allResults.length}`;
+
+    const params = [...choices.slice(0, remainingConditions), ...excludedHobbies];
+    
+    db.query(query, params, (err, results) => {
+      if (err) {
+        callback(err, null);
+        return;
+      }
+      console.log(results);
+      allResults.push(...results);
+      excludedHobbies.push(...results.map(result => result.hobby_id));
+      queryWithConditions(remainingConditions - 1, callback);
+    });
+  };
+
+  queryWithConditions(choices.length, callback);
+};
+
+const getColumnName = (index) => {
+  const columns = ['I_O', 'S_M', 'P_W', 'MV', 'H_B', 'RESV', 'EQUIP', 'SD_F', 'NORM'];
+  return columns[index];
+};
+
+app.get('/get-recommendations', (req, res) => {
+  if (!req.session.clickedButtons) {
+    return res.json([]);
+  }
+
+  const choices = req.session.clickedButtons;
+
+  getRecommendations(choices, (err, results) => {
+    if (err) {
+      console.error('Database query error: ', err);
+      res.status(500).json({ error: err.message });
+      return;
+    }
+    res.json(results);
+  });
 });
 
 
@@ -219,27 +263,9 @@ function convertToEnum(buttonContent) {
     case "보편적인":
       return "normal";
     default:
-        return "ANY";
+      return "ANY";
   }
 }
-
-// app.js 추가 부분
-
-const hobbies = [
-  { name: "요가", image: "/images/hobby_img/가라데.webp", description: "심신을 단련할 수 있는 요가입니다." },
-  { name: "등산", image: "/images/hobby_img/검도.webp", description: "자연을 만끽할 수 있는 등산입니다." },
-  { name: "독서", image: "/images/hobby_img/골프.webp", description: "지식을 쌓을 수 있는 독서입니다." },
-  { name: "사진 촬영", image: "/images/hobby_img/국내여행.webp", description: "창의력을 발휘할 수 있는 사진 촬영입니다." },
-  { name: "요리", image: "/images/hobby_img/그림그리기.webp", description: "맛있는 음식을 만들 수 있는 요리입니다." },
-  { name: "수영", image: "/images/hobby_img/글쓰기.webp", description: "건강을 지킬 수 있는 수영입니다." }
-];
-
-app.get('/get-recommendations', (req, res) => {
-  // 여기서 사용자의 응답에 따라 추천 취미를 결정하는 로직을 구현합니다.
-  // 예를 들어, 간단하게 모든 취미를 추천하도록 설정했습니다.
-  res.json(hobbies);
-});
-
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);

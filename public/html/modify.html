@@ -11,9 +11,9 @@
         <h2>회원정보 수정</h2>
         <form method="post" action="/modify" id="modify-form">
             <!-- 아이디 입력란은 읽기 전용으로 고정 -->
-            <input type="text" name="username" required readonly id="username">
+            <input type="text" name="user_id" required readonly id="user_id">
             <!-- 비밀번호 입력란 -->
-            <input type="password" name="password" placeholder="새로운 비밀번호" required>
+            <input type="password" name="user_pwd" placeholder="새로운 비밀번호" required>
             <!-- 비밀번호 확인 입력란 -->
             <input type="password" name="confirmPassword" placeholder="비밀번호 확인" required>
             <!-- 수정 버튼 -->
@@ -22,12 +22,12 @@
     </div>
 
     <script>
-        // 페이지가 로드될 때 서버로부터 username 값을 가져와서 input 요소에 설정
+        // 페이지가 로드될 때 서버로부터 user_id 값을 가져와서 input 요소에 설정
         window.onload = function() {
-            fetch('/get-username')
+            fetch('/get-user_id')
                 .then(response => response.json())
                 .then(data => {
-                    document.getElementById('username').value = data.username;
+                    document.getElementById('user_id').value = data.user_id;
                 })
                 .catch(error => console.error('Error:', error));
         };

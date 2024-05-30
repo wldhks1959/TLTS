@@ -1,32 +1,33 @@
 const db = require('../config/db');
 
-exports.createUser = (user) => {
+exports.createUser = ({ user_id, user_name, user_pwd }) => {
   return new Promise((resolve, reject) => {
-    db.query('INSERT INTO users SET ?', user, (err, result) => {
+    const query = 'INSERT INTO userinfo (user_id, user_name, user_pwd) VALUES (?, ?, ?)';
+    db.query(query, [user_id, user_name, user_pwd], (err, result) => {
       if (err) reject(err);
       resolve(result);
     });
   });
 };
 
-exports.findUserByUsername = (username) => {
+exports.findUserByUsername = (user_id) => {
   return new Promise((resolve, reject) => {
-    db.query('SELECT * FROM users WHERE username = ?', [username], (err, results) => {
+    db.query('SELECT * FROM userinfo WHERE user_id = ?', [user_id], (err, results) => {
       if (err) reject(err);
       resolve(results[0]);
     });
   });
 };
 
-exports.updatePassword = (username, hashedPassword) =>{
+exports.updatePassword = (user_id, hashedPassword) =>{
   return new Promise((resolve, reject) => {
-    db.query('UPDATE users SET password = ? Where username = ?', [hashedPassword, username], (err,result) =>{
+    db.query('UPDATE userinfo SET user_pwd = ? Where user_id = ?', [hashedPassword, user_id], (err,result) =>{
       if(err){
         reject(err);
       }
       else{
         resolve(result);
       }
-    } )
-  })
-}
+    } );
+  });
+};

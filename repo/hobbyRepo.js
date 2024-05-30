@@ -4,11 +4,11 @@ exports.findHobbiesByKeywords = (keywords) => {
   const keywordArray = Array.isArray(keywords) ? keywords : [keywords];
 
   const conditions = keywordArray.map(keyword => {
-    return `(a = ? OR b = ? OR c = ? OR d = ? OR e = ? OR f = ? OR g = ? OR h = ? OR i = ? OR j = ? OR k = ? OR l = ?)`;
+    return `(hobby_id = ? OR hobby_place = ? OR I_O = ? OR S_M = ? OR P_W = ? OR MV = ? OR H_B = ? OR RESV = ? OR EQUIP = ? OR SD_F = ? OR NORM = ?)`;
   });
 
   const query = `
-    SELECT names FROM hobby
+    SELECT hobby_id FROM hobbies
     WHERE ${conditions.join(' AND ')}
   `;
 
