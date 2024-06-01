@@ -1,4 +1,4 @@
-# 아키텍처 
+# 아키텍처 https://drive.google.com/file/d/1udy8kmdaaLjnHSG7NMCu1PudHX6sNYtP/view?usp=drive_link
 ![아키텍처0601](https://github.com/wldhks1959/TLTS/assets/69555890/590a6689-39a9-42d0-baa3-18e6ee48f9b7)
 
 # dir_structure
