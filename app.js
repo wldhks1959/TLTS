@@ -34,6 +34,14 @@ const loginCheck = (req, res, next) => {
   { res.send(`<script>alert('로그인부터 해주세요.'); window.location.href = '/login';</script>`);}
 };
 
+const adminCheck = (req, res, next) => {
+  if (req.session.is_admin) {
+    next();
+  } else {
+    res.send(`<script>alert('관리자만 접근 가능합니다.'); window.location.href = '/main';</script>`);
+  }
+};
+
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/public/html/index.html');
 });
@@ -76,6 +84,20 @@ app.get('/get-user_id', loginCheck, (req, res) => {
 app.get('/hobby', (req, res) => {
   res.sendFile(__dirname + '/public/html/hobby.html');
 });
+
+// 추가한 부분 시작 -----------------------
+app.get('/admin', loginCheck, adminCheck, (req, res) => {
+  res.sendFile(__dirname + '/public/html/admin.html');
+});
+
+app.get('/getHobbyKeywords', loginCheck, hobbyController.getHobbyKeywords);
+
+app.post('/addHobby', loginCheck, hobbyController.addHobby);
+app.post('/addHobbyKeyword', loginCheck, hobbyController.addHobbyKeyword);
+app.put('/updateHobby', loginCheck, hobbyController.updateHobby);
+
+app.get('/users', loginCheck, userController.getAllUsers);
+// 추가한 부분 끝 -------------------------
 
 app.post('/modify', loginCheck, userController.modify);
 

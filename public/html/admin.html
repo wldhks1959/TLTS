@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+</head>
+
+<body>
+    <h1>Admin Page</h1>
+
+    <section>
+        <h2>Add Hobby</h2>
+        <form id="addHobbyForm" method="post">
+            <div id="hobbyFields"></div>
+            <button type="submit">Add Hobby</button>
+        </form>
+    </section>
+
+    <section>
+        <h2>Update Hobby</h2>
+        <form id="updateHobbyForm" method="post">
+            <div id="updateHobbyFields"></div>
+            <button type="submit">Update Hobby</button>
+        </form>
+    </section>
+
+    <section>
+        <h2>Add Hobby Keyword</h2>
+        <form id="addHobbyKeywordForm" method="post">
+            <div>
+                <label for="keywordName">Keyword Name:</label>
+                <input type="text" id="keywordName" name="keywordName" required>
+            </div>
+
+            <div>
+                <label for="enumValue1">Enum Value 1:</label>
+                <input type="text" id="enumValue1" name="enumValue1" required>
+            </div>
+
+            <div>
+                <label for="enumValue2">Enum Value 2:</label>
+                <input type="text" id="enumValue2" name="enumValue2" required>
+            </div>
+
+            <div>
+                <label for="enumValue3">Enum Value 3:</label>
+                <input type="text" id="enumValue3" name="enumValue3" required>
+            </div>
+
+            <button type="submit">Add Keyword</button>
+        </form>
+    </section>
+
+    <section>
+        <h2>View Users</h2>
+        <button id="viewUsersButton">View Users</button>
+        <div id="userList"></div>
+    </section>
+
+    <script>
+        function fetchHobbyColumns() {
+            fetch('/getHobbyKeywords')
+                .then(response => response.json())
+                .then(data => {
+                    const hobbyFields = document.getElementById('hobbyFields');
+                    const updateHobbyFields = document.getElementById('updateHobbyFields');
+
+                    data.forEach(column => {
+                        const label = document.createElement('label');
+                        label.htmlFor = column.Field;
+                        label.innerText = `${column.Field}:`;
+
+                        const div = document.createElement('div');
+                        div.className = 'form-group';
+
+                        if (column.Type.startsWith('enum')) {
+                            const select = document.createElement('select');
+                            select.id = column.Field;
+                            select.name = column.Field;
+
+                            const options = column.Type.match(/enum\((.*)\)/)[1].replace(/'/g, "").split(",");
+                            options.forEach(option => {
+                                const opt = document.createElement('option');
+                                opt.value = option;
+                                opt.innerText = option;
+                                select.appendChild(opt);
+                            });
+
+                            div.appendChild(label);
+                            div.appendChild(select);
+                        } else {
+                            const input = document.createElement('input');
+                            input.type = 'text';
+                            input.id = column.Field;
+                            input.name = column.Field;
+
+                            div.appendChild(label);
+                            div.appendChild(input);
+                        }
+
+                        hobbyFields.appendChild(div);
+
+                        const divUpdate = div.cloneNode(true);
+                        updateHobbyFields.appendChild(divUpdate);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        document.getElementById('viewUsersButton').addEventListener('click', function() {
+            fetch('/users')
+                .then(response => response.json())
+                .then(data => {
+                    const userList = document.getElementById('userList');
+                    userList.innerHTML = '';
+                    data.forEach(user => {
+                        const userItem = document.createElement('div');
+                        userItem.textContent = `${user.user_id} - ${user.user_name} - ${user.user_addr}`;
+                        userList.appendChild(userItem);
+                    });
+                });
+        });
+
+        document.getElementById('addHobbyForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const formData = new URLSearchParams(new FormData(event.target));
+
+            fetch('/addHobby', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: formData.toString()
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(data);
+                event.target.reset();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+
+        document.getElementById('addHobbyKeywordForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const formData = new URLSearchParams(new FormData(event.target));
+
+            fetch('/addKeyword', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: formData.toString()
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(data);
+                event.target.reset();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+
+        document.getElementById('updateHobbyForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const formData = new URLSearchParams(new FormData(event.target));
+
+            fetch('/updateHobby', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: formData.toString()
+            })
+            .then(response => response.text())
+            .then(data => {
+                alert(data);
+                event.target.reset();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+
+        window.onload = fetchHobbyColumns;
+    </script>
+</body>
+</html>
