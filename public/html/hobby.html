@@ -7,17 +7,19 @@
     <link rel="stylesheet" href="/css/hobby.css">
 </head>
 <body>
+    <header>
+        <div class="container">
+            <h1>취미 진단</h1>
+        </div>
+    </header>
     <div class="container">
-        <header>
-            <h1>Hobby</h1>
-        </header>
         <main>
             <div class="progress">
                 <p id="progress-text">1/9</p>
             </div>
             <div class="question">
                 <h2 id="question-text"></h2>
-            </div>
+            </div> 
             <div class="options">
                 <button class="option-btn" id="option1"></button>
                 <button class="option-btn" id="option2"></button>
@@ -26,6 +28,10 @@
             </div>
         </main>
     </div>
+
+    <footer>
+        <p>&copy; 2024 취미 추천 웹사이트</p>
+    </footer>
 
     <script>
         let currentQuestion = 0;
