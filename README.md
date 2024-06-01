@@ -5,19 +5,24 @@
 ![image](https://github.com/wldhks1959/TLTS/assets/69555890/419ba40d-25b5-4afc-8977-a2ac7a469a6e)
 
 # index.html
-![image](https://github.com/wldhks1959/TLTS/assets/69555890/2f5a041e-88e8-4e41-bd70-2cf3695f4e2e)
+![image](https://github.com/wldhks1959/TLTS/assets/69555890/9357952f-cb98-4ac6-abd1-5cb82eae9d2b)
 
 # main.html
-![image](https://github.com/wldhks1959/TLTS/assets/69555890/59dfcb31-1758-48e5-9820-b72aa708b2d0)
+![image](https://github.com/wldhks1959/TLTS/assets/69555890/1051fe69-ee5e-4a5f-ad61-f7f6b80a2e34)
 
 # register.html
 ![image](https://github.com/wldhks1959/TLTS/assets/69555890/07dbb269-69ef-47e3-a5fc-f690e49e86da)
 
 # login.html
-![image](https://github.com/wldhks1959/TLTS/assets/69555890/1c777cf5-a621-47bb-93f6-4dbb23f4ac65)
+![image](https://github.com/wldhks1959/TLTS/assets/69555890/98c61923-993a-4f24-87a0-a5f75d77568d)
+
 
 # hobby.html
-![hobby](https://github.com/wldhks1959/TLTS/assets/69555890/5148385b-11d8-432b-a4b0-c1ec15d35c0b)
+![image](https://github.com/wldhks1959/TLTS/assets/69555890/a2113e42-4957-4560-96cc-1fecd7745884)
+
+# hobby_result.html
+![image](https://github.com/wldhks1959/TLTS/assets/69555890/e357ccc3-1030-4952-9ded-6d032e3172ed)
+
 
 # map.html
 ![image](https://github.com/wldhks1959/TLTS/assets/69555890/94d376ef-beb3-4615-bca7-fe1e53c33ed2)
