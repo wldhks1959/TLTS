@@ -90,10 +90,45 @@ app.get('/admin', loginCheck, adminCheck, (req, res) => {
   res.sendFile(__dirname + '/public/html/admin.html');
 });
 
+app.get('/userinfoList.html', loginCheck, adminCheck, (req, res) => {
+  res.sendFile(__dirname + '/public/html/userinfoList.html');
+});
+
+app.get('/hobbiesList.html', loginCheck, adminCheck, (req, res) => {
+  res.sendFile(__dirname + '/public/html/hobbiesList.html');
+});
+
+app.get('/hobbies', loginCheck, (req, res) => {
+  const query = `SELECT * FROM hobbies`;
+
+  db.query(query, (err, results) => {
+      if (err) {
+          console.error('Error fetching hobbies:', err);
+          res.status(500).json({ error: 'Database error' });
+      } else {
+          res.status(200).json(results);
+      }
+  });
+});
+
+app.get('/getHobbyKeywords', loginCheck, (req, res) => {
+  const query = `SHOW COLUMNS FROM hobbies`;
+
+  db.query(query, (err, results) => {
+      if (err) {
+          console.error('Error fetching columns:', err);
+          res.status(500).json({ error: 'Database error' });
+      } else {
+          res.status(200).json(results);
+      }
+  });
+});
+
 app.get('/getHobbyKeywords', loginCheck, hobbyController.getHobbyKeywords);
 
+// 봉인.
+// app.post('/addHobbyKeyword', loginCheck, hobbyController.addHobbyKeyword);
 app.post('/addHobby', loginCheck, hobbyController.addHobby);
-app.post('/addHobbyKeyword', loginCheck, hobbyController.addHobbyKeyword);
 app.put('/updateHobby', loginCheck, hobbyController.updateHobby);
 
 app.get('/users', loginCheck, userController.getAllUsers);

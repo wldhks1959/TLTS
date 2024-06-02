@@ -139,20 +139,21 @@ exports.updateHobby = (req, res) => {
     });
 };
 
-exports.addHobbyKeyword = (req, res) => {
-    const { keywordName, enumValue1, enumValue2, enumValue3 } = req.body;
+// 키워드 업데이트 봉인.
+// exports.addHobbyKeyword = (req, res) => {
+//     const { keywordName, enumValue1, enumValue2, enumValue3 } = req.body;
 
-    const query = `
-        ALTER TABLE hobbies
-        ADD COLUMN ${keywordName} ENUM('${enumValue1}', '${enumValue2}', '${enumValue3}')
-    `;
+//     const query = `
+//         ALTER TABLE hobbies
+//         ADD COLUMN ${keywordName} ENUM('${enumValue1}', '${enumValue2}', '${enumValue3}')
+//     `;
 
-    db.query(query, (err, result) => {
-        if (err) {
-            console.error('Error adding hobby keyword:', err);
-            res.status(500).send('<script>alert("Database error"); window.location.href = "/admin";</script>');
-        } else {
-            res.status(200).send('<script>alert("Hobby keyword added successfully"); window.location.href = "/admin";</script>');
-        }
-    });
-};
+//     db.query(query, (err, result) => {
+//         if (err) {
+//             console.error('Error adding hobby keyword:', err);
+//             res.status(500).send('<script>alert("Database error"); window.location.href = "/admin";</script>');
+//         } else {
+//             res.status(200).send('<script>alert("Hobby keyword added successfully"); window.location.href = "/admin";</script>');
+//         }
+//     });
+// };

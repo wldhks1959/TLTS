@@ -32,7 +32,12 @@ exports.login = async (req, res) => {
       {
         req.session.user_id = user_id;
         req.session.is_admin = (user.user_id === 'admin'); // 관리자 여부 확인 및 세션에 저장
-        res.send(`<script>alert('로그인 성공'); window.location.href = '/main';</script>`);
+
+        if (req.session.is_admin) {
+          res.send(`<script>alert('관리자로 로그인 성공'); window.location.href = '/admin';</script>`);
+        } else {
+          res.send(`<script>alert('로그인 성공'); window.location.href = '/main';</script>`);
+        }
       } 
       else 
       {
