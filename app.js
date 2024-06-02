@@ -59,6 +59,7 @@ app.get('/logout', (req, res) => {
 });
 
 app.get('/main', loginCheck,  (req,res) => {
+  req.session.clickedButtons = [];
   res.sendFile(__dirname + '/public/html/main.html');
 });
 
@@ -160,6 +161,7 @@ app.post('/save-clicked-button', (req, res) => {
 
   if (enumValue) {
     req.session.clickedButtons.push(enumValue);
+    console.log(req.session.clickedButtons);
   }
 
   res.sendStatus(200);
