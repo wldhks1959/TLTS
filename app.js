@@ -58,9 +58,20 @@ app.get('/logout', (req, res) => {
   });
 });
 
-app.get('/main', loginCheck,  (req,res) => {
-  req.session.clickedButtons = [];
+app.get('/main', loginCheck, (req, res) => {
   res.sendFile(__dirname + '/public/html/main.html');
+});
+
+app.get('/get-main-hobbies', (req, res) => {
+  const hobbies = [
+    { hobby_id: "가라데", image_path: "/images/hobby_img/가라데.webp" },
+    { hobby_id: "드라이브", image_path: "/images/hobby_img/드라이브.webp" },
+    { hobby_id: "목공예", image_path: "/images/hobby_img/목공예.webp" },
+    { hobby_id: "사격", image_path: "/images/hobby_img/사격.webp" },
+    { hobby_id: "수상스키", image_path: "/images/hobby_img/수상스키.webp" },
+    { hobby_id: "요가", image_path: "/images/hobby_img/요가.webp" }
+  ];
+  res.json(hobbies);
 });
 
 app.get('/modify', loginCheck, (req, res) => {
@@ -148,6 +159,12 @@ const questionsAndAnswers = [
   }
 ];
 
+app.post('/reset-answers', (req, res) => {
+  req.session.clickedButtons = [];
+  res.sendStatus(200);
+});
+
+
 app.get('/get-questions-and-answers', (req, res) => {
   res.json(questionsAndAnswers);
 });
@@ -182,7 +199,8 @@ const getRecommendations = (choices, callback) => {
     const conditions = choices.slice(0, remainingConditions).map((choice, index) => `h.${getColumnName(index)} = ?`).join(' AND ');
     const exclusionCondition = excludedHobbies.length > 0 ? `AND h.hobby_id NOT IN (${excludedHobbies.map(() => '?').join(', ')})` : '';
     const query = `
-      SELECT h.hobby_id, hi.image_path
+      SELECT h.hobby_id, hi.image_path,
+      ${remainingConditions} AS satisfied_conditions
       FROM hobbies h
       JOIN hobbiesimage hi ON h.hobby_id = hi.hobby_id
       ${conditions ? `WHERE ${conditions} ${exclusionCondition}` : exclusionCondition}
@@ -196,7 +214,11 @@ const getRecommendations = (choices, callback) => {
         return;
       }
       console.log(results);
-      allResults.push(...results);
+      allResults.push(...results.map(result => ({
+        hobby_id: result.hobby_id,
+        image_path: result.image_path,
+        satisfied_conditions: (remainingConditions / 9) * 100 // Convert to percentage
+      })));
       excludedHobbies.push(...results.map(result => result.hobby_id));
       queryWithConditions(remainingConditions - 1, callback);
     });

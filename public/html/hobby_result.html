@@ -16,6 +16,7 @@
         <section class="results">
             <h2>당신에게 추천하는 취미</h2>
             <div class="hobby-list" id="hobby-list"></div>
+            <button class="restart-btn" onclick="restartDiagnosis()">재진단</button>
         </section>
     </main>
     <footer>
@@ -40,7 +41,7 @@
                 hobbyName.innerText = hobby.hobby_id;
 
                 const hobbyDescription = document.createElement('p');
-                hobbyDescription.innerText = hobby.description;
+                hobbyDescription.innerText = `${hobby.satisfied_conditions.toFixed(2)}%의 조건을 만족합니다.`;
 
                 hobbyItem.appendChild(hobbyImage);
                 hobbyItem.appendChild(hobbyName);
@@ -51,6 +52,11 @@
         }
 
         fetchRecommendations();
+
+        async function restartDiagnosis() {
+            await fetch('/reset-answers', { method: 'POST' });
+            window.location.href = '/html/main.html';
+        }
     </script>
 </body>
 </html>

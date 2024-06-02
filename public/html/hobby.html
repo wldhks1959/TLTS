@@ -85,6 +85,15 @@
         });
 
         fetchQuestionsAndAnswers();
+
+        // Prevent back button
+        window.onpopstate = function(event) {
+            history.pushState(null, '', location.href);
+            alert('뒤로 가기 기능이 금지되어 있습니다.');
+        };
+
+        // Initial push state to prevent initial back button behavior
+        history.pushState(null, '', location.href);
     </script>
 </body>
 </html>

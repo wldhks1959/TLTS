@@ -48,6 +48,7 @@ nav {
 main {
     padding: 20px;
     text-align: center;
+    margin-bottom: 60px; /* 여백 추가 */
 }
 
 .intro {
