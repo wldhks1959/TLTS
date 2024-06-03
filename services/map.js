@@ -65,6 +65,7 @@ kakao.maps.event.addListener(marker, "click", function () {
 // 기존 별 모양 마커를 관리하는 변수
 var starMarker = null;
 var currentKeyword = null; // 현재 키워드를 저장하는 변수
+var circle = null; // 원 객체를 저장할 변수
 
 // 마우스로 지도를 클릭한 위치에 별 모양 마커 생성 및 해당 위치를 중심으로 검색
 kakao.maps.event.addListener(map, "click", function(mouseEvent) {
@@ -89,6 +90,24 @@ kakao.maps.event.addListener(map, "click", function(mouseEvent) {
     } else {
         alert("키워드가 설정되지 않았습니다.");
     }
+
+    // 기존 원이 있으면 제거
+    if (circle) {
+        circle.setMap(null);
+    }
+
+    // 새로운 원을 생성하여 지도에 표시
+    circle = new kakao.maps.Circle({
+        center: latlng,
+        radius: 5000, // 반경 5km
+        strokeWeight: 1,
+        strokeColor: '#0000FF',
+        strokeOpacity: 0.8,
+        strokeStyle: 'solid',
+        fillColor: '#0000FF',
+        fillOpacity: 0.3 // 투명도 50%
+    });
+    circle.setMap(map);
 });
 
 // 키워드로 장소를 검색하는 함수
@@ -103,11 +122,6 @@ function search(keyword) {
         return;
     }
 
-    // if (!keyword) {
-    //     alert("키워드를 입력하세요.");
-    //     return;
-    // }
-
     var ps = new kakao.maps.services.Places();
 
     var placesSearchCB = function (data, status, pagination) {
@@ -121,6 +135,22 @@ function search(keyword) {
             map.setBounds(bounds);
             // 첫 번째 마커의 위치 정보를 인포윈도우로 표시
             showInfowindow(0);
+
+            // 중심 좌표에 원을 그립니다
+            if (circle) {
+                circle.setMap(null);
+            }
+            circle = new kakao.maps.Circle({
+                center: center,
+                radius: 5000,
+                strokeWeight: 1,
+                strokeColor: '#0000FF',
+                strokeOpacity: 0.8,
+                strokeStyle: 'solid',
+                fillColor: '#0000FF',
+                fillOpacity: 0.3 // 투명도 50%
+            });
+            circle.setMap(map);
         } else if (!alertShown) {
             alert("검색 결과가 없습니다. 직접 마커를 옮겨가며 즐길 수 있는 곳을 찾아볼까요?");
             alertShown = true;
@@ -151,6 +181,22 @@ function searchByLocation(location, radius, keyword) {
             map.setBounds(bounds);
             // 첫 번째 마커의 위치 정보를 인포윈도우로 표시
             showInfowindow(0);
+
+            // 새로운 원을 생성하여 지도에 표시
+            if (circle) {
+                circle.setMap(null);
+            }
+            circle = new kakao.maps.Circle({
+                center: location,
+                radius: radius,
+                strokeWeight: 1,
+                strokeColor: '#0000FF',
+                strokeOpacity: 0.8,
+                strokeStyle: 'solid',
+                fillColor: '#0000FF',
+                fillOpacity: 0.3 // 투명도 50%
+            });
+            circle.setMap(map);
         } else if (!alertShown) {
             alert("검색 결과가 없습니다.");
             alertShown = true;
