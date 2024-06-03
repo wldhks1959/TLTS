@@ -55,16 +55,18 @@ exports.login = async (req, res) => {
 };
 
 exports.modify = async (req, res) => {
-  const { user_id, user_pwd, confirmPassword } = req.body;
+  const { user_id, user_pwd, confirmPassword, address } = req.body;
 
   try {
-    await userService.changePassword(user_id, user_pwd, confirmPassword);
-    res.send('<script>alert("비밀번호가 성공적으로 변경되었습니다."); window.location.href = "/main";</script>');
+    await userService.changeInfo(user_id, user_pwd, confirmPassword, address);
+    res.send('<script>alert("회원 정보가 성공적으로 변경되었습니다."); window.location.href = "/main";</script>');
   }
   catch (error) {
     res.send(`<script>alert("${error.message}"); window.location.href = "/modify";</script>`);
   }
 };
+
+
 
 exports.getAllUsers = (req, res) => {
   const query = `SELECT * FROM userinfo`;
