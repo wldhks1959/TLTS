@@ -72,6 +72,7 @@ function panTo() {
 
 // 키워드로 장소를 검색하는 함수
 function search(keyword) {
+    console.log(keyword);
     if (keyword === 'ANY') {
         if (!alertShown) {
             alert("어디서든 즐길 수 있어요.");
