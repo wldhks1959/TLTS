@@ -26,11 +26,22 @@ header h1 {
 
 main {
     padding: 20px;
+    background-color: #fff; /* 추가된 배경색 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    border-radius: 10px; /* 테두리 반경 */
+}
+
+#search-result {
+    margin: 20px auto;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    color : #FF7940;
 }
 
 #map-container {
-    width: calc(100% - 200px); /* 200픽셀 줄임 */
-    height: calc(80vh - 120px); /* 200픽셀 줄임 */
+    width: 60%;
+    height: 60vh; /* 높이 변경 */
     margin: 20px auto;
     background-color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -84,6 +95,33 @@ footer {
 
     #map-container {
         width: 100%; /* 모바일에서는 가로 100% 유지 */
-        height: calc(80vh - 200px); /* 세로 200픽셀 줄임 */
+        height: 60vh; /* 세로 높이 변경 */
     }
+}
+
+.custom-info-window {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+    color: #333;
+    max-width: 200px;
+    border: none;
+}
+
+.custom-info-window .title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #FF7940; /* 주황색 글자 */
+}
+
+.custom-info-window .address, .custom-info-window .category {
+    margin-top: 5px;
+}
+
+.custom-info-window .category {
+    font-style: italic;
+    color: #555; /* 회색 글자 */
 }
