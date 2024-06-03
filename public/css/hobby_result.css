@@ -57,13 +57,13 @@ main {
 }
 
 .hobby-item {
-    width: calc(30% - 20px); /* 가로 크기 조정 */
+    width: calc(33.333% - 20px);
     background-color: #f9f9f9;
-    padding: 20px; /* 패딩 줄이기 */
+    padding: 20px;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 20px; /* 추가된 여백 */
 }
 
 .hobby-item img {
@@ -74,7 +74,7 @@ main {
 }
 
 .hobby-item p {
-    margin: 10px 0 0;
+    margin: 0;
     color: #666;
 }
 

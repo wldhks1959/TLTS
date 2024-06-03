@@ -5,14 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>취미 추천 결과</title>
     <link rel="stylesheet" href="/css/hobby_result.css">
-    <style>
-        header, footer {
-            background-color: #FF7F4D; /* 이미지 배경색과 동일한 색상 */
-            color: white; /* 글자색 */
-            text-align: center;
-            padding: 10px 0;
-        }
-    </style>
 </head>
 <body>
     <header>
@@ -24,6 +16,7 @@
         <section class="results">
             <h2>당신에게 추천하는 취미</h2>
             <div class="hobby-list" id="hobby-list"></div>
+            <button class="restart-btn" onclick="restartDiagnosis()">재진단</button>
         </section>
     </main>
     <footer>
@@ -40,9 +33,6 @@
                 const hobbyItem = document.createElement('div');
                 hobbyItem.classList.add('hobby-item');
 
-                const hobbyLink = document.createElement('a');
-                hobbyLink.href = `/map?hobby_place=${encodeURIComponent(hobby.hobby_place)}`;  // map.html 링크에 취미 장소 추가
-
                 const hobbyImage = document.createElement('img');
                 hobbyImage.src = hobby.image_path;
                 hobbyImage.alt = hobby.hobby_id;
@@ -51,10 +41,9 @@
                 hobbyName.innerText = hobby.hobby_id;
 
                 const hobbyDescription = document.createElement('p');
-                hobbyDescription.innerText = hobby.hobby_description || '설명이 없습니다.';
+                hobbyDescription.innerText = `${hobby.satisfied_conditions.toFixed(2)}%의 조건을 만족합니다.`;
 
-                hobbyLink.appendChild(hobbyImage);
-                hobbyItem.appendChild(hobbyLink);
+                hobbyItem.appendChild(hobbyImage);
                 hobbyItem.appendChild(hobbyName);
                 hobbyItem.appendChild(hobbyDescription);
 
@@ -63,6 +52,11 @@
         }
 
         fetchRecommendations();
+
+        async function restartDiagnosis() {
+            await fetch('/reset-answers', { method: 'POST' });
+            window.location.href = '/html/main.html';
+        }
     </script>
 </body>
 </html>
