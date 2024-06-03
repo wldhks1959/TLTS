@@ -25,30 +25,34 @@
 
     <script>
         async function fetchRecommendations() {
-            const response = await fetch('/get-recommendations');
-            const recommendations = await response.json();
-            const hobbyList = document.getElementById('hobby-list');
+            try {
+                const response = await fetch('/get-recommendations');
+                const recommendations = await response.json();
+                const hobbyList = document.getElementById('hobby-list');
 
-            recommendations.forEach(hobby => {
-                const hobbyItem = document.createElement('div');
-                hobbyItem.classList.add('hobby-item');
+                recommendations.forEach(hobby => {
+                    const hobbyItem = document.createElement('div');
+                    hobbyItem.classList.add('hobby-item');
 
-                const hobbyImage = document.createElement('img');
-                hobbyImage.src = hobby.image_path;
-                hobbyImage.alt = hobby.hobby_id;
+                    const hobbyImage = document.createElement('img');
+                    hobbyImage.src = hobby.image_path;
+                    hobbyImage.alt = hobby.hobby_id;
 
-                const hobbyName = document.createElement('h3');
-                hobbyName.innerText = hobby.hobby_id;
+                    const hobbyName = document.createElement('h3');
+                    hobbyName.innerText = hobby.hobby_id;
 
-                const hobbyDescription = document.createElement('p');
-                hobbyDescription.innerText = `${hobby.satisfied_conditions.toFixed(2)}%의 조건을 만족합니다.`;
+                    const hobbyDescription = document.createElement('p');
+                    hobbyDescription.innerText = `${hobby.satisfied_conditions.toFixed(2)}%의 조건을 만족합니다.`;
 
-                hobbyItem.appendChild(hobbyImage);
-                hobbyItem.appendChild(hobbyName);
-                hobbyItem.appendChild(hobbyDescription);
+                    hobbyItem.appendChild(hobbyImage);
+                    hobbyItem.appendChild(hobbyName);
+                    hobbyItem.appendChild(hobbyDescription);
 
-                hobbyList.appendChild(hobbyItem);
-            });
+                    hobbyList.appendChild(hobbyItem);
+                });
+            } catch (error) {
+                console.error('Error fetching recommendations:', error);
+            }
         }
 
         fetchRecommendations();
