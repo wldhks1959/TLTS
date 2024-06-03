@@ -34,7 +34,7 @@
                 hobbyItem.classList.add('hobby-item');
 
                 const hobbyLink = document.createElement('a');
-                hobbyLink.href = `/map?hobby_place=${encodeURIComponent(hobby.hobby_place)}`;  // map.html 링크에 취미 장소 추가
+                hobbyLink.href = `/map?hobby_place=${encodeURIComponent(hobby.hobby_place)}&hobby_id=${encodeURIComponent(hobby.hobby_id)}`; // map.html 링크에 취미 장소와 ID 추가
 
                 const hobbyImage = document.createElement('img');
                 hobbyImage.src = hobby.image_path;
