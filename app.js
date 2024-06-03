@@ -2,11 +2,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+
 const db = require('./config/db');
 const userController = require('./controllers/userController');
 const hobbyController = require('./controllers/hobbyController');
-const bcrypt = require('bcrypt');
+const adminController = require('./controllers/adminController');
 
+const bcrypt = require('bcrypt');
 const app = express();
 const port = 3000;
 
@@ -102,11 +104,11 @@ app.get('/admin', loginCheck, adminCheck, (req, res) => {
   res.sendFile(__dirname + '/public/html/admin.html');
 });
 
-app.get('/userinfoList.html', loginCheck, adminCheck, (req, res) => {
+app.get('/admin/userinfoList', loginCheck, adminCheck, (req, res) => {
   res.sendFile(__dirname + '/public/html/userinfoList.html');
 });
 
-app.get('/hobbiesList.html', loginCheck, adminCheck, (req, res) => {
+app.get('/admin/hobbiesList', loginCheck, adminCheck, (req, res) => {
   res.sendFile(__dirname + '/public/html/hobbiesList.html');
 });
 
@@ -123,25 +125,14 @@ app.get('/hobbies', loginCheck, (req, res) => {
   });
 });
 
-app.get('/getHobbyKeywords', loginCheck, (req, res) => {
-  const query = `SHOW COLUMNS FROM hobbies`;
+// This could be in your `adminController.js` or a relevant controller file
+app.post('/saveHobby', loginCheck, adminCheck, adminController.saveHobby);
 
-  db.query(query, (err, results) => {
-      if (err) {
-          console.error('Error fetching columns:', err);
-          res.status(500).json({ error: 'Database error' });
-      } else {
-          res.status(200).json(results);
-      }
-  });
-});
-
-app.get('/getHobbyKeywords', loginCheck, hobbyController.getHobbyKeywords);
+// 어쩌다보니 안쓰게 됨...
+app.get('/getHobbyKeywords', loginCheck, adminCheck, adminController.getHobbyKeywords);
 
 // 봉인.
 // app.post('/addHobbyKeyword', loginCheck, hobbyController.addHobbyKeyword);
-app.post('/addHobby', loginCheck, hobbyController.addHobby);
-app.put('/updateHobby', loginCheck, hobbyController.updateHobby);
 
 app.get('/users', loginCheck, userController.getAllUsers);
 // 추가한 부분 끝 -------------------------
