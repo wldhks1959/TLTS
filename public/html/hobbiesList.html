@@ -1,54 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hobbies List</title>
 </head>
-
 <body>
     <h1>Hobbies List</h1>
-    <table id="hobbyTable" border="1">
+    <table id="hobbiesTable">
         <thead>
-            <tr id="headerRow"></tr>
+            <tr>
+                <th>Hobby ID</th>
+                <th>Place</th>
+                <th>Indoor/Outdoor</th>
+                <th>Solo/Multi</th>
+                <th>Play/Watch</th>
+                <th>Movement</th>
+                <th>Healing/Burning</th>
+                <th>Reservation</th>
+                <th>Equipment</th>
+                <th>Self Dev./Fun</th>
+                <th>Normal/Special</th>
+            </tr>
         </thead>
-        <tbody id="hobbyBody"></tbody>
+        <tbody>
+            <!-- Data will be populated here -->
+        </tbody>
     </table>
 
-    <script>
-        fetch('/getHobbyKeywords')
-            .then(response => response.json())
-            .then(columns => {
-                const headerRow = document.getElementById('headerRow');
-                columns.forEach(column => {
-                    const headerCell = document.createElement('th');
-                    headerCell.textContent = column.Field;
-                    headerRow.appendChild(headerCell);
-                });
+    <h2>Manage Hobby</h2>
+    <form id="hobbyForm">
+        <input type="text" id="hobby_id" name="hobby_id" placeholder="Hobby ID" required>
+        <input type="text" id="hobby_place" name="hobby_place" placeholder="Place">
+        <select id="I_O" name="I_O">
+            <option value="indoor">Indoor</option>
+            <option value="outdoor">Outdoor</option>
+            <option value="ANY">Any</option>
+        </select>
+        <select id="S_M" name="S_M">
+            <option value="solo">Solo</option>
+            <option value="multi">Multi</option>
+            <option value="ANY">Any</option>
+        </select>
+        <select id="P_W" name="P_W">
+            <option value="play">Play</option>
+            <option value="watch">Watch</option>
+            <option value="ANY">Any</option>
+        </select>
+        <select id="MV" name="MV">
+            <option value="static">Static</option>
+            <option value="normal">Normal</option>
+            <option value="dynamic">Dynamic</option>
+        </select>
+        <select id="H_B" name="H_B">
+            <option value="healing">Healing</option>
+            <option value="burning">Burning</option>
+            <option value="ANY">Any</option>
+        </select>
+        <select id="RESV" name="RESV">
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+            <option value="ANY">Any</option>
+        </select>
+        <select id="EQUIP" name="EQUIP">
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+            <option value="ANY">Any</option>
+        </select>
+        <select id="SD_F" name="SD_F">
+            <option value="self development">Self Development</option>
+            <option value="fun">Fun</option>
+            <option value="ANY">Any</option>
+        </select>
+        <select id="NORM" name="NORM">
+            <option value="normal">Normal</option>
+            <option value="special">Special</option>
+            <option value="ANY">Any</option>
+        </select>
+        <button type="button" onclick="saveHobby()">Save Hobby</button>
+    </form>
 
-                fetch('/hobbies')
-                    .then(response => response.json())
-                    .then(hobbies => {
-                        const hobbyBody = document.getElementById('hobbyBody');
-                        hobbies.forEach(hobby => {
-                            const row = document.createElement('tr');
-                            columns.forEach(column => {
-                                const cell = document.createElement('td');
-                                cell.textContent = hobby[column.Field];
-                                row.appendChild(cell);
-                            });
-                            hobbyBody.appendChild(row);
+    <script>
+        function fetchHobbies() {
+            fetch('/hobbies')
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.getElementById('hobbiesTable').getElementsByTagName('tbody')[0];
+                    tableBody.innerHTML = ''; // Clear existing rows
+                    data.forEach(hobby => {
+                        let row = tableBody.insertRow();
+                        Object.values(hobby).forEach(text => {
+                            let cell = row.insertCell();
+                            cell.textContent = text;
                         });
-                    })
-                    .catch(error => {
-                        console.error('Error fetching hobbies:', error);
                     });
+                })
+                .catch(error => console.error('Error fetching hobbies:', error));
+        }
+
+        function saveHobby() {
+            const form = document.getElementById('hobbyForm');
+            const formData = new FormData(form);
+            const jsonData = {};
+            formData.forEach((value, key) => { jsonData[key] = value; });
+
+            fetch('/saveHobby', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(jsonData)
             })
-            .catch(error => {
-                console.error('Error fetching hobby columns:', error);
-            });
+            .then(response => response.text())
+            .then(result => {
+                alert(result);
+                fetchHobbies(); // Refresh hobby list after the operation
+            })
+            .catch(error => console.error('Failed to save hobby:', error));
+        }
+        
+        document.addEventListener('DOMContentLoaded', fetchHobbies);
     </script>
 </body>
-
 </html>
