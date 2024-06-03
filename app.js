@@ -255,8 +255,7 @@ const getRecommendations = (choices, callback) => {
     const conditions = choices.slice(0, remainingConditions).map((choice, index) => `h.${getColumnName(index)} = ?`).join(' AND ');
     const exclusionCondition = excludedHobbies.length > 0 ? `AND h.hobby_id NOT IN (${excludedHobbies.map(() => '?').join(', ')})` : '';
     const query = `
-      SELECT h.hobby_id, hi.image_path,
-      ${remainingConditions} AS satisfied_conditions
+      SELECT h.hobby_id, h.hobby_place, hi.image_path
       FROM hobbies h
       JOIN hobbiesimage hi ON h.hobby_id = hi.hobby_id
       ${conditions ? `WHERE ${conditions} ${exclusionCondition}` : exclusionCondition}
@@ -269,12 +268,8 @@ const getRecommendations = (choices, callback) => {
         callback(err, null);
         return;
       }
-      console.log(results);
-      allResults.push(...results.map(result => ({
-        hobby_id: result.hobby_id,
-        image_path: result.image_path,
-        satisfied_conditions: (remainingConditions / 9) * 100 // Convert to percentage
-      })));
+
+      allResults.push(...results);
       excludedHobbies.push(...results.map(result => result.hobby_id));
       queryWithConditions(remainingConditions - 1, callback);
     });
