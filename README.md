@@ -1,14 +1,33 @@
+# 아키텍처 https://drive.google.com/file/d/1udy8kmdaaLjnHSG7NMCu1PudHX6sNYtP/view?usp=drive_link
+![아키텍처0601](https://github.com/wldhks1959/TLTS/assets/69555890/590a6689-39a9-42d0-baa3-18e6ee48f9b7)
+
+# dir_structure
+![image](https://github.com/wldhks1959/TLTS/assets/69555890/419ba40d-25b5-4afc-8977-a2ac7a469a6e)
+
 # index.html
-![index](https://github.com/wldhks1959/TLTS/assets/69555890/a6ec038f-347c-4634-b26f-76dddc411947)
+![image](https://github.com/wldhks1959/TLTS/assets/69555890/9357952f-cb98-4ac6-abd1-5cb82eae9d2b)
+
+# main.html
+![image](https://github.com/wldhks1959/TLTS/assets/69555890/1051fe69-ee5e-4a5f-ad61-f7f6b80a2e34)
 
 # register.html
-<img width="503" alt="스크린샷 2024-05-20 오후 8 52 08" src="https://github.com/wldhks1959/TLTS/assets/64916999/5696a340-c117-4b23-ae34-72893a4c74c0">
+![image](https://github.com/wldhks1959/TLTS/assets/69555890/07dbb269-69ef-47e3-a5fc-f690e49e86da)
 
 # login.html
-<img width="550" alt="스크린샷 2024-05-20 오후 8 54 02" src="https://github.com/wldhks1959/TLTS/assets/64916999/b5f4eba0-96ad-4d5b-9eee-fa565b31640c">
+![image](https://github.com/wldhks1959/TLTS/assets/69555890/0ca03391-ac70-4756-8731-51adb2f241e8)
+
+
+# modify.html
+![image](https://github.com/wldhks1959/TLTS/assets/69555890/934d8c32-626d-47c2-83a6-92d2a199e687)
 
 # hobby.html
-![hobby](https://github.com/wldhks1959/TLTS/assets/69555890/5148385b-11d8-432b-a4b0-c1ec15d35c0b)
+![image](https://github.com/wldhks1959/TLTS/assets/69555890/a2113e42-4957-4560-96cc-1fecd7745884)
+
+# hobby_result.html
+![image](https://github.com/wldhks1959/TLTS/assets/69555890/e357ccc3-1030-4952-9ded-6d032e3172ed)
+
 
 # map.html
-![맵_결과](https://github.com/wldhks1959/TLTS/assets/69555890/8a1bc7b6-343a-4643-980e-cff29597184d)
+![image](https://github.com/wldhks1959/TLTS/assets/69555890/94d376ef-beb3-4615-bca7-fe1e53c33ed2)
+
+

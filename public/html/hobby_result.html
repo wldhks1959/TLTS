@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>취미 추천 결과</title>
+    <link rel="stylesheet" href="/css/hobby_result.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>취미 추천 결과</h1>
+        </div>
+    </header>
+    <main>
+        <section class="results">
+            <h2>당신에게 추천하는 취미</h2>
+            <div class="hobby-list" id="hobby-list"></div>
+            <button class="restart-btn" onclick="restartDiagnosis()">재진단</button>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 취미 추천 웹사이트</p>
+    </footer>
+
+    <script>
+        async function fetchRecommendations() {
+            const response = await fetch('/get-recommendations');
+            const recommendations = await response.json();
+            const hobbyList = document.getElementById('hobby-list');
+
+            recommendations.forEach(hobby => {
+                const hobbyItem = document.createElement('div');
+                hobbyItem.classList.add('hobby-item');
+
+                const hobbyImage = document.createElement('img');
+                hobbyImage.src = hobby.image_path;
+                hobbyImage.alt = hobby.hobby_id;
+
+                const hobbyName = document.createElement('h3');
+                hobbyName.innerText = hobby.hobby_id;
+
+                const hobbyDescription = document.createElement('p');
+                hobbyDescription.innerText = `${hobby.satisfied_conditions.toFixed(2)}%의 조건을 만족합니다.`;
+
+                hobbyItem.appendChild(hobbyImage);
+                hobbyItem.appendChild(hobbyName);
+                hobbyItem.appendChild(hobbyDescription);
+
+                hobbyList.appendChild(hobbyItem);
+            });
+        }
+
+        fetchRecommendations();
+
+        async function restartDiagnosis() {
+            await fetch('/reset-answers', { method: 'POST' });
+            window.location.href = '/html/main.html';
+        }
+    </script>
+</body>
+</html>

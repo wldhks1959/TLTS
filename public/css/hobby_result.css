@@ -1,0 +1,107 @@
+/* Reset CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Header styles */
+header {
+    background-color: #FF7F50; /* 포인트 색상 */
+    color: white;
+    padding: 10px 0;
+}
+
+header .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    margin: 0 auto;
+}
+
+header h1 {
+    margin: 0;
+}
+
+/* Main styles */
+main {
+    padding: 20px;
+    text-align: center;
+    flex: 1;
+}
+
+/* Results section styles */
+.results h2 {
+    color: #FF7F50; /* 포인트 색상 */
+    margin-bottom: 20px;
+}
+
+.hobby-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.hobby-item {
+    width: calc(33.333% - 20px);
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-bottom: 20px; /* 추가된 여백 */
+}
+
+.hobby-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.hobby-item p {
+    margin: 0;
+    color: #666;
+}
+
+.restart-btn {
+    background-color: #FF7F50; /* 포인트 색상 */
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    margin: 20px 0;
+}
+
+.restart-btn:hover {
+    background-color: #e6733b;
+    transform: scale(1.05);
+}
+
+/* Footer styles */
+footer {
+    background-color: #FF7F50; /* 포인트 색상 */
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: auto;
+}

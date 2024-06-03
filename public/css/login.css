@@ -1,94 +1,125 @@
 * {
     padding: 0;
     margin: 0;
-    border: none;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
 }
 
 body {
-    font-size: 14px;
-    font-family: 'Roboto', sans-serif;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;  
-    background-color: #f2f2f2; 
+    height: 100vh;
+    background: linear-gradient(135deg, #fde0c9, #c1e1e9); /* 배경 색상 변경 */
+}
+
+.project-name {
+    font-size: 50px; /* 더 큰 글자 크기 */
+    color: #FF7F50; /* 포인트 색상 */
+    margin-bottom: 50px; /* 위로 더 올리기 */
+    font-weight: 900; /* 더 굵게 */
+    text-transform: uppercase; /* 대문자 변환 */
+    letter-spacing: 2px; /* 글자 간격 조정 */
 }
 
 .login-wrapper {
-    width: 400px;
-    height: 350px;
+    width: 500px; /* 가로 길이 증가 */
     padding: 40px;
-    box-sizing: border-box;
-    background-color: #fff;  /* Optional: Background color for the login wrapper */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);  /* Optional: Box shadow for better visibility */
-    border-radius: 8px;  /* Optional: Border radius for rounded corners */
-}
-
-.login-wrapper > h2 {
-    font-size: 24px;
-    color: #6A24FE;
-    margin-bottom: 20px;
+    background-color: #ffffff; /* 배경 흰색 */
+    border-radius: 12px; /* 둥근 테두리 */
+    border: 1px solid #e0e0e0; /* 연한 회색 테두리 */
+    text-align: center;
+    box-shadow: none; /* 음영 제거 */
 }
 
 #login-form > input {
     width: 100%;
     height: 48px;
-    padding: 0 10px;
-    box-sizing: border-box;
-    margin-bottom: 16px;
+    padding: 0 15px; /* 패딩 조정 */
+    margin-bottom: 20px; /* 간격 조정 */
     border-radius: 6px;
-    background-color: #F8F8F8;
+    background-color: #fafafa; /* 더 밝은 배경색 */
+    border: 1px solid #dddddd; /* 연한 테두리 */
+    font-size: 16px;
+    transition: border-color 0.3s, background-color 0.3s; /* 전환 효과 추가 */
+}
+
+#login-form > input:focus {
+    border-color: #FF7F50; /* 포인트 색상 */
+    background-color: #ffffff; /* 포커스 시 배경색 변경 */
+    outline: none;
 }
 
 #login-form > input::placeholder {
-    color: #D2D2D2;
+    color: #b0b0b0;
 }
 
-#login-form > input[type="submit"] {
-    color: #fff;
-    font-size: 16px;
-    background-color: #834df6;
-    margin-top: 20px;
-    cursor: pointer;
+#login-form .remember-me {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 20px;
 }
 
-#login-form input[type="submit"]:hover {
-    background-color: hsl(259, 70%, 41%);
-    color: #fff;
-}
-
-
-#login-form > input[type="checkbox"] {
-    display: none;
+#login-form input[type="checkbox"] {
+    margin-right: 10px;
 }
 
 #login-form > label {
-    color: #999999;
-}
-
-#login-form input[type="checkbox"] + label {
+    color: #757575;
     cursor: pointer;
-    padding-left: 26px;
-    background-image: url("checkbox.png");
-    background-repeat: no-repeat;
-    background-size: contain;
 }
 
-#login-form input[type="checkbox"]:checked + label {
-    background-image: url("checkbox-active.png");
-    background-repeat: no-repeat;
-    background-size: contain;
+#login-form input[type="submit"] {
+    width: 100%;
+    padding: 14px;
+    color: #ffffff;
+    font-size: 18px;
+    background-color: #FF7F50; /* 포인트 색상 */
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s; /* 전환 효과 추가 */
+}
+
+#login-form input[type="submit"]:hover {
+    background-color: #FF5733; /* 조금 더 어두운 포인트 색상 */
+    transform: scale(1.02); /* 호버 시 크기 증가 효과 */
 }
 
 #register-link {
     display: block;
-    text-align: right;
-    margin-top: 10px;
-    color: #6A24FE;
+    margin-top: 20px;
+    color: #FF7F50; /* 포인트 색상 */
     text-decoration: none;
-    font-size: 14px;
+    font-size: 16px;
+    transition: color 0.3s; /* 전환 효과 추가 */
 }
 
 #register-link:hover {
+    color: #FF5733; /* 호버 시 색상 변경 */
     text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+    .login-wrapper {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .project-name {
+        font-size: 36px;
+        margin-bottom: 30px;
+    }
+
+    #login-form > input,
+    #login-form input[type="submit"] {
+        font-size: 14px;
+        padding: 12px;
+    }
+
+    #register-link {
+        font-size: 14px;
+    }
 }

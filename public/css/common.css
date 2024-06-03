@@ -1,70 +1,132 @@
 body {
     font-family: Arial, sans-serif;
-    text-align: center;
     margin: 0;
     padding: 0;
-    background-color: rgb(165, 185, 238);
-}
-
-.container {
-    padding: 50px;
-    max-width: 800px;
-    margin: 50px auto;
+    box-sizing: border-box;
     background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-}
-
-h1, h2 {
     color: #333;
+}
+
+header {
+    background-color: #FF7F50; /* 포인트 색상 */
+    color: white;
+    padding: 10px 0;
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    margin: 0 auto;
+}
+
+header h1 {
+    margin: 0;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+}
+
+.login-btn {
+    background-color: white;
+    color: #FF7F50; /* 포인트 색상 */
+    border: 1px solid white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.login-btn:hover {
+    background-color: #FF7F50; /* 포인트 색상 */
+    color: white;
+}
+
+main {
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 60px; /* 여백 추가 */
+}
+
+.intro {
     margin-bottom: 20px;
 }
 
-p {
-    color: #555;
-    line-height: 1.6;
+.intro h2 {
+    color: #FF7F50; /* 포인트 색상 */
+}
+
+.intro p {
     margin-bottom: 20px;
 }
 
-a.link {
-    color: rgb(43, 0, 255);
-    margin: 0 10px;
-    text-decoration: none;
-    font-family: sans-serif;
-    font-weight: bold;
+.start-btn {
+    background-color: #FF7F50; /* 포인트 색상 */
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 5px;
     font-size: 18px;
-    transition: color 0.3s ease;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    margin: 20px 0;
 }
 
-a.link:hover {
-    color: #00ff3c;
+.start-btn:hover {
+    background-color: #e6733b;
+    transform: scale(1.05);
 }
 
-form {
-    display: inline-block;
-    text-align: left;
-}
-
-.inline-links {
+.recommendations {
     margin-top: 20px;
 }
 
-.inline-links a {
-    display: inline;
-    margin: 0 10px;
+.recommendations h2 {
+    color: #FF7F50; /* 포인트 색상 */
 }
 
-button {
-    background-color: #007bff;
+.hobby-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.hobby-row {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.hobby-item {
+    width: calc(33.333% - 15%);
+    background-color: #f9f9f9;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.hobby-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.hobby-item p {
+    margin: 10px 0 0;
+    color: #666;
+}
+
+footer {
+    background-color: #FF7F50; /* 포인트 색상 */
     color: white;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #0056b3;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }
