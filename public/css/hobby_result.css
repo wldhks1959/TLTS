@@ -78,6 +78,25 @@ main {
     color: #666;
 }
 
+.restart-btn {
+    background-color: #FF7F50; /* 포인트 색상 */
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    margin: 20px 0;
+}
+
+.restart-btn:hover {
+    background-color: #e6733b;
+    transform: scale(1.05);
+}
+
 /* Footer styles */
 footer {
     background-color: #FF7F50; /* 포인트 색상 */

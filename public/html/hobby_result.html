@@ -25,34 +25,34 @@
 
     <script>
         async function fetchRecommendations() {
-            try {
-                const response = await fetch('/get-recommendations');
-                const recommendations = await response.json();
-                const hobbyList = document.getElementById('hobby-list');
+            const response = await fetch('/get-recommendations');
+            const recommendations = await response.json();
+            const hobbyList = document.getElementById('hobby-list');
 
-                recommendations.forEach(hobby => {
-                    const hobbyItem = document.createElement('div');
-                    hobbyItem.classList.add('hobby-item');
+            recommendations.forEach(hobby => {
+                const hobbyItem = document.createElement('div');
+                hobbyItem.classList.add('hobby-item');
 
-                    const hobbyImage = document.createElement('img');
-                    hobbyImage.src = hobby.image_path;
-                    hobbyImage.alt = hobby.hobby_id;
+                const hobbyLink = document.createElement('a');
+                hobbyLink.href = `/map?hobby_place=${encodeURIComponent(hobby.hobby_place)}`;  // map.html 링크에 취미 장소 추가
 
-                    const hobbyName = document.createElement('h3');
-                    hobbyName.innerText = hobby.hobby_id;
+                const hobbyImage = document.createElement('img');
+                hobbyImage.src = hobby.image_path;
+                hobbyImage.alt = hobby.hobby_id;
 
-                    const hobbyDescription = document.createElement('p');
-                    hobbyDescription.innerText = `${hobby.satisfied_conditions.toFixed(2)}%의 조건을 만족합니다.`;
+                const hobbyName = document.createElement('h3');
+                hobbyName.innerText = hobby.hobby_id;
 
-                    hobbyItem.appendChild(hobbyImage);
-                    hobbyItem.appendChild(hobbyName);
-                    hobbyItem.appendChild(hobbyDescription);
+                const hobbyDescription = document.createElement('p');
+                hobbyDescription.innerText = `${hobby.satisfied_conditions.toFixed(2)}%의 조건을 만족합니다.`;
 
-                    hobbyList.appendChild(hobbyItem);
-                });
-            } catch (error) {
-                console.error('Error fetching recommendations:', error);
-            }
+                hobbyLink.appendChild(hobbyImage);
+                hobbyItem.appendChild(hobbyLink);
+                hobbyItem.appendChild(hobbyName);
+                hobbyItem.appendChild(hobbyDescription);
+
+                hobbyList.appendChild(hobbyItem);
+            });
         }
 
         fetchRecommendations();

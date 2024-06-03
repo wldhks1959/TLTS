@@ -2,11 +2,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+
 const db = require('./config/db');
 const userController = require('./controllers/userController');
 const hobbyController = require('./controllers/hobbyController');
-const bcrypt = require('bcrypt');
+const adminController = require('./controllers/adminController');
 
+const bcrypt = require('bcrypt');
 const app = express();
 const port = 3000;
 
@@ -31,6 +33,14 @@ const loginCheck = (req, res, next) => {
   if (req.session.user_id) { next(); } 
   else 
   { res.send(`<script>alert('로그인부터 해주세요.'); window.location.href = '/login';</script>`);}
+};
+
+const adminCheck = (req, res, next) => {
+  if (req.session.is_admin) {
+    next();
+  } else {
+    res.send(`<script>alert('관리자만 접근 가능합니다.'); window.location.href = '/main';</script>`);
+  }
 };
 
 app.get('/', (req, res) => {
@@ -87,6 +97,44 @@ app.get('/get-user_id', loginCheck, (req, res) => {
 app.get('/hobby', (req, res) => {
   res.sendFile(__dirname + '/public/html/hobby.html');
 });
+
+// 추가한 부분 시작 -----------------------
+app.get('/admin', loginCheck, adminCheck, (req, res) => {
+  res.sendFile(__dirname + '/public/html/admin.html');
+});
+
+app.get('/admin/userinfoList', loginCheck, adminCheck, (req, res) => {
+  res.sendFile(__dirname + '/public/html/userinfoList.html');
+});
+
+app.get('/admin/hobbiesList', loginCheck, adminCheck, (req, res) => {
+  res.sendFile(__dirname + '/public/html/hobbiesList.html');
+});
+
+app.get('/hobbies', loginCheck, (req, res) => {
+  const query = `SELECT * FROM hobbies`;
+
+  db.query(query, (err, results) => {
+      if (err) {
+          console.error('Error fetching hobbies:', err);
+          res.status(500).json({ error: 'Database error' });
+      } else {
+          res.status(200).json(results);
+      }
+  });
+});
+
+// This could be in your `adminController.js` or a relevant controller file
+app.post('/saveHobby', loginCheck, adminCheck, adminController.saveHobby);
+
+// 어쩌다보니 안쓰게 됨...
+app.get('/getHobbyKeywords', loginCheck, adminCheck, adminController.getHobbyKeywords);
+
+// 봉인.
+// app.post('/addHobbyKeyword', loginCheck, hobbyController.addHobbyKeyword);
+
+app.get('/users', loginCheck, userController.getAllUsers);
+// 추가한 부분 끝 -------------------------
 
 app.post('/modify', loginCheck, userController.modify);
 
@@ -176,7 +224,7 @@ const getRecommendations = (choices, callback) => {
   }).join(' + ');
 
   const query = `
-      SELECT h.hobby_id, hi.image_path,
+      SELECT h.hobby_id, h.hobby_place, hi.image_path,
       (${caseStatements}) AS satisfied_conditions
       FROM hobbies h
       JOIN hobbiesimage hi ON h.hobby_id = hi.hobby_id
@@ -196,6 +244,7 @@ const getRecommendations = (choices, callback) => {
       const allResults = results.map(result => ({
           hobby_id: result.hobby_id,
           image_path: result.image_path,
+          hobby_place : result.hobby_place,
           satisfied_conditions: (result.satisfied_conditions / choices.length) * 100 // Convert to percentage
       }));
 

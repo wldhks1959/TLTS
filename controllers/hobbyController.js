@@ -67,3 +67,5 @@ exports.searchHobby = (req, res) => {
         }
     });
 };
+
+// Hobby 추가 및 업데이트는 adminController.js에서.

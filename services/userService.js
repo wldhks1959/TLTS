@@ -12,11 +12,11 @@ exports.login = async (user_id, user_pwd) => {
   return user;  // user 객체를 반환
 };
 
-exports.changePassword = async (user_id, user_pwd, confirmPassword) => {
+exports.changeInfo = async (user_id, user_pwd, confirmPassword, address) => {
   if (user_pwd !== confirmPassword) {
     throw new Error("비밀번호가 일치하지 않음");
   }
 
   const hashedPassword = await bcrypt.hash(user_pwd, 10);
-  return userRepo.updatePassword(user_id, hashedPassword);
+  return userRepo.updateInfo(user_id, hashedPassword, address);
 };

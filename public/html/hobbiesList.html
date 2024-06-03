@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hobbies List</title>
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+    <h1>취미 리스트</h1>
+    <table id="hobbiesTable">
+        <thead>
+            <tr>
+                <th>취미 이름</th>
+                <th>즐길 장소</th>
+                <th>실내 / 실외</th>
+                <th>혼자서  /여럿이서</th>
+                <th>직접 즐기기 / 관람하기</th>
+                <th>움직임 정도</th>
+                <th>힐링하기 / 불태우기</th>
+                <th>예약 필요</th>
+                <th>장비 필요</th>
+                <th>자기개발 / 즐기기</th>
+                <th>보편 / 이색</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data will be populated here -->
+        </tbody>
+    </table>
+
+    <h2>Manage Hobby</h2>
+    <form id="hobbyForm">
+        <input type="text" id="hobby_id" name="hobby_id" placeholder="Hobby ID" required>
+        <input type="text" id="hobby_place" name="hobby_place" placeholder="Place">
+        <select id="I_O" name="I_O">
+            <option value="indoor">실내</option>
+            <option value="outdoor">실외</option>
+            <option value="ANY">Any</option>
+        </select>
+        <select id="S_M" name="S_M">
+            <option value="solo">혼자서</option>
+            <option value="multi">여럿이서</option>
+            <option value="ANY">Any</option>
+        </select>
+        <select id="P_W" name="P_W">
+            <option value="play">직접 즐기기</option>
+            <option value="watch">관람하기</option>
+            <option value="ANY">Any</option>
+        </select>
+        <select id="MV" name="MV">
+            <option value="static">가만히</option>
+            <option value="normal">적당하게</option>
+            <option value="dynamic">격렬하게</option>
+        </select>
+        <select id="H_B" name="H_B">
+            <option value="healing">힐링하기</option>
+            <option value="burning">불태우기</option>
+            <option value="ANY">Any</option>
+        </select>
+        <select id="RESV" name="RESV">
+            <option value="yes">예약 필요</option>
+            <option value="no">예약 불필요</option>
+            <option value="ANY">Any</option>
+        </select>
+        <select id="EQUIP" name="EQUIP">
+            <option value="yes">장비 필요</option>
+            <option value="no">장비 불필요</option>
+            <option value="ANY">Any</option>
+        </select>
+        <select id="SD_F" name="SD_F">
+            <option value="self development">자기개발</option>
+            <option value="fun">즐기기</option>
+            <option value="ANY">Any</option>
+        </select>
+        <select id="NORM" name="NORM">
+            <option value="normal">보편</option>
+            <option value="special">이색</option>
+            <option value="ANY">Any</option>
+        </select>
+        <button type="button" onclick="saveHobby()">취미 저장</button>
+    </form>
+
+    <script>
+        function fetchHobbies() {
+            fetch('/hobbies')
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.getElementById('hobbiesTable').getElementsByTagName('tbody')[0];
+                    tableBody.innerHTML = ''; // Clear existing rows
+                    data.forEach(hobby => {
+                        let row = tableBody.insertRow();
+                        Object.values(hobby).forEach(text => {
+                            let cell = row.insertCell();
+                            cell.textContent = text;
+                        });
+                    });
+                })
+                .catch(error => console.error('Error fetching hobbies:', error));
+        }
+
+        function saveHobby() {
+            const form = document.getElementById('hobbyForm');
+            const formData = new FormData(form);
+            const jsonData = {};
+            formData.forEach((value, key) => { jsonData[key] = value; });
+
+            fetch('/saveHobby', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(jsonData)
+            })
+            .then(response => response.text())
+            .then(result => {
+                alert(result);
+                fetchHobbies(); // Refresh hobby list after the operation
+            })
+            .catch(error => console.error('Failed to save hobby:', error));
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchHobbies);
+    </script>
+</body>
+</html>

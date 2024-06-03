@@ -19,9 +19,9 @@ exports.findUserByUsername = (user_id) => {
   });
 };
 
-exports.updatePassword = (user_id, hashedPassword) =>{
+exports.updateInfo = (user_id, hashedPassword, address) =>{
   return new Promise((resolve, reject) => {
-    db.query('UPDATE userinfo SET user_pwd = ? Where user_id = ?', [hashedPassword, user_id], (err,result) =>{
+    db.query('UPDATE userinfo SET user_pwd = ?, user_addr = ? Where user_id = ?', [hashedPassword, address, user_id], (err,result) =>{
       if(err){
         reject(err);
       }
