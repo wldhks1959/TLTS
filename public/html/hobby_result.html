@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>취미 추천 결과</title>
     <link rel="stylesheet" href="/css/hobby_result.css">
+    <style>
+        header, footer {
+            background-color: #FF7F4D; /* 이미지 배경색과 동일한 색상 */
+            color: white; /* 글자색 */
+            text-align: center;
+            padding: 10px 0;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -32,6 +40,9 @@
                 const hobbyItem = document.createElement('div');
                 hobbyItem.classList.add('hobby-item');
 
+                const hobbyLink = document.createElement('a');
+                hobbyLink.href = `/map?hobby_place=${encodeURIComponent(hobby.hobby_place)}`;  // map.html 링크에 취미 장소 추가
+
                 const hobbyImage = document.createElement('img');
                 hobbyImage.src = hobby.image_path;
                 hobbyImage.alt = hobby.hobby_id;
@@ -40,9 +51,10 @@
                 hobbyName.innerText = hobby.hobby_id;
 
                 const hobbyDescription = document.createElement('p');
-                hobbyDescription.innerText = hobby.description;
+                hobbyDescription.innerText = hobby.hobby_description || '설명이 없습니다.';
 
-                hobbyItem.appendChild(hobbyImage);
+                hobbyLink.appendChild(hobbyImage);
+                hobbyItem.appendChild(hobbyLink);
                 hobbyItem.appendChild(hobbyName);
                 hobbyItem.appendChild(hobbyDescription);
 

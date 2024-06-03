@@ -1,8 +1,10 @@
 // map.js
 
+var alertShown = false; // 전역 변수로 선언하여 alert의 중복을 방지합니다.
+
 // 지도를 표시할 div와 옵션을 설정합니다
 var mapContainer = document.getElementById("map"), // 지도를 표시할 div
-    mapOption = { 
+    mapOption = {
         center: new kakao.maps.LatLng(35.11719379721626, 128.96776005910738), // 지도의 중심좌표
         level: 5, // 지도의 확대 레벨
     };
@@ -39,17 +41,14 @@ var infowindow = new kakao.maps.InfoWindow({
     content: '<div style="padding:5px;">동아대학교 S06 기준</div>',
 });
 
-// 인포윈도우가 열려 있는지 상태를 저장할 변수
 var infowindowOpen = false;
 
 // 마커에 클릭 이벤트를 등록합니다
 kakao.maps.event.addListener(marker, "click", function () {
     if (infowindowOpen) {
-        // 인포윈도우가 열려 있으면 닫습니다
         infowindow.close();
         infowindowOpen = false;
     } else {
-        // 인포윈도우가 닫혀 있으면 엽니다
         if (currentInfowindow) {
             currentInfowindow.close();
         }
@@ -61,76 +60,61 @@ kakao.maps.event.addListener(marker, "click", function () {
 
 // 지도 중심을 설정하는 함수
 function setCenter() {
-    // 지도 중심을 이동 시킵니다
     map.setCenter(centerCoords);
-
-    // 마커 위치도 이동 시킵니다
     marker.setPosition(centerCoords);
 }
 
 // 지도 중심을 부드럽게 이동시키는 함수
 function panTo() {
-    // 지도 중심을 부드럽게 이동시킵니다
-    // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동
     map.panTo(centerCoords);
-
-    // 마커 위치도 이동
     marker.setPosition(centerCoords);
 }
 
 // 키워드로 장소를 검색하는 함수
-function searchKeyword(callback) {
-    var keyword = document.getElementById("keyword").value;
-    if (!keyword.trim()) {
+function search(keyword) {
+    if (keyword === 'ANY') {
+        if (!alertShown) {
+            alert("어디서든 즐길 수 있어요.");
+            alertShown = true;
+        }
+        history.back();
+        return;
+    }
+
+    if (!keyword) {
         alert("키워드를 입력하세요.");
         return;
     }
 
-    // 장소 검색 객체를 생성
     var ps = new kakao.maps.services.Places();
 
-    // 현재 지도 중심을 기준으로 3km 반경 내에서 키워드로 장소를 검색
     var placesSearchCB = function (data, status, pagination) {
         if (status === kakao.maps.services.Status.OK) {
-            // 기존 마커를 모두 제거
             clearMarkers();
-
-            // 검색된 장소 위치를 기준으로 마커를 생성
             var bounds = new kakao.maps.LatLngBounds();
             for (var i = 0; i < data.length; i++) {
                 displayMarker(data[i]);
                 bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
             }
             map.setBounds(bounds);
-            callback(true);
-        } else {
-            callback(false);
+        } else if (!alertShown) {
+            alert("검색 결과가 없습니다.");
+            alertShown = true;
+            history.back();
         }
     };
 
-    // 현재 지도 중심 좌표를 기준으로 검색
     var center = map.getCenter();
     var options = {
         location: center,
-        radius: 3000, // 3km 반경
+        radius: 3000,
         sort: kakao.maps.services.SortBy.DISTANCE,
     };
     ps.keywordSearch(keyword, placesSearchCB, options);
 }
 
-// 검색하기 버튼을 눌렀을 때 실행되는 함수
-function search() {
-    searchKeyword(function(keywordSuccess) {
-        if (!keywordSuccess) {
-            alert("검색 결과가 없습니다.");
-        }
-    });
-}
-
 // 마커를 담을 배열입니다
 var markers = [];
-
-// 현재 열린 인포윈도우를 저장할 변수
 var currentInfowindow = null;
 
 // 마커를 생성하고 지도에 표시하는 함수
@@ -147,7 +131,6 @@ function displayMarker(place) {
                  '<div class="category">' + (place.category_name ? '카테고리명: ' + place.category_name : '카테고리 정보 없음') + '</div></div>'
     });
 
-    // 마커에 클릭 이벤트를 등록합니다
     kakao.maps.event.addListener(marker, "click", function () {
         if (currentInfowindow) {
             currentInfowindow.close();
@@ -156,17 +139,26 @@ function displayMarker(place) {
         currentInfowindow = localInfowindow;
     });
 
-    // 생성된 마커를 배열에 추가
     markers.push(marker);
 }
 
 // 기존 마커를 모두 제거
 function clearMarkers() {
-    for (var i = 0; i < markers.length; i++) 
+    for (var i = 0; i < markers.length; i++) {
         markers[i].setMap(null);
+    }
     markers = [];
     if (currentInfowindow) {
         currentInfowindow.close();
         currentInfowindow = null;
     }
 }
+
+// 페이지 로드 시 URL 파라미터로부터 키워드를 읽어와 자동으로 검색
+document.addEventListener("DOMContentLoaded", function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const hobbyPlace = urlParams.get('hobby_place');
+    if (hobbyPlace) {
+        search(hobbyPlace);
+    }
+});
