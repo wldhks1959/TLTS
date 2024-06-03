@@ -34,6 +34,14 @@ const loginCheck = (req, res, next) => {
   { res.send(`<script>alert('로그인부터 해주세요.'); window.location.href = '/login';</script>`);}
 };
 
+const adminCheck = (req, res, next) => {
+  if (req.session.is_admin) {
+    next();
+  } else {
+    res.send(`<script>alert('관리자만 접근 가능합니다.'); window.location.href = '/main';</script>`);
+  }
+};
+
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/public/html/index.html');
 });
@@ -58,8 +66,20 @@ app.get('/logout', (req, res) => {
   });
 });
 
-app.get('/main', loginCheck,  (req,res) => {
+app.get('/main', loginCheck, (req, res) => {
   res.sendFile(__dirname + '/public/html/main.html');
+});
+
+app.get('/get-main-hobbies', (req, res) => {
+  const hobbies = [
+    { hobby_id: "가라데", image_path: "/images/hobby_img/가라데.webp" },
+    { hobby_id: "드라이브", image_path: "/images/hobby_img/드라이브.webp" },
+    { hobby_id: "목공예", image_path: "/images/hobby_img/목공예.webp" },
+    { hobby_id: "사격", image_path: "/images/hobby_img/사격.webp" },
+    { hobby_id: "수상스키", image_path: "/images/hobby_img/수상스키.webp" },
+    { hobby_id: "요가", image_path: "/images/hobby_img/요가.webp" }
+  ];
+  res.json(hobbies);
 });
 
 app.get('/modify', loginCheck, (req, res) => {
@@ -76,6 +96,55 @@ app.get('/get-user_id', loginCheck, (req, res) => {
 app.get('/hobby', (req, res) => {
   res.sendFile(__dirname + '/public/html/hobby.html');
 });
+
+// 추가한 부분 시작 -----------------------
+app.get('/admin', loginCheck, adminCheck, (req, res) => {
+  res.sendFile(__dirname + '/public/html/admin.html');
+});
+
+app.get('/userinfoList.html', loginCheck, adminCheck, (req, res) => {
+  res.sendFile(__dirname + '/public/html/userinfoList.html');
+});
+
+app.get('/hobbiesList.html', loginCheck, adminCheck, (req, res) => {
+  res.sendFile(__dirname + '/public/html/hobbiesList.html');
+});
+
+app.get('/hobbies', loginCheck, (req, res) => {
+  const query = `SELECT * FROM hobbies`;
+
+  db.query(query, (err, results) => {
+      if (err) {
+          console.error('Error fetching hobbies:', err);
+          res.status(500).json({ error: 'Database error' });
+      } else {
+          res.status(200).json(results);
+      }
+  });
+});
+
+app.get('/getHobbyKeywords', loginCheck, (req, res) => {
+  const query = `SHOW COLUMNS FROM hobbies`;
+
+  db.query(query, (err, results) => {
+      if (err) {
+          console.error('Error fetching columns:', err);
+          res.status(500).json({ error: 'Database error' });
+      } else {
+          res.status(200).json(results);
+      }
+  });
+});
+
+app.get('/getHobbyKeywords', loginCheck, hobbyController.getHobbyKeywords);
+
+// 봉인.
+// app.post('/addHobbyKeyword', loginCheck, hobbyController.addHobbyKeyword);
+app.post('/addHobby', loginCheck, hobbyController.addHobby);
+app.put('/updateHobby', loginCheck, hobbyController.updateHobby);
+
+app.get('/users', loginCheck, userController.getAllUsers);
+// 추가한 부분 끝 -------------------------
 
 app.post('/modify', loginCheck, userController.modify);
 
@@ -147,6 +216,12 @@ const questionsAndAnswers = [
   }
 ];
 
+app.post('/reset-answers', (req, res) => {
+  req.session.clickedButtons = [];
+  res.sendStatus(200);
+});
+
+
 app.get('/get-questions-and-answers', (req, res) => {
   res.json(questionsAndAnswers);
 });
@@ -160,6 +235,7 @@ app.post('/save-clicked-button', (req, res) => {
 
   if (enumValue) {
     req.session.clickedButtons.push(enumValue);
+    console.log(req.session.clickedButtons);
   }
 
   res.sendStatus(200);
@@ -179,7 +255,8 @@ const getRecommendations = (choices, callback) => {
     const conditions = choices.slice(0, remainingConditions).map((choice, index) => `h.${getColumnName(index)} = ?`).join(' AND ');
     const exclusionCondition = excludedHobbies.length > 0 ? `AND h.hobby_id NOT IN (${excludedHobbies.map(() => '?').join(', ')})` : '';
     const query = `
-      SELECT h.hobby_id, h.hobby_place, hi.image_path
+      SELECT h.hobby_id, hi.image_path,
+      ${remainingConditions} AS satisfied_conditions
       FROM hobbies h
       JOIN hobbiesimage hi ON h.hobby_id = hi.hobby_id
       ${conditions ? `WHERE ${conditions} ${exclusionCondition}` : exclusionCondition}
@@ -192,8 +269,12 @@ const getRecommendations = (choices, callback) => {
         callback(err, null);
         return;
       }
-
-      allResults.push(...results);
+      console.log(results);
+      allResults.push(...results.map(result => ({
+        hobby_id: result.hobby_id,
+        image_path: result.image_path,
+        satisfied_conditions: (remainingConditions / 9) * 100 // Convert to percentage
+      })));
       excludedHobbies.push(...results.map(result => result.hobby_id));
       queryWithConditions(remainingConditions - 1, callback);
     });

@@ -13,6 +13,37 @@
             alert('로그인부터 해주세요.');
             window.location.href = '/html/login.html';
         }
+
+        async function fetchMainHobbies() {
+            const response = await fetch('/get-main-hobbies');
+            const hobbies = await response.json();
+            const hobbyList = document.querySelector('.hobby-list');
+
+            hobbyList.innerHTML = ''; // Clear existing content
+
+            let hobbyRow;
+            hobbies.forEach((hobby, index) => {
+                if (index % 3 === 0) {
+                    hobbyRow = document.createElement('div');
+                    hobbyRow.classList.add('hobby-row');
+                    hobbyList.appendChild(hobbyRow);
+                }
+                const hobbyItem = document.createElement('div');
+                hobbyItem.classList.add('hobby-item');
+
+                const hobbyImage = document.createElement('img');
+                hobbyImage.src = hobby.image_path;
+                hobbyImage.alt = hobby.hobby_id;
+
+                const hobbyDescription = document.createElement('p');
+                hobbyDescription.innerText = hobby.hobby_id;
+
+                hobbyItem.appendChild(hobbyImage);
+                hobbyItem.appendChild(hobbyDescription);
+                hobbyRow.appendChild(hobbyItem);
+            });
+        }
+
         window.onload = function() {
             document.getElementById('start-btn').addEventListener('click', function(event) {
                 event.preventDefault();
@@ -33,6 +64,8 @@
                     console.error('Error:', error);
                 });
             });
+
+            fetchMainHobbies(); // Fetch and display hobbies on page load
         };
     </script>
 </head>
@@ -55,34 +88,7 @@
         <section class="recommendations">
             <h2>추천 취미</h2>
             <div class="hobby-list">
-                <div class="hobby-row">
-                    <div class="hobby-item">
-                        <img src="/images/hobby_img/가라데.webp" alt="가라데">
-                        <p>취미 1 설명</p>
-                    </div>
-                    <div class="hobby-item">
-                        <img src="/images/hobby_img/드라이브.webp" alt="드라이브">
-                        <p>취미 2 설명</p>
-                    </div>
-                    <div class="hobby-item">
-                        <img src="/images/hobby_img/목공예.webp" alt="목공예">
-                        <p>취미 3 설명</p>
-                    </div>
-                </div>
-                <div class="hobby-row">
-                    <div class="hobby-item">
-                        <img src="/images/hobby_img/사격.webp" alt="사격">
-                        <p>취미 4 설명</p>
-                    </div>
-                    <div class="hobby-item">
-                        <img src="/images/hobby_img/수상스키.webp" alt="수상스키">
-                        <p>취미 5 설명</p>
-                    </div>
-                    <div class="hobby-item">
-                        <img src="/images/hobby_img/요가.webp" alt="요가">
-                        <p>취미 6 설명</p>
-                    </div>
-                </div>
+                <!-- Hobby items will be populated here by JavaScript -->
             </div>
         </section>
     </main>

@@ -1,5 +1,5 @@
-# 아키텍처 
-![tlts](https://github.com/wldhks1959/TLTS/assets/69555890/e17a8080-d5c5-482b-a792-3d231d6c7c40)
+# 아키텍처 https://drive.google.com/file/d/1udy8kmdaaLjnHSG7NMCu1PudHX6sNYtP/view?usp=drive_link
+![아키텍처0601](https://github.com/wldhks1959/TLTS/assets/69555890/590a6689-39a9-42d0-baa3-18e6ee48f9b7)
 
 # dir_structure
 ![image](https://github.com/wldhks1959/TLTS/assets/69555890/419ba40d-25b5-4afc-8977-a2ac7a469a6e)

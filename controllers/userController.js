@@ -1,5 +1,6 @@
 const userService = require('../services/userService');
 const bcrypt = require('bcrypt');  // bcrypt 모듈 가져오기
+const db = require('../config/db');
 
 exports.checkLogin = (req, res) => {
   if (req.session.user_id) { res.json({ loggedIn: true });} 
@@ -30,7 +31,13 @@ exports.login = async (req, res) => {
       if (match) 
       {
         req.session.user_id = user_id;
-        res.send(`<script>alert('로그인 성공'); window.location.href = '/main';</script>`);
+        req.session.is_admin = (user.user_id === 'admin'); // 관리자 여부 확인 및 세션에 저장
+
+        if (req.session.is_admin) {
+          res.send(`<script>alert('관리자로 로그인 성공'); window.location.href = '/admin';</script>`);
+        } else {
+          res.send(`<script>alert('로그인 성공'); window.location.href = '/main';</script>`);
+        }
       } 
       else 
       {
@@ -57,4 +64,17 @@ exports.modify = async (req, res) => {
   catch (error) {
     res.send(`<script>alert("${error.message}"); window.location.href = "/modify";</script>`);
   }
+};
+
+exports.getAllUsers = (req, res) => {
+  const query = `SELECT * FROM userinfo`;
+
+  db.query(query, (err, results) => {
+      if (err) {
+          console.error('Error fetching users:', err);
+          res.status(500).json({ error: 'Database error' });
+      } else {
+          res.status(200).json(results);
+      }
+  });
 };

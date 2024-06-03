@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hobbies List</title>
+</head>
+
+<body>
+    <h1>Hobbies List</h1>
+    <table id="hobbyTable" border="1">
+        <thead>
+            <tr id="headerRow"></tr>
+        </thead>
+        <tbody id="hobbyBody"></tbody>
+    </table>
+
+    <script>
+        fetch('/getHobbyKeywords')
+            .then(response => response.json())
+            .then(columns => {
+                const headerRow = document.getElementById('headerRow');
+                columns.forEach(column => {
+                    const headerCell = document.createElement('th');
+                    headerCell.textContent = column.Field;
+                    headerRow.appendChild(headerCell);
+                });
+
+                fetch('/hobbies')
+                    .then(response => response.json())
+                    .then(hobbies => {
+                        const hobbyBody = document.getElementById('hobbyBody');
+                        hobbies.forEach(hobby => {
+                            const row = document.createElement('tr');
+                            columns.forEach(column => {
+                                const cell = document.createElement('td');
+                                cell.textContent = hobby[column.Field];
+                                row.appendChild(cell);
+                            });
+                            hobbyBody.appendChild(row);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching hobbies:', error);
+                    });
+            })
+            .catch(error => {
+                console.error('Error fetching hobby columns:', error);
+            });
+    </script>
+</body>
+
+</html>
