@@ -5,7 +5,8 @@ https://tlts-donga.netlify.app
 ![아키텍처0601](https://github.com/wldhks1959/TLTS/assets/69555890/590a6689-39a9-42d0-baa3-18e6ee48f9b7)
 
 # dir_structure
-![image](https://github.com/wldhks1959/TLTS/assets/69555890/419ba40d-25b5-4afc-8977-a2ac7a469a6e)
+![image](https://github.com/wldhks1959/TLTS/assets/69555890/36d7220a-5a86-47ac-a8e5-b79e385b3cfa)
+
 
 # index.html
 ![image](https://github.com/wldhks1959/TLTS/assets/69555890/9357952f-cb98-4ac6-abd1-5cb82eae9d2b)
