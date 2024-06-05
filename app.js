@@ -2,13 +2,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
-const path = ("require");
 
 const db = require('./config/db');
 const userController = require('./controllers/userController');
 const hobbyController = require('./controllers/hobbyController');
 const adminController = require('./controllers/adminController');
-const mapController = require('./controllers/mapController');
 
 const bcrypt = require('bcrypt');
 const app = express();
@@ -19,8 +17,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static('public'));
 app.use('/services',express.static('services')); 
-app.use('/controllers',express.static('controllers')); 
-
 
 // session 사용 
 app.use(session({
@@ -94,6 +90,7 @@ app.get('/modify', loginCheck, (req, res) => {
 app.get('/get-user_id', loginCheck, (req, res) => {
   // 현재 로그인한 사용자의 아이디(user_id)를 가져옵니다.
   const user_id = req.session.user_id;
+
   res.json({ user_id: user_id });
 });
 
@@ -112,10 +109,6 @@ app.get('/admin/userinfoList', loginCheck, adminCheck, (req, res) => {
 
 app.get('/admin/hobbiesList', loginCheck, adminCheck, (req, res) => {
   res.sendFile(__dirname + '/public/html/hobbiesList.html');
-});
-
-app.get('/map', (req, res) => {
-  res.sendFile(__dirname + '/public/html/map.html');
 });
 
 app.get('/hobbies', loginCheck, (req, res) => {
@@ -137,10 +130,17 @@ app.post('/saveHobby', loginCheck, adminCheck, adminController.saveHobby);
 // 어쩌다보니 안쓰게 됨...
 app.get('/getHobbyKeywords', loginCheck, adminCheck, adminController.getHobbyKeywords);
 
+// 봉인.
+// app.post('/addHobbyKeyword', loginCheck, hobbyController.addHobbyKeyword);
+
 app.get('/users', loginCheck, userController.getAllUsers);
+// 추가한 부분 끝 -------------------------
 
 app.post('/modify', loginCheck, userController.modify);
 
+app.get('/map', (req, res) => {
+  res.sendFile(__dirname + '/public/html/map.html');
+});
 
 app.get('/check-login', userController.checkLogin);
 app.post('/register', userController.register);
