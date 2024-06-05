@@ -191,8 +191,9 @@ function search(keyword) {
             });
             circle.setMap(map);
         } else if (!alertShown) {
-            alert("검색 결과가 없습니다. 직접 마커를 옮겨가며 즐길 수 있는 곳을 찾아볼까요?");
+            alert("검색 결과가 없습니다.");
             alertShown = true;
+            history.back();
         }
     };
 
