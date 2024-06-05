@@ -1,0 +1,44 @@
+const kakao = window.kakao;
+
+const searchPlacesByLocation = (location, radius, keyword) => {
+  return new Promise((resolve, reject) => {
+    var ps = new kakao.maps.services.Places();
+    var options = {
+      location: location,
+      radius: radius,
+      sort: kakao.maps.services.SortBy.DISTANCE,
+    };
+
+    ps.keywordSearch(keyword, function(data, status, pagination) {
+      if (status === kakao.maps.services.Status.OK) {
+        resolve(data);
+      } else {
+        reject("검색 결과가 없습니다.");
+        history.back();
+      }
+    }, options);
+  });
+};
+
+const searchPlacesByKeyword = (keyword) => {
+  return new Promise((resolve, reject) => {
+    var ps = new kakao.maps.services.Places();
+    var center = map.getCenter();
+    var options = {
+      location: center,
+      radius: 3000,
+      sort: kakao.maps.services.SortBy.DISTANCE,
+    };
+
+    ps.keywordSearch(keyword, function(data, status, pagination) {
+      if (status === kakao.maps.services.Status.OK) {
+        resolve(data);
+      } else {
+        reject("검색 결과가 없습니다.");
+        history.back();
+      }
+    }, options);
+  });
+};
+
+export { searchPlacesByLocation, searchPlacesByKeyword };

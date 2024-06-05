@@ -17,6 +17,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static('public'));
 app.use('/services',express.static('services')); 
+app.use('/controllers',express.static('controllers')); 
+app.use('/repo', express.static(__dirname + '/repo'));
 
 // session 사용 
 app.use(session({
