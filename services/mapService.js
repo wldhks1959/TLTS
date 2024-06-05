@@ -65,6 +65,10 @@ const mapService = {
   },
 
   showInfowindow(index) {
+    if (!map) {
+      throw new Error('Map is not initialized');
+    }
+
     const marker = markers[index];
     const infowindow = infowindows[index];
     const position = marker.getPosition();
@@ -77,6 +81,10 @@ const mapService = {
 
     infowindow.open(map, marker);
     currentInfowindow = infowindow;
+  },
+
+  getMarkersLength() {
+    return markers.length;
   },
 
   initMap(mapContainer, mapOption) {
