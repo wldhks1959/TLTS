@@ -23,7 +23,8 @@ exports.register = async (req, res) => {
 
 exports.login = async (req, res) => {
   const { user_id, user_pwd } = req.body;
-  try {
+  try 
+  {
     const user = await userService.login(user_id, user_pwd);
     if (user) 
     {
@@ -33,11 +34,8 @@ exports.login = async (req, res) => {
         req.session.user_id = user_id;
         req.session.is_admin = (user.user_id === 'admin'); // 관리자 여부 확인 및 세션에 저장
 
-        if (req.session.is_admin) {
-          res.send(`<script>alert('관리자로 로그인 성공'); window.location.href = '/admin';</script>`);
-        } else {
-          res.send(`<script>alert('로그인 성공'); window.location.href = '/main';</script>`);
-        }
+        if (req.session.is_admin) { res.send(`<script>alert('관리자로 로그인 성공'); window.location.href = '/admin';</script>`);} 
+        else { res.send(`<script>alert('로그인 성공'); window.location.href = '/main';</script>`); }
       } 
       else 
       {
@@ -48,32 +46,41 @@ exports.login = async (req, res) => {
     {
       res.send(`<script>alert('회원을 찾을 수 없음.'); window.location.href = '/login';</script>`);
     }
-  } catch (error) {
+  } 
+  catch (error) 
+  {
     console.error('로그인 에러:', error); // 에러 로그 추가
     res.send(`<script>alert('회원 찾기 실패!.'); window.location.href = '/login';</script>`);
   }
 };
 
 exports.modify = async (req, res) => {
-  const { user_id, user_pwd, confirmPassword } = req.body;
+  const { user_id, user_pwd, confirmPassword, address } = req.body;
 
-  try {
-    await userService.changePassword(user_id, user_pwd, confirmPassword);
-    res.send('<script>alert("비밀번호가 성공적으로 변경되었습니다."); window.location.href = "/main";</script>');
+  try 
+  {
+    await userService.changeInfo(user_id, user_pwd, confirmPassword, address);
+    res.send('<script>alert("회원 정보가 성공적으로 변경되었습니다."); window.location.href = "/main";</script>');
   }
-  catch (error) {
+  catch (error) 
+  {
     res.send(`<script>alert("${error.message}"); window.location.href = "/modify";</script>`);
   }
 };
+
+
 
 exports.getAllUsers = (req, res) => {
   const query = `SELECT * FROM userinfo`;
 
   db.query(query, (err, results) => {
-      if (err) {
+      if (err) 
+      {
           console.error('Error fetching users:', err);
           res.status(500).json({ error: 'Database error' });
-      } else {
+      } 
+      else 
+      {
           res.status(200).json(results);
       }
   });

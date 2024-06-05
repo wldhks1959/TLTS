@@ -1,38 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Page</title>
+    <title>관리자 페이지</title>
+    <link rel="stylesheet" href="../css/admin.css">
 </head>
-
 <body>
-    <h1>Admin Page</h1>
-
+    <h1>관리자 페이지</h1>
     <section>
-        <h2>Add Hobby</h2>
-        <form id="addHobbyForm" method="post">
-            <div id="hobbyFields"></div>
-            <button type="submit">Add Hobby</button>
-        </form>
+        <h2>사용자 정보 열람 및 취미 업로드/업데이트</h2>
+        <!-- Directly linking to the routes that serve the respective HTML pages -->
+        <button onclick="window.location.href='/admin/userinfoList'">사용자 정보 열람</button>
+        <button onclick="window.location.href='/admin/hobbiesList'">취미 정보 열람</button>
     </section>
-
-    <section>
-        <h2>Update Hobby</h2>
-        <form id="updateHobbyForm" method="post">
-            <div id="updateHobbyFields"></div>
-            <button type="submit">Update Hobby</button>
-        </form>
-    </section>
-
-    <section>
-        <h2>Admin Actions</h2>
-        <button onclick="location.href='userinfoList.html'">View Users</button>
-        <button onclick="location.href='hobbiesList.html'">View Hobbies</button>
-    </section>
-
-    <script src="../../controllers/adminController.js"></script>
 </body>
-
 </html>
