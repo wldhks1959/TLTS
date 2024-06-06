@@ -39,7 +39,3 @@ https://tlts-donga.netlify.app
 
 # admin/hobbyList.html
 ![image](https://github.com/wldhks1959/TLTS/assets/69555890/263ec42f-8ddd-4d5d-b465-f1adf75acadf)
-
-
-
-
