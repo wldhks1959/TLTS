@@ -68,20 +68,11 @@ exports.modify = async (req, res) => {
   }
 };
 
-
-
 exports.getAllUsers = (req, res) => {
-  const query = `SELECT * FROM userinfo`;
-
-  db.query(query, (err, results) => {
-      if (err) 
-      {
-          console.error('Error fetching users:', err);
-          res.status(500).json({ error: 'Database error' });
-      } 
-      else 
-      {
-          res.status(200).json(results);
-      }
+  userService.getAllUsers().then(users => {
+    res.status(200).json(users);
+  }).catch(err => {
+    console.error('Error fetching users:', err);
+    res.status(500).json({ error: 'Database error' });
   });
 };

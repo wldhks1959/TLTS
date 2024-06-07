@@ -115,7 +115,7 @@
             const jsonData = {};
             formData.forEach((value, key) => { jsonData[key] = value; });
 
-            fetch('/saveHobby', {
+            fetch('/save-hobby', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(jsonData)

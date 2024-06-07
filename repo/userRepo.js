@@ -31,3 +31,12 @@ exports.updateInfo = (user_id, hashedPassword, address) =>{
     } );
   });
 };
+
+exports.getAllUsers = () => {
+  return new Promise((resolve, reject) => {
+    db.query('SELECT * FROM userinfo', (err, results) => {
+      if (err) reject(err);
+      resolve(results);
+    });
+  });
+};

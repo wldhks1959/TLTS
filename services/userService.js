@@ -20,3 +20,24 @@ exports.changeInfo = async (user_id, user_pwd, confirmPassword, address) => {
   const hashedPassword = await bcrypt.hash(user_pwd, 10);
   return userRepo.updateInfo(user_id, hashedPassword, address);
 };
+
+exports.getAllUsers = async () => {
+  return userRepo.getAllUsers();
+};
+
+// Middleware for login and admin check
+exports.loginCheck = (req, res, next) => {
+  if (req.session.user_id) {
+    next();
+  } else {
+    res.send(`<script>alert('로그인부터 해주세요.'); window.location.href = '/login';</script>`);
+  }
+};
+
+exports.adminCheck = (req, res, next) => {
+  if (req.session.is_admin) {
+    next();
+  } else {
+    res.send(`<script>alert('관리자만 접근 가능합니다.'); window.location.href = '/main';</script>`);
+  }
+};
