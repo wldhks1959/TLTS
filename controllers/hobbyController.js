@@ -46,6 +46,18 @@ exports.resetAnswers = (req, res) => {
     res.sendStatus(200);
 };
 
+// 첫 화면 6개 메인 취미 띄우는 함수.
+exports.getMainHobbies = (req, res) => {
+  const hobbies = [
+    { hobby_id: "가라데", image_path: "/images/hobby_img/가라데.webp" },
+    { hobby_id: "드라이브", image_path: "/images/hobby_img/드라이브.webp" },
+    { hobby_id: "목공예", image_path: "/images/hobby_img/목공예.webp" },
+    { hobby_id: "사격", image_path: "/images/hobby_img/사격.webp" },
+    { hobby_id: "수상스키", image_path: "/images/hobby_img/수상스키.webp" },
+    { hobby_id: "요가", image_path: "/images/hobby_img/요가.webp" }
+  ];
+  res.json(hobbies);
+};
 
 // 모든 취미 가져오는 함수.
 exports.getHobbies = async (req, res) => {

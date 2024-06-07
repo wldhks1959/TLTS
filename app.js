@@ -50,6 +50,7 @@ app.get('/get-main-hobbies', hobbyController.getMainHobbies);
 // 로그인 이후
 app.get('/main', userService.loginCheck, (req, res) => res.sendFile(path.join(__dirname, 'public', 'html', 'main.html')));
 app.get('/modify', userService.loginCheck, (req, res) => res.sendFile(path.join(__dirname, 'public', 'html', 'modify.html')));
+app.get('/get-user_id', userService.loginCheck, userController.getUserId);
 app.get('/hobby', (req, res) => res.sendFile(path.join(__dirname, 'public', 'html', 'hobby.html')));
 
 // 관리자 페이지

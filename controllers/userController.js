@@ -21,6 +21,11 @@ exports.register = async (req, res) => {
   }
 };
 
+exports.getUserId = (req, res) => {
+  const user_id = req.session.user_id;
+  res.json({ user_id: user_id });
+};
+
 exports.login = async (req, res) => {
   const { user_id, user_pwd } = req.body;
   try 
