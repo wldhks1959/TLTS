@@ -8,11 +8,14 @@ const userController = require('./controllers/userController');
 const hobbyController = require('./controllers/hobbyController');
 
 const userService = require('./services/userService');
+
+/* 리팩토링에 의해, 이 부분은 app.js에서 사용하지 않음.
 const hobbyService = require('./services/hobbyService');
-
 const mapController = require('./controllers/mapController');
-
+const mapService = require('./services/mapService');
 const bcrypt = require('bcrypt');
+*/
+
 const app = express();
 const port = 3000;
 
@@ -22,7 +25,7 @@ app.use(bodyParser.json());
 app.use(express.static('public'));
 app.use('/services',express.static('services')); 
 app.use('/controllers',express.static('controllers')); 
-
+app.use('/repo', express.static(__dirname + '/repo'));
 
 // session 사용 
 app.use(session({
@@ -42,6 +45,7 @@ app.use(session({
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'public', 'html', 'index.html')));
 app.get('/register', (req, res) => res.sendFile(path.join(__dirname, 'public', 'html', 'register.html')));
 app.get('/login', (req, res) => res.sendFile(path.join(__dirname, 'public', 'html', 'login.html')));
+app.get('/get-main-hobbies', hobbyController.getMainHobbies);
 
 // 로그인 이후
 app.get('/main', userService.loginCheck, (req, res) => res.sendFile(path.join(__dirname, 'public', 'html', 'main.html')));

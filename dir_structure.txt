@@ -39,7 +39,7 @@
 │   └── userRepo.js
 ├── services
 │   ├── hobbyService.js
-│   ├── map.js
+│   ├── mapService.js
 │   └── userService.js
 ├── node_modules
 ├── package.json
