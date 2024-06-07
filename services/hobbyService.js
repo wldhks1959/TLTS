@@ -49,9 +49,9 @@ exports.getAllHobbies = () => {
 };
 
 exports.getHobbyKeywords = () => {
-  return hobbyRepo.getHobbyKeywords();
+  return hobbyRepository.getHobbyKeywords();
 };
 
 exports.saveHobby = (hobbyData) => {
-  return hobbyRepo.saveHobby(hobbyData);
+  return hobbyRepository.saveHobby(hobbyData);
 };
