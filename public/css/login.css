@@ -2,7 +2,7 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 body {
@@ -11,44 +11,88 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: linear-gradient(135deg, #fde0c9, #c1e1e9); /* 배경 색상 변경 */
+    background: linear-gradient(135deg, #87A8EE, #D4E8FF); /* Updated background colors */
+}
+
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #87A8EE;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.back-button:hover {
+    background-color: #687ACB; /* Darker highlight color */
 }
 
 .project-name {
-    font-size: 50px; /* 더 큰 글자 크기 */
-    color: #FF7F50; /* 포인트 색상 */
-    margin-bottom: 50px; /* 위로 더 올리기 */
-    font-weight: 900; /* 더 굵게 */
-    text-transform: uppercase; /* 대문자 변환 */
-    letter-spacing: 2px; /* 글자 간격 조정 */
+    font-size: 50px; /* Bigger font size */
+    color: #87A8EE; /* Initial color */
+    margin-bottom: 50px; /* Move up */
+    font-weight: 700; /* Bolder */
+    text-transform: uppercase; /* Uppercase transformation */
+    letter-spacing: 2px; /* Adjust letter spacing */
+    font-family: 'Comic Neue', cursive; /* Friendlier font */
+    animation: dynamicText 5s infinite; /* Add animation */
+}
+
+@keyframes dynamicText {
+    0% {
+        color: #87A8EE;
+        transform: scale(1);
+    }
+    25% {
+        color: #6990e5;
+        transform: scale(1.1);
+    }
+    50% {
+        color: #4276e6;
+        transform: scale(1.2);
+    }
+    75% {
+        color: #234a9e;
+        transform: scale(1.1);
+    }
+    100% {
+        color: #4276e6;
+        transform: scale(1);
+    }
 }
 
 .login-wrapper {
-    width: 500px; /* 가로 길이 증가 */
+    width: 500px; /* Increase width */
     padding: 40px;
-    background-color: #ffffff; /* 배경 흰색 */
-    border-radius: 12px; /* 둥근 테두리 */
-    border: 1px solid #e0e0e0; /* 연한 회색 테두리 */
+    background-color: #ffffff; /* White background */
+    border-radius: 12px; /* Rounded corners */
+    border: 1px solid #e0e0e0; /* Light gray border */
     text-align: center;
-    box-shadow: none; /* 음영 제거 */
+    box-shadow: none; /* Remove shadow */
 }
 
 #login-form > input {
     width: 100%;
     height: 48px;
-    padding: 0 15px; /* 패딩 조정 */
-    margin-bottom: 20px; /* 간격 조정 */
+    padding: 0 15px; /* Adjust padding */
+    margin-bottom: 20px; /* Adjust spacing */
     border-radius: 6px;
-    background-color: #fafafa; /* 더 밝은 배경색 */
-    border: 1px solid #dddddd; /* 연한 테두리 */
+    background-color: #fafafa; /* Lighter background color */
+    border: 1px solid #dddddd; /* Light border */
     font-size: 16px;
-    transition: border-color 0.3s, background-color 0.3s; /* 전환 효과 추가 */
+    transition: border-color 0.3s, background-color 0.3s; /* Add transition effects */
 }
 
 #login-form > input:focus {
-    border-color: #FF7F50; /* 포인트 색상 */
-    background-color: #ffffff; /* 포커스 시 배경색 변경 */
+    border-color: #87A8EE; /* Highlight color */
+    background-color: #ffffff; /* Change background color on focus */
     outline: none;
+    border: 3px solid #87A8EE;
 }
 
 #login-form > input::placeholder {
@@ -76,29 +120,29 @@ body {
     padding: 14px;
     color: #ffffff;
     font-size: 18px;
-    background-color: #FF7F50; /* 포인트 색상 */
+    background-color: #87A8EE; /* Highlight color */
     border-radius: 6px;
     border: none;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s; /* 전환 효과 추가 */
+    transition: background-color 0.3s, transform 0.3s; /* Add transition effects */
 }
 
 #login-form input[type="submit"]:hover {
-    background-color: #FF5733; /* 조금 더 어두운 포인트 색상 */
-    transform: scale(1.02); /* 호버 시 크기 증가 효과 */
+    background-color: #687ACB; /* Darker highlight color */
+    transform: scale(1.02); /* Increase size on hover */
 }
 
 #register-link {
     display: block;
-    margin-top: 20px;
-    color: #FF7F50; /* 포인트 색상 */
+    margin-top: 5px;
+    color: #87A8EE; /* Highlight color */
     text-decoration: none;
     font-size: 16px;
-    transition: color 0.3s; /* 전환 효과 추가 */
+    transition: color 0.3s; /* Add transition effect */
 }
 
 #register-link:hover {
-    color: #FF5733; /* 호버 시 색상 변경 */
+    color: #687ACB; /* Change color on hover */
     text-decoration: underline;
 }
 
