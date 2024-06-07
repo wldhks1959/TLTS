@@ -1,5 +1,6 @@
 const db = require('../config/db');
 
+// 취미 검색 함수
 exports.searchHobby = (req, res) => {
     const choices = req.session.clickedButtons;
 

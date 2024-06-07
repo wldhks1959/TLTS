@@ -1,6 +1,7 @@
 // adminController.js
 const db = require('../config/db');
 
+// 취미 키워드 가져오는 함수 
 exports.getHobbyKeywords = (req, res) => {
     const query = 'SHOW COLUMNS FROM hobbies';
     db.query(query, (err, results) => {
@@ -13,12 +14,11 @@ exports.getHobbyKeywords = (req, res) => {
     });
 };
 
-// Assuming this is part of a controller file such as hobbyController.js
-
+// 취미 저장 함수 
 exports.saveHobby = (req, res) => {
-    const hobbyData = req.body;  // Assuming hobby data is sent as JSON in the request body
+    const hobbyData = req.body;  // 요청 본문에 JSON 형태로 취미 데이터가 전송된다고 가정
 
-    // Check if the hobby exists in the database
+     // 데이터베이스에 해당 취미가 존재하는지 확인
     const hobbyId = hobbyData.hobby_id;
     const queryCheck = `SELECT * FROM hobbies WHERE hobby_id = ?`;
 
@@ -28,7 +28,7 @@ exports.saveHobby = (req, res) => {
             return res.status(500).send('Database query error');
         }
         if (results.length > 0) {
-            // Hobby exists, perform an update
+            // 취미가 존재하면 업데이트 수행
             const updateQuery = 'UPDATE hobbies SET ? WHERE hobby_id = ?';
 
             db.query(updateQuery, [hobbyData, hobbyId], (err, updateResults) => {
@@ -40,7 +40,7 @@ exports.saveHobby = (req, res) => {
                 }
             });
         } else {
-            // Hobby does not exist, perform an add
+             // 취미가 존재하지 않으면 추가 수행
             const insertQuery = 'INSERT INTO hobbies SET ?';
             
             db.query(insertQuery, hobbyData, (err, insertResults) => {
