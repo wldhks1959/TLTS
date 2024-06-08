@@ -3,49 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hoppy 취미 추천 웹사이트</title>
+    <title>Hoppy</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/common.css">
+</head>
+<body>
+    <div class="header">
+        <div class="project-name">Hoppy</div>
+        <button class="login-button">login</button>
+    </div>
+    <div class="content">
+        <div class="upper-content">
+            <div class="heading">Happy Hobby~</div>
+            <div class="subheading">간단한 테스트로 나의 취미 알아보기!</div>
+            <button class="start-button">Start</button>
+        </div>
+        <div class="lower-content">
+            <div class="popular-hobbies">인기있는 취미</div>
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    <!-- Images will be dynamically inserted here -->
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        function redirectToLogin() {
-            window.location.href = '/html/login.html';
-        }
-        function redirectToHobby() {
-            alert('로그인부터 해주세요.');
-            window.location.href = '/html/login.html';
-        }
+        let hobbies = [];
 
         async function fetchMainHobbies() {
             const response = await fetch('/get-main-hobbies');
-            const hobbies = await response.json();
-            const hobbyList = document.querySelector('.hobby-list');
+            hobbies = await response.json();
+            updateCarousel();
+        }
 
-            hobbyList.innerHTML = ''; // Clear existing content
+        function updateCarousel() {
+            const carouselInner = document.querySelector('.carousel-inner');
+            carouselInner.innerHTML = ''; // Clear existing content
 
-            let hobbyRow;
-            hobbies.forEach((hobby, index) => {
-                if (index % 3 === 0) {
-                    hobbyRow = document.createElement('div');
-                    hobbyRow.classList.add('hobby-row');
-                    hobbyList.appendChild(hobbyRow);
+            const chunkSize = 3;
+            for (let i = 0; i < hobbies.length; i += chunkSize) {
+                const carouselItem = document.createElement('div');
+                carouselItem.classList.add('carousel-item');
+                if (i === 0) carouselItem.classList.add('active'); // Set the first item as active
+
+                const row = document.createElement('div');
+                row.classList.add('row');
+
+                for (let j = 0; j < chunkSize; j++) {
+                    if (i + j < hobbies.length) {
+                        const col = document.createElement('div');
+                        col.classList.add('col-md-4');
+
+                        const img = document.createElement('img');
+                        img.src = hobbies[i + j].image_path;
+                        img.alt = hobbies[i + j].hobby_id;
+                        img.classList.add('d-block', 'w-100', 'rounded', 'hobby-img');
+
+                        const hobbyId = document.createElement('div');
+                        hobbyId.innerText = hobbies[i + j].hobby_id;
+                        hobbyId.classList.add('hobby-id');
+
+                        col.appendChild(img);
+                        col.appendChild(hobbyId);
+                        row.appendChild(col);
+                    }
                 }
-                const hobbyItem = document.createElement('div');
-                hobbyItem.classList.add('hobby-item');
 
-                const hobbyImage = document.createElement('img');
-                hobbyImage.src = hobby.image_path;
-                hobbyImage.alt = hobby.hobby_id;
+                carouselItem.appendChild(row);
+                carouselInner.appendChild(carouselItem);
+            }
 
-                const hobbyDescription = document.createElement('p');
-                hobbyDescription.innerText = hobby.hobby_id;
-
-                hobbyItem.appendChild(hobbyImage);
-                hobbyItem.appendChild(hobbyDescription);
-                hobbyRow.appendChild(hobbyItem);
+            $('.carousel').carousel({
+                interval: 2000 // 2 seconds
             });
         }
 
         window.onload = function() {
-            document.getElementById('start-btn').addEventListener('click', function(event) {
+            document.querySelector('.start-button').addEventListener('click', function(event) {
                 event.preventDefault();
                 fetch('/check-login', {
                     method: 'GET',
@@ -65,35 +111,12 @@
                 });
             });
 
+            document.querySelector('.login-button').addEventListener('click', function() {
+                window.location.href = '/html/login.html';
+            });
+
             fetchMainHobbies(); // Fetch and display hobbies on page load
         };
     </script>
-</head>
-
-<body>
-    <header>
-        <div class="container">
-            <h1>취미 추천 웹사이트</h1>
-            <nav>
-                <button class="login-btn" onclick="redirectToLogin()">로그인</button>
-            </nav>
-        </div>
-    </header>
-    <main>
-        <section class="intro">
-            <h2>새로운 취미를 찾아보세요!</h2>
-            <p>당신에게 딱 맞는 취미를 추천해드립니다.</p>
-            <button id="start-btn" class="start-btn" onclick="redirectToHobby()">취미 진단 시작</button>
-        </section>
-        <section class="recommendations">
-            <h2>추천 취미</h2>
-            <div class="hobby-list">
-                <!-- Hobby items will be populated here by JavaScript -->
-            </div>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2024 취미 추천 웹사이트</p>
-    </footer>
 </body>
 </html>
