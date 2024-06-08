@@ -9,7 +9,7 @@ const searchPlacesByLocation = (location, radius, keyword) => {
       sort: kakao.maps.services.SortBy.DISTANCE,
     };
 
-    ps.keywordSearch(keyword, function(data, status, pagination) {
+    ps.keywordSearch(keyword, function(data, status) {
       if (status === kakao.maps.services.Status.OK) {
         resolve(data);
       } else {
