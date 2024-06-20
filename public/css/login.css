@@ -20,8 +20,9 @@ body {
     left: 20px;
     padding: 10px 20px;
     font-size: 16px;
-    background-color: #87A8EE;
-    color: white;
+    font-weight: bold;
+    background-color: white;
+    color: #87A8EE;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -30,6 +31,7 @@ body {
 
 .back-button:hover {
     background-color: #687ACB; /* Darker highlight color */
+    color : white;
 }
 
 .project-name {
