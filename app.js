@@ -18,6 +18,7 @@ app.use(bodyParser.json());
 app.use(express.static('public'));
 app.use('/services',express.static('services')); 
 
+
 // session 사용 
 app.use(session({
   secret: 'secret-key',
@@ -100,7 +101,7 @@ app.get('/hobby', (req, res) => {
 
 // 추가한 부분 시작 -----------------------
 app.get('/admin', loginCheck, adminCheck, (req, res) => {
-  res.sendFile(__dirname + '/public/html/admin.html');
+  res.sendFile(__dirname + '/public/html/adminmain.html');
 });
 
 app.get('/admin/userinfoList', loginCheck, adminCheck, (req, res) => {
@@ -270,6 +271,29 @@ app.get('/get-recommendations', (req, res) => {
       res.json(results);
   });
 });
+
+
+
+// =========================js 수정==================================================================
+app.get('/user-count', (req, res) => {
+  db.query('SELECT COUNT(*) as user_count FROM userinfo', (err, results) => {
+    if (err) {
+      console.error('Error fetching user count:', err);
+      res.status(500).send('Error fetching user count');
+      return;
+    }
+    res.json({ user_count: results[0].user_count });
+  });
+});
+
+// 현재 활성 세션 수를 반환하는 로직
+app.get('/active-sessions', (req, res) => {
+  const activeSessions = Object.keys(req.sessionStore.sessions).length;
+  res.json({ active_sessions: activeSessions });
+});
+// =================================================================================================
+
+
 
 
 app.listen(port, () => {

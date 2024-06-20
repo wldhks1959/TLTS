@@ -1,95 +1,194 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hobbies List</title>
+    <title>취미 리스트</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="../css/admin.css">
-</head>
-<body>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .main-content {
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
         #hobbiesTable {
-            width: 80%;
+            width: 90%;
             margin: 20px auto;
             border-collapse: collapse;
             overflow-y: auto;
             max-height: 50vh;
             display: block;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
+        #hobbiesTable thead th {
+            background-color: #f2f2f2;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        #hobbiesTable tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        #hobbiesTable tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+        #hobbiesTable tbody td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        #hobbyForm {
+            width: 90%;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        #hobbyForm div {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: space-between;
+        }
+        #hobbyForm input, #hobbyForm select {
+            padding: 10px;
+            margin: 5px;
+            flex: 1 1 calc(33.333% - 20px);
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .form-button {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .form-button button {
+            display: block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0 auto;
+        }
+        .form-button button:hover {
+            background-color: #45a049;
+        }
+        h2 { text-align: center; }
     </style>
-    <h1>취미 리스트</h1>
-    <table id="hobbiesTable">
-        <thead>
-            <tr>
-                <th>취미 이름</th>
-                <th>즐길 장소</th>
-                <th>실내 / 실외</th>
-                <th>혼자서  /여럿이서</th>
-                <th>직접 즐기기 / 관람하기</th>
-                <th>움직임 정도</th>
-                <th>힐링하기 / 불태우기</th>
-                <th>예약 필요</th>
-                <th>장비 필요</th>
-                <th>자기개발 / 즐기기</th>
-                <th>보편 / 이색</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Data will be populated here -->
-        </tbody>
-    </table>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">관리자 페이지</div>
+        <div class="profile">
+            <i class="fas fa-user"></i> 관리자
+        </div>
+    </div>
+    <div class="sidebar">
+        <a href="/admin"><i class="fas fa-tachometer-alt"></i> 대시보드</a>
+        <a href="/admin/userinfoList"><i class="fas fa-users"></i> 사용자 관리</a>
+        <a href="/admin/hobbiesList"><i class="fas fa-heart"></i> 취미 관리</a>
+        <a href="#"><i class="fas fa-cogs"></i> 설정</a>
+        <a href="/logout"><i class="fas fa-sign-out-alt"></i> 로그아웃</a>
+    </div>
+    <div class="main-content">
+        <h1>취미 리스트</h1>
+        <table id="hobbiesTable">
+            <thead>
+                <tr>
+                    <th>취미 이름</th>
+                    <th>즐길 장소</th>
+                    <th>실내 / 실외</th>
+                    <th>혼자서 / 여럿이서</th>
+                    <th>직접 즐기기 / 관람하기</th>
+                    <th>움직임 정도</th>
+                    <th>힐링하기 / 불태우기</th>
+                    <th>예약 필요</th>
+                    <th>장비 필요</th>
+                    <th>자기개발 / 즐기기</th>
+                    <th>보편 / 이색</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data will be populated here -->
+            </tbody>
+        </table>
 
-    <h2>취미 추가 또는 수정</h2>
-    <form id="hobbyForm">
-        <input type="text" id="hobby_id" name="hobby_id" placeholder="Hobby ID" required>
-        <input type="text" id="hobby_place" name="hobby_place" placeholder="Place">
-        <select id="I_O" name="I_O">
-            <option value="indoor">실내</option>
-            <option value="outdoor">실외</option>
-            <option value="ANY">Any</option>
-        </select>
-        <select id="S_M" name="S_M">
-            <option value="solo">혼자서</option>
-            <option value="multi">여럿이서</option>
-            <option value="ANY">Any</option>
-        </select>
-        <select id="P_W" name="P_W">
-            <option value="play">직접 즐기기</option>
-            <option value="watch">관람하기</option>
-            <option value="ANY">Any</option>
-        </select>
-        <select id="MV" name="MV">
-            <option value="static">가만히</option>
-            <option value="normal">적당하게</option>
-            <option value="dynamic">격렬하게</option>
-        </select>
-        <select id="H_B" name="H_B">
-            <option value="healing">힐링하기</option>
-            <option value="burning">불태우기</option>
-            <option value="ANY">Any</option>
-        </select>
-        <select id="RESV" name="RESV">
-            <option value="yes">예약 필요</option>
-            <option value="no">예약 불필요</option>
-            <option value="ANY">Any</option>
-        </select>
-        <select id="EQUIP" name="EQUIP">
-            <option value="yes">장비 필요</option>
-            <option value="no">장비 불필요</option>
-            <option value="ANY">Any</option>
-        </select>
-        <select id="SD_F" name="SD_F">
-            <option value="self development">자기개발</option>
-            <option value="fun">즐기기</option>
-            <option value="ANY">Any</option>
-        </select>
-        <select id="NORM" name="NORM">
-            <option value="normal">보편</option>
-            <option value="special">이색</option>
-            <option value="ANY">Any</option>
-        </select>
-        <button type="button" onclick="saveHobby()">취미 저장</button>
-    </form>
+        <div class="form-title">
+            <h2>취미 추가 또는 수정</h2>
+        </div>
+        <form id="hobbyForm">
+            <div>
+                <input type="text" id="hobby_id" name="hobby_id" placeholder="Hobby ID" required>
+                <input type="text" id="hobby_name" name="hobby_name" placeholder="Hobby Name" required>
+                <input type="text" id="hobby_place" name="hobby_place" placeholder="Place">
+                <select id="I_O" name="I_O">
+                    <option value="indoor">실내</option>
+                    <option value="outdoor">실외</option>
+                    <option value="ANY">Any</option>
+                </select>
+                <select id="S_M" name="S_M">
+                    <option value="solo">혼자서</option>
+                    <option value="multi">여럿이서</option>
+                    <option value="ANY">Any</option>
+                </select>
+                <select id="P_W" name="P_W">
+                    <option value="play">직접 즐기기</option>
+                    <option value="watch">관람하기</option>
+                    <option value="ANY">Any</option>
+                </select>
+                <select id="MV" name="MV">
+                    <option value="static">가만히</option>
+                    <option value="normal">적당하게</option>
+                    <option value="dynamic">격렬하게</option>
+                </select>
+                <select id="H_B" name="H_B">
+                    <option value="healing">힐링하기</option>
+                    <option value="burning">불태우기</option>
+                    <option value="ANY">Any</option>
+                </select>
+                <select id="RESV" name="RESV">
+                    <option value="yes">예약 필요</option>
+                    <option value="no">예약 불필요</option>
+                    <option value="ANY">Any</option>
+                </select>
+                <select id="EQUIP" name="EQUIP">
+                    <option value="yes">장비 필요</option>
+                    <option value="no">장비 불필요</option>
+                    <option value="ANY">Any</option>
+                </select>
+                <select id="SD_F" name="SD_F">
+                    <option value="self development">자기개발</option>
+                    <option value="fun">즐기기</option>
+                    <option value="ANY">Any</option>
+                </select>
+                <select id="NORM" name="NORM">
+                    <option value="normal">보편</option>
+                    <option value="special">이색</option>
+                    <option value="ANY">Any</option>
+                </select>
+            </div>
+            <div class="form-button">
+                <button type="button" onclick="saveHobby()">취미 저장</button>
+            </div>
+        </form>
+    </div>
+    <div class="footer">
+        &copy; TLTS Admin Page
+    </div>
 
     <script>
         function fetchHobbies() {
@@ -117,12 +216,20 @@
 
             fetch('/saveHobby', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
                 body: JSON.stringify(jsonData)
             })
-            .then(response => response.text())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(result => {
-                alert(result);
+                alert(result.message);
                 fetchHobbies(); // Refresh hobby list after the operation
             })
             .catch(error => console.error('Failed to save hobby:', error));

@@ -5,87 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>관리자 페이지</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f2f5;
-        }
-        .header {
-            background-color: #343a40;
-            color: #fff;
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .sidebar {
-            width: 250px;
-            background-color: #343a40;
-            color: #fff;
-            position: fixed;
-            top: 0;
-            bottom: 0;
-            padding-top: 60px;
-            overflow-y: auto;
-        }
-        .sidebar a {
-            display: block;
-            padding: 15px;
-            color: #fff;
-            text-decoration: none;
-        }
-        .sidebar a:hover {
-            background-color: #495057;
-        }
-        .main-content {
-            margin-left: 250px;
-            padding: 20px;
-        }
-        .card {
-            background-color: #fff;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .card h2 {
-            margin-top: 0;
-        }
-        .footer {
-            background-color: #343a40;
-            color: #fff;
-            text-align: center;
-            padding: 10px 20px;
-            position: fixed;
-            bottom: 0;
-            width: calc(100% - 250px);
-            margin-left: 250px;
-        }
-        .stats-widget {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 20px;
-        }
-        .stats-widget .stat {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            text-align: center;
-            flex: 1;
-            margin: 0 10px;
-        }
-        .stats-widget .stat i {
-            font-size: 30px;
-            margin-bottom: 10px;
-        }
-        .chart {
-            height: 300px;
-            margin-bottom: 20px;
-        }
-    </style>
+    <link rel="stylesheet" href="../css/admin.css">
 </head>
 <body>
     <div class="header">
@@ -95,67 +15,101 @@
         </div>
     </div>
     <div class="sidebar">
-        <a href="#"><i class="fas fa-tachometer-alt"></i> 대시보드</a>
-        <a href="#"><i class="fas fa-users"></i> 사용자 관리</a>
+        <a href="/admin"><i class="fas fa-tachometer-alt"></i> 대시보드</a>
+        <a href="/admin/userinfoList"><i class="fas fa-users"></i> 사용자 관리</a>
+        <a href="/admin/hobbiesList"><i class="fas fa-heart"></i> 취미 관리</a> <!-- 새로운 메뉴 항목 추가 -->
         <a href="#"><i class="fas fa-cogs"></i> 설정</a>
-        <a href="#"><i class="fas fa-sign-out-alt"></i> 로그아웃</a>
+        <a href="/logout"><i class="fas fa-sign-out-alt"></i> 로그아웃</a>
     </div>
     <div class="main-content">
         <div class="stats-widget">
-            <div class="stat">
+            <div class="stat" id="user-count-stat">
                 <i class="fas fa-users"></i>
                 <h3>사용자 수</h3>
-                <p>1,234</p>
+                <p id="user-count">로딩 중...</p>
             </div>
             <div class="stat">
                 <i class="fas fa-chart-line"></i>
                 <h3>매출</h3>
-                <p>$12,345</p>
+                <p>$ 0</p>
             </div>
             <div class="stat">
                 <i class="fas fa-clock"></i>
                 <h3>활성 세션</h3>
-                <p>56</p>
+                <p id="active-sessions">로딩 중...</p>
             </div>
         </div>
         <div class="card">
-            <h2>사용자 성장</h2>
-            <div class="chart" id="userGrowthChart"></div>
+            <h2>사용자 증감 추세</h2>
+            <canvas id="userGrowthChart" class="chart"></canvas>
         </div>
-        <div class="card">
+        <div class="card card_2">
             <h2>최근 활동</h2>
             <ul>
                 <li>관리자가 사용자 John Doe를 추가했습니다.</li>
                 <li>사용자 Jane Smith가 새 게시물을 작성했습니다.</li>
                 <li>시스템 업데이트가 완료되었습니다.</li>
             </ul>
-        </div>
+        </div>        
     </div>
     <div class="footer">
         &copy; TLTS Admin Page
     </div>
+    
+    <!-- Chart.js 라이브러리 로드 -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        var ctx = document.getElementById('userGrowthChart').getContext('2d');
-        var userGrowthChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-                datasets: [{
-                    label: '사용자 성장',
-                    data: [50, 100, 150, 200, 250, 300],
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 2,
-                    fill: false
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
+        document.addEventListener('DOMContentLoaded', function() {
+            var ctx = document.getElementById('userGrowthChart').getContext('2d');
+            var userGrowthChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                    datasets: [{
+                        label: '사용자 증감 추세',
+                        data: [50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600],
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 2,
+                        fill: false
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
                     }
                 }
+            });
+
+            function fetchUserCount() {
+                fetch('/user-count')
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('User count fetched:', data.user_count); // 디버깅을 위한 콘솔 로그 추가
+                        document.getElementById('user-count').innerText = data.user_count;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching user count:', error);
+                        document.getElementById('user-count').innerText = '오류 발생';
+                    });
             }
+
+            function fetchActiveSessions() {
+                fetch('/active-sessions')
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Active sessions fetched:', data.active_sessions); // 디버깅을 위한 콘솔 로그 추가
+                        document.getElementById('active-sessions').innerText = data.active_sessions;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching active sessions:', error);
+                        document.getElementById('active-sessions').innerText = '오류 발생';
+                    });
+            }
+
+            fetchUserCount();
+            fetchActiveSessions();
         });
     </script>
 </body>
