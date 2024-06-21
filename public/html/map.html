@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>지도 이동시키기</title>
-    <link rel="stylesheet" href="../css/map.css">
+    <link rel="stylesheet" href="/css/map.css">
 </head>
 <body>
     <header>
@@ -20,24 +20,14 @@
             <div id="map"></div>
         </div>
         <div class="button-container">
-            <button onclick="prevTo()">이전으로 이동</button> 
-            <button onclick="nextTo()">다음으로 이동</button>
+            <button id="prevButton">이전으로 이동</button>
+            <button id="nextButton">다음으로 이동</button>
         </div>
     </main>
     <footer>
         <p>&copy; 2024 취미 추천 웹사이트</p>
     </footer>
     <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9b239552d7fea333313301df3f07f361&libraries=services"></script>
-    <script src="/services/map.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const hobbyPlace = urlParams.get('hobby_place');
-            if (hobbyPlace) {
-                document.getElementById('search-result').innerText = `${hobbyPlace} 검색 결과입니다. 아래 장소에서 즐길 수 있습니다.`;
-                search(hobbyPlace);
-            }
-        });
-    </script>
+    <script type="module" src="../controllers/mapController.js"></script>
 </body>
 </html>

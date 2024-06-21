@@ -7,6 +7,16 @@
     <link rel="stylesheet" href="../css/admin.css">
 </head>
 <body>
+    <style>
+        #hobbiesTable {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            overflow-y: auto;
+            max-height: 50vh;
+            display: block;
+        }
+    </style>
     <h1>취미 리스트</h1>
     <table id="hobbiesTable">
         <thead>
@@ -29,7 +39,7 @@
         </tbody>
     </table>
 
-    <h2>Manage Hobby</h2>
+    <h2>취미 추가 또는 수정</h2>
     <form id="hobbyForm">
         <input type="text" id="hobby_id" name="hobby_id" placeholder="Hobby ID" required>
         <input type="text" id="hobby_place" name="hobby_place" placeholder="Place">
@@ -105,7 +115,7 @@
             const jsonData = {};
             formData.forEach((value, key) => { jsonData[key] = value; });
 
-            fetch('/saveHobby', {
+            fetch('/save-hobby', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(jsonData)

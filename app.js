@@ -2,13 +2,20 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const path = require('path'); // path 모듈 임포트 추가
 
-const db = require('./config/db');
 const userController = require('./controllers/userController');
 const hobbyController = require('./controllers/hobbyController');
-const adminController = require('./controllers/adminController');
 
+const userService = require('./services/userService');
+
+/* 리팩토링에 의해, 이 부분은 app.js에서 사용하지 않음.
+const hobbyService = require('./services/hobbyService');
+const mapController = require('./controllers/mapController');
+const mapService = require('./services/mapService');
 const bcrypt = require('bcrypt');
+*/
+
 const app = express();
 const port = 3000;
 
@@ -17,6 +24,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static('public'));
 app.use('/services',express.static('services')); 
+app.use('/controllers',express.static('controllers')); 
+app.use('/repo', express.static(__dirname + '/repo'));
 
 // session 사용 
 app.use(session({
@@ -29,247 +38,56 @@ app.use(session({
    } 
 }));
 
-const loginCheck = (req, res, next) => {
-  if (req.session.user_id) { next(); } 
-  else 
-  { res.send(`<script>alert('로그인부터 해주세요.'); window.location.href = '/login';</script>`);}
-};
+// 리팩토링 시작
 
-const adminCheck = (req, res, next) => {
-  if (req.session.is_admin) {
-    next();
-  } else {
-    res.send(`<script>alert('관리자만 접근 가능합니다.'); window.location.href = '/main';</script>`);
-  }
-};
+// Routes
+// 시작
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'public', 'html', 'index.html')));
+app.get('/register', (req, res) => res.sendFile(path.join(__dirname, 'public', 'html', 'register.html')));
+app.get('/login', (req, res) => res.sendFile(path.join(__dirname, 'public', 'html', 'login.html')));
+app.get('/get-main-hobbies', hobbyController.getMainHobbies);
 
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/public/html/index.html');
-});
+// 로그인 이후
+app.get('/main', userService.loginCheck, (req, res) => res.sendFile(path.join(__dirname, 'public', 'html', 'main.html')));
+app.get('/modify', userService.loginCheck, (req, res) => res.sendFile(path.join(__dirname, 'public', 'html', 'modify.html')));
+app.get('/get-user_id', userService.loginCheck, userController.getUserId);
+app.get('/hobby', (req, res) => res.sendFile(path.join(__dirname, 'public', 'html', 'hobby.html')));
 
-app.get('/register', (req, res) => {
-  res.sendFile(__dirname + '/public/html/register.html');
-});
+// 관리자 페이지
+app.get('/admin', userService.loginCheck, userService.adminCheck, (req, res) => res.sendFile(path.join(__dirname, 'public', 'html', 'admin.html')));
+app.get('/admin/userinfoList', userService.loginCheck, userService.adminCheck, (req, res) => res.sendFile(path.join(__dirname, 'public', 'html', 'userinfoList.html')));
+app.get('/admin/hobbiesList', userService.loginCheck, userService.adminCheck, (req, res) => res.sendFile(path.join(__dirname, 'public', 'html', 'hobbiesList.html')));
 
-app.get('/login', (req, res) => {
-  res.sendFile(__dirname + '/public/html/login.html');
-});
-
-// 로그아웃 핸들러 변경
-app.get('/logout', (req, res) => {
-  req.session.destroy(err => {
-    if (err) {
-      console.error('Error destroying session:', err);
-      res.sendStatus(500);
-    } else {
-      res.send('<script>alert("로그아웃 되었습니다."); window.location.href = "/";</script>');
-    }
-  });
-});
-
-app.get('/main', loginCheck, (req, res) => {
-  res.sendFile(__dirname + '/public/html/main.html');
-});
-
-app.get('/get-main-hobbies', (req, res) => {
-  const hobbies = [
-    { hobby_id: "야구 응원", image_path: "/images/hobby_img/main1.webp" },
-    { hobby_id: "헬스", image_path: "/images/hobby_img/main2.webp" },
-    { hobby_id: "베이킹", image_path: "/images/hobby_img/main3.webp" },
-    { hobby_id: "클라이밍", image_path: "/images/hobby_img/main4.webp" },
-    { hobby_id: "도자기공예", image_path: "/images/hobby_img/main5.webp" },
-    { hobby_id: "등산", image_path: "/images/hobby_img/main6.webp" }
-  ];
-  res.json(hobbies);
-});
-
-app.get('/modify', loginCheck, (req, res) => {
-  res.sendFile(__dirname + '/public/html/modify.html');
-});
-
-app.get('/get-user_id', loginCheck, (req, res) => {
-  // 현재 로그인한 사용자의 아이디(user_id)를 가져옵니다.
-  const user_id = req.session.user_id;
-
-  res.json({ user_id: user_id });
-});
-
-app.get('/hobby', (req, res) => {
-  res.sendFile(__dirname + '/public/html/hobby.html');
-});
-
-// 추가한 부분 시작 -----------------------
-app.get('/admin', loginCheck, adminCheck, (req, res) => {
-  res.sendFile(__dirname + '/public/html/admin.html');
-});
-
-app.get('/admin/userinfoList', loginCheck, adminCheck, (req, res) => {
-  res.sendFile(__dirname + '/public/html/userinfoList.html');
-});
-
-app.get('/admin/hobbiesList', loginCheck, adminCheck, (req, res) => {
-  res.sendFile(__dirname + '/public/html/hobbiesList.html');
-});
-
-app.get('/hobbies', loginCheck, (req, res) => {
-  const query = `SELECT * FROM hobbies`;
-
-  db.query(query, (err, results) => {
-      if (err) {
-          console.error('Error fetching hobbies:', err);
-          res.status(500).json({ error: 'Database error' });
-      } else {
-          res.status(200).json(results);
-      }
-  });
-});
-
-// This could be in your `adminController.js` or a relevant controller file
-app.post('/saveHobby', loginCheck, adminCheck, adminController.saveHobby);
-
-// 어쩌다보니 안쓰게 됨...
-app.get('/getHobbyKeywords', loginCheck, adminCheck, adminController.getHobbyKeywords);
-
-// 봉인.
-// app.post('/addHobbyKeyword', loginCheck, hobbyController.addHobbyKeyword);
-
-app.get('/users', loginCheck, userController.getAllUsers);
-// 추가한 부분 끝 -------------------------
-
-app.post('/modify', loginCheck, userController.modify);
-
-app.get('/map', (req, res) => {
-  res.sendFile(__dirname + '/public/html/map.html');
-});
+// 기능 불러오기.
+app.get('/map', (req, res) => res.sendFile(path.join(__dirname, 'public', 'html', 'map.html')));
+app.get('/hobbies', userService.loginCheck, hobbyController.getHobbies);
 
 app.get('/check-login', userController.checkLogin);
 app.post('/register', userController.register);
 app.post('/login', userController.login);
-app.post('/hobby', hobbyController.searchHobby);
-
-
-const questionsAndAnswers = [
-  { question: "어디서 취미를 즐기는 게 좋으신가요?", button1: "실내", button2: "실외", button3: "상관없음" },
-  { question: "누구와 함께 하는 것을 좋아하시나요?", button1: "혼자", button2: "같이", button3: "상관없음" },
-  { question: "직접 즐기기 vs 보면서 즐기기", button1: "직접하기", button2: "눈으로만", button3: "상관없음" },
-  { question: "직접 즐긴다면 얼마나 활발하게?", button1: "가만히", button2: "적당히 움직이기", button3: "활발하게!", button4: "상관없음" },
-  { question: "healing vs burning!", button1: "힐링하기", button2: "불태우기!", button3: "상관없음" },
-  { question: "예약이 필요한 취미를 좋아하시나요?", button1: "좋아", button2: "싫어", button3: "상관없음" },
-  { question: "장비가 필요한 활동을 선호하시나요?", button1: "좋아", button2: "싫어", button3: "상관없음" },
-  { question: "취미를 놀이로만 즐기고 싶으신가요?", button1: "자기계발", button2: "오락", button3: "상관없음" },
-  { question: "이색적인 취미 vs 보편적인 취미", button1: "이색적인", button2: "보편적인", button3: "상관없음" }
-];
-
-const getColumnName = (index) => {
-  const columns = ['I_O', 'S_M', 'P_W', 'MV', 'H_B', 'RESV', 'EQUIP', 'SD_F', 'NORM'];
-  return columns[index];
-};
-
-const convertToEnum = (buttonContent) => {
-  switch (buttonContent) {
-      case "실내": return "indoor";
-      case "실외": return "outdoor";
-      case "혼자": return "solo";
-      case "같이": return "multi";
-      case "직접하기": return "play";
-      case "눈으로만": return "watch";
-      case "가만히": return "static";
-      case "적당히 움직이기": return "normal";
-      case "활발하게!": return "dynamic";
-      case "힐링하기": return "healing";
-      case "불태우기!": return "burning";
-      case "좋아": return "yes";
-      case "싫어": return "no";
-      case "자기계발": return "self development";
-      case "오락": return "fun";
-      case "이색적인": return "special";
-      case "보편적인": return "normal";
-      default: return "ANY";
-  }
-};
+app.post('/modify', userService.loginCheck, userController.modify);
+app.get('/users', userService.loginCheck, userController.getAllUsers);
 
 app.get('/get-questions-and-answers', (req, res) => {
+  const questionsAndAnswers = [
+    { question: "어디서 취미를 즐기는 게 좋으신가요?", button1: "실내", button2: "실외", button3: "상관없음" },
+    { question: "누구와 함께 하는 것을 좋아하시나요?", button1: "혼자", button2: "같이", button3: "상관없음" },
+    { question: "직접 즐기기 vs 보면서 즐기기", button1: "직접하기", button2: "눈으로만", button3: "상관없음" },
+    { question: "직접 즐긴다면 얼마나 활발하게?", button1: "가만히", button2: "적당히 움직이기", button3: "활발하게!", button4: "상관없음" },
+    { question: "healing vs burning!", button1: "힐링하기", button2: "불태우기!", button3: "상관없음" },
+    { question: "예약이 필요한 취미를 좋아하시나요?", button1: "좋아", button2: "싫어", button3: "상관없음" },
+    { question: "장비가 필요한 활동을 선호하시나요?", button1: "좋아", button2: "싫어", button3: "상관없음" },
+    { question: "취미를 놀이로만 즐기고 싶으신가요?", button1: "자기계발", button2: "오락", button3: "상관없음" },
+    { question: "이색적인 취미 vs 보편적인 취미", button1: "이색적인", button2: "보편적인", button3: "상관없음" }
+  ];
   res.json(questionsAndAnswers);
 });
 
-app.post('/save-clicked-button', (req, res) => {
-  if (!req.session.clickedButtons) {
-      req.session.clickedButtons = [];
-  }
-  const { buttonContent } = req.body;
-  const enumValue = convertToEnum(buttonContent);
-
-  if (enumValue) {
-      req.session.clickedButtons.push(enumValue);
-      console.log(req.session.clickedButtons);
-  }
-
-  res.sendStatus(200);
-});
-
-
-app.post('/reset-answers', (req, res) => {
-  req.session.clickedButtons = [];
-  res.sendStatus(200);
-});
-
-
-
-const getRecommendations = (choices, callback) => {
-  const columns = ['I_O', 'S_M', 'P_W', 'MV', 'H_B', 'RESV', 'EQUIP', 'SD_F', 'NORM'];
-
-  // Construct case statements for each column to count satisfied conditions
-  const caseStatements = columns.map((col, index) => {
-      return choices[index] === 'ANY' ? `1` : `IF(h.${col} = ? or h.${col} = 'ANY', 1, 0)`;
-  }).join(' + ');
-
-  const query = `
-      SELECT h.hobby_id, h.hobby_place, hi.image_path,
-      (${caseStatements}) AS satisfied_conditions
-      FROM hobbies h
-      JOIN hobbiesimage hi ON h.hobby_id = hi.hobby_id
-      ORDER BY satisfied_conditions DESC
-      LIMIT 9`;
-
-  const params = choices.filter(choice => choice !== 'ANY');
-  console.log(query);
-  console.log(params);
-
-  db.query(query, params, (err, results) => {
-      if (err) {
-          callback(err, null);
-          return;
-      }
-
-      const allResults = results.map(result => ({
-          hobby_id: result.hobby_id,
-          image_path: result.image_path,
-          hobby_place : result.hobby_place,
-          satisfied_conditions: (result.satisfied_conditions / choices.length) * 100 // Convert to percentage
-      }));
-
-      callback(null, allResults);
-  });
-};
-
-
-
-app.get('/get-recommendations', (req, res) => {
-  if (!req.session.clickedButtons) {
-      return res.json([]);
-  }
-
-  const choices = req.session.clickedButtons;
-
-  getRecommendations(choices, (err, results) => {
-      if (err) {
-          console.error('Database query error: ', err);
-          res.status(500).json({ error: err.message });
-          return;
-      }
-      res.json(results);
-  });
-});
+app.post('/save-clicked-button', hobbyController.saveClickedButton);
+app.post('/reset-answers', hobbyController.resetAnswers);
+app.get('/get-recommendations', hobbyController.getRecommendations);
+app.get('/get-hobby-keywords', hobbyController.getHobbyKeywords);
+app.post('/save-hobby', userService.loginCheck, userService.adminCheck, hobbyController.saveHobby);
 
 
 app.listen(port, () => {

@@ -1,71 +1,47 @@
+// final update 2024.06.06 
+
 /tlts
 ├── app.js
 ├── config
 │   └── db.js
 ├── controllers
 │   ├── userController.js
+│   ├── adminController.js
+│   ├── mapController.js
 │   └── hobbyController.js
 ├── public
 │   ├── css
+│   │   ├── admin.css
 │   │   ├── common.css
+│   │   ├── hobby_result.css
 │   │   ├── hobby.css
 │   │   ├── login.css
 │   │   ├── main.css
 │   │   ├── map.css
 │   │   ├── modify.css
 │   │   └── register.css
-│   ├── data
 │   ├── html
+│   │   ├── admin.html
+│   │   ├── hobbiesList.html
+│   │   ├── hobby_result.html
 │   │   ├── hobby.html
 │   │   ├── index.html
 │   │   ├── login.html
 │   │   ├── main.html
 │   │   ├── map.html
 │   │   ├── modify.html
-│   │   └── register.html
+│   │   ├── register.html
+│   │   └── userinfoList.html
 │   └── images
 ├── repo
 │   ├── hobbyRepo.js
+│   ├── mapRepo.js
 │   └── userRepo.js
 ├── services
 │   ├── hobbyService.js
-│   ├── userService.js
-│   └── map.js
+│   ├── mapService.js
+│   └── userService.js
 ├── node_modules
 ├── package.json
 ├── package-lock.json
 └── .gitignore
-
--------------------------------------------------------------------------
-
-                           +---------------+
-                           |   public      |
-                           |  (HTML, CSS,  |
-                           |  JS files)    |
-                           +-------+-------+
-                                   |
-                                   |
-+----------+               +-------v-------+                +---------+
-|  config  |<------------->|    app.js     |<-------------->| services|
-|(db.js)   |               |               |                |         |
-+----------+               +-------+-------+                +----+----+
-                                   |                            |
-                                   |                            |
-                         +---------v--------+                   |
-                         |     controllers   |                  |
-                         | (hobbyController, |                  |
-                         |  userController)  |                  |
-                         +---------+---------+                  |
-                                   |                            |
-                                   |                            |
-                         +---------v---------+                  |
-                         |       repo        |                  |
-                         |(hobbyRepo,        |                  |
-                         |  userRepo)        |                  |
-                         +-------------------+                  |
-                                                                |
-                                                      +---------v----------+
-                                                      |     services       |
-                                                      |( hobbyService,     |
-                                                      |  userService, map) |
-                                                      +--------------------+
