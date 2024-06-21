@@ -2,7 +2,7 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 body {
@@ -11,90 +11,82 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: linear-gradient(135deg, #87A8EE, #D4E8FF); /* Updated background colors */
 }
 
-.back-button {
+body::before {
+    content: "";
     position: absolute;
-    top: 20px;
-    left: 20px;
-    padding: 10px 20px;
-    font-size: 16px;
-    font-weight: bold;
-    background-color: white;
-    color: #87A8EE;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.back-button:hover {
-    background-color: #687ACB; /* Darker highlight color */
-    color : white;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('../images/background.png') no-repeat center center fixed;
+    background-size: cover;
+    opacity: 0.6; /* 투명도 설정 */
+    z-index: -1; /* 내용물 뒤에 위치하도록 설정 */
 }
 
 .project-name {
-    font-size: 50px; /* Bigger font size */
-    color: #87A8EE; /* Initial color */
-    margin-bottom: 50px; /* Move up */
-    font-weight: 700; /* Bolder */
-    text-transform: uppercase; /* Uppercase transformation */
-    letter-spacing: 2px; /* Adjust letter spacing */
-    font-family: 'Comic Neue', cursive; /* Friendlier font */
-    animation: dynamicText 5s infinite; /* Add animation */
+    font-size: 50px; /* 더 큰 글자 크기 */
+    color: #5745ff; /* 포인트 색상 */
+    margin-bottom: 50px; /* 위로 더 올리기 */
+    font-weight: 900; /* 더 굵게 */
+    text-transform: uppercase; /* 대문자 변환 */
+    letter-spacing: 2px; /* 글자 간격 조정 */
+    animation: fadeInDown 1s ease-in-out; /* 애니메이션 추가 */
+    font-family: 'Comic Neue', cursive; /* Font family 변경 */
 }
 
-@keyframes dynamicText {
+@keyframes fadeInDown {
     0% {
-        color: #87A8EE;
-        transform: scale(1);
-    }
-    25% {
-        color: #6990e5;
-        transform: scale(1.1);
-    }
-    50% {
-        color: #4276e6;
-        transform: scale(1.2);
-    }
-    75% {
-        color: #234a9e;
-        transform: scale(1.1);
+        opacity: 0;
+        transform: translateY(-20px);
     }
     100% {
-        color: #4276e6;
-        transform: scale(1);
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
 .login-wrapper {
-    width: 500px; /* Increase width */
+    width: 500px; /* 가로 길이 증가 */
     padding: 40px;
-    background-color: #ffffff; /* White background */
-    border-radius: 12px; /* Rounded corners */
-    border: 1px solid #e0e0e0; /* Light gray border */
+    background-color: #ffffff; /* 배경 흰색 */
+    border-radius: 12px; /* 둥근 테두리 */
+    border: 1px solid #e0e0e0; /* 연한 회색 테두리 */
     text-align: center;
-    box-shadow: none; /* Remove shadow */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* 음영 추가 */
+    animation: fadeIn 1s ease-in-out; /* 애니메이션 추가 */
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 #login-form > input {
     width: 100%;
     height: 48px;
-    padding: 0 15px; /* Adjust padding */
-    margin-bottom: 20px; /* Adjust spacing */
+    padding: 0 15px; /* 패딩 조정 */
+    margin-bottom: 20px; /* 간격 조정 */
     border-radius: 6px;
-    background-color: #fafafa; /* Lighter background color */
-    border: 1px solid #dddddd; /* Light border */
+    background-color: #fafafa; /* 더 밝은 배경색 */
+    border: 1px solid #dddddd; /* 연한 테두리 */
     font-size: 16px;
-    transition: border-color 0.3s, background-color 0.3s; /* Add transition effects */
+    transition: border-color 0.3s, background-color 0.3s; /* 전환 효과 추가 */
 }
 
 #login-form > input:focus {
-    border-color: #87A8EE; /* Highlight color */
-    background-color: #ffffff; /* Change background color on focus */
+    border-color: #5745ff; /* 포인트 색상 */
+    background-color: #ffffff; /* 포커스 시 배경색 변경 */
     outline: none;
-    border: 3px solid #87A8EE;
+    border: 3px solid #5745ff; /* 포인트 색상 */
 }
 
 #login-form > input::placeholder {
@@ -112,7 +104,7 @@ body {
     margin-right: 10px;
 }
 
-#login-form > label {
+#login-form label {
     color: #757575;
     cursor: pointer;
 }
@@ -122,30 +114,50 @@ body {
     padding: 14px;
     color: #ffffff;
     font-size: 18px;
-    background-color: #87A8EE; /* Highlight color */
+    background-color: #5745ff; /* 포인트 색상 */
     border-radius: 6px;
     border: none;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s; /* Add transition effects */
+    transition: background-color 0.3s, transform 0.3s; /* 전환 효과 추가 */
 }
 
 #login-form input[type="submit"]:hover {
-    background-color: #687ACB; /* Darker highlight color */
-    transform: scale(1.02); /* Increase size on hover */
+    background-color: #ACE9FF; /* 조금 더 어두운 포인트 색상 */
+    transform: scale(1.02); /* 호버 시 크기 증가 효과 */
 }
 
 #register-link {
     display: block;
     margin-top: 5px;
-    color: #87A8EE; /* Highlight color */
+    color: #5745ff; /* 포인트 색상 */
     text-decoration: none;
     font-size: 16px;
-    transition: color 0.3s; /* Add transition effect */
+    transition: color 0.3s; /* 전환 효과 추가 */
 }
 
 #register-link:hover {
-    color: #687ACB; /* Change color on hover */
+    color: #ACE9FF; /* 더 어두운 포인트 색상 */
     text-decoration: underline;
+}
+
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #ACE9FF;
+    color: #5745ff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.back-button:hover {
+    background-color: #ACE9FF; /* 더 어두운 하이라이트 색상 */
+    color: white;
 }
 
 @media (max-width: 600px) {

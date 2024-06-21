@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hoppy - Sign Up</title>
     <link rel="stylesheet" href="/css/register.css">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
+    <button class="back-button" onclick="history.back()">← Back</button>
     <h1 class="project-name">Hoppy</h1>
     <div class="register-wrapper">
         <h2 class="sign-up">Sign Up</h2>
@@ -22,11 +24,11 @@
             <input type="submit" value="Register">
         </form>
         <div class="sns-signup">
-            <button class="sns-button kakao" onclick="location.href='카카오톡회원가입URL'">
-                <img src="/images/kakao.png" alt="Kakao" class="icon"> 카카오톡으로 회원가입
+            <button class="sns-button kakao" onclick="kakaoLogin()">
+                <img src="/images/kakao.png" alt="Kakao" class="icon"> Kakao로 로그인
             </button>
-            <button class="sns-button gmail" onclick="location.href='Gmail회원가입URL'">
-                <img src="/images/google.png" alt="Gmail" class="icon"> Gmail로 회원가입
+            <button class="sns-button gmail" onclick="googleLogin()">
+                <img src="/images/google.png" alt="Gmail" class="icon"> Google로 로그인
             </button>
         </div>
     </div>
@@ -40,7 +42,20 @@
                 event.preventDefault(); // 폼 제출 막기
             }
         });
-    </script>
 
+        function kakaoLogin() {
+            const REST_API_KEY = '1f87054ab0029ff1cc85e87c0fb30185'; // 카카오톡 REST API 키
+            const REDIRECT_URI = 'http://localhost:3000/main'; // 설정한 리디렉션 URI
+            const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
+            location.href = KAKAO_AUTH_URL;
+        }
+
+        function googleLogin() {
+            const CLIENT_ID = '962243868679-rak7dne2quk5frqkkkigks5khjgrh72b.apps.googleusercontent.com'; // 구글 클라이언트 ID
+            const REDIRECT_URI = 'http://localhost:3000/main'; // 구글 리디렉션 URI
+            const GOOGLE_AUTH_URL = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=openid%20profile%20email`;
+            location.href = GOOGLE_AUTH_URL;
+        }
+    </script>
 </body>
 </html>

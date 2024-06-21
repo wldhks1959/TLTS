@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirect</title>
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        async function getAccessTokenByKakao(code) {
+            const response = await axios({
+                method: 'post',
+                url: 'https://kauth.kakao.com/oauth/token',
+                params: {
+                    grant_type: 'authorization_code',
+                    client_id: '1f87054ab0029ff1cc85e87c0fb30185',
+                    redirect_uri: 'http://localhost:3000/login',
+                    code: code
+                }
+            });
+            return response.data.access_token;
+        }
+
+        async function getUserInfoByKakao(accessToken) {
+            const response = await axios({
+                method: 'get',
+                url: 'https://kapi.kakao.com/v2/user/me',
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            });
+            return response.data;
+        }
+
+        async function handleKakaoLogin() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('code');
+            if (code) {
+                try {
+                    const accessToken = await getAccessTokenByKakao(code);
+                    const userInfo = await getUserInfoByKakao(accessToken);
+
+                    // 여기에서 사용자 정보를 서버에 보내어 회원가입 처리
+                    await axios.post('/api/register', userInfo);
+
+                    // 로그인 후 리디렉션
+                    window.location.href = '/welcome'; // 원하는 페이지로 리디렉션
+                } catch (error) {
+                    console.error('카카오 로그인 에러:', error);
+                }
+            } else {
+                console.error('Authorization code not found');
+            }
+        }
+
+        async function getAccessTokenByGoogle(code) {
+            const response = await axios({
+                method: 'post',
+                url: 'https://oauth2.googleapis.com/token',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                data: new URLSearchParams({
+                    code: code,
+                    client_id: '962243868679-rak7dne2quk5frqkkkigks5khjgrh72b.apps.googleusercontent.com',
+                    client_secret: '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',
+                    redirect_uri: 'http://localhost:3000/main',
+                    grant_type: 'authorization_code'
+                })
+            });
+            return response.data.access_token;
+        }
+
+        async function getUserInfoByGoogle(accessToken) {
+            const response = await axios({
+                method: 'get',
+                url: 'https://www.googleapis.com/oauth2/v2/userinfo',
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            });
+            return response.data;
+        }
+
+        async function handleGoogleLogin() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('code');
+            if (code) {
+                try {
+                    const accessToken = await getAccessTokenByGoogle(code);
+                    const userInfo = await getUserInfoByGoogle(accessToken);
+
+                    // 여기에서 사용자 정보를 서버에 보내어 회원가입 처리
+                    await axios.post('/api/register', {
+                        id: userInfo.id,
+                        name: userInfo.name,
+                        email: userInfo.email,
+                        picture: userInfo.picture
+                    });
+
+                    // 로그인 후 리디렉션
+                    window.location.href = '/welcome'; // 원하는 페이지로 리디렉션
+                } catch (error) {
+                    console.error('구글 로그인 에러:', error);
+                }
+            } else {
+                console.error('Authorization code not found');
+            }
+        }
+
+        function handleLogin() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const state = urlParams.get('state');
+
+            if (state === 'google') {
+                handleGoogleLogin();
+            } else if (state === 'kakao') {
+                handleKakaoLogin();
+            } else {
+                console.error('Invalid state parameter');
+            }
+        }
+
+        handleLogin();
+    </script>
+</body>
+</html>
