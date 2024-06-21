@@ -1,141 +1,191 @@
-/* Reset CSS */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dongle&family=Jua&display=swap');
 
-/* Body styles */
 body {
-    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    background-color: #fff;
-    color: #333;
+    font-family: 'Comic Neue', cursive; /* Apply Comic Neue font to the entire body */
 }
 
-/* Header styles */
-header {
-    background-color: #FF7F50; /* 포인트 색상 */
-    color: white;
-    padding: 10px 0;
-}
-
-header .container {
+.header {
+    width: 100%;
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    width: 90%;
-    margin: 0 auto;
+    padding: 0px 20px 0 20px; /* Reduce padding from 20px to 13px to decrease height */
+    box-sizing: border-box;
 }
 
-header h1 {
-    margin: 0;
+.project-name {
+    font-size: 60px;
+    color: #3726cb;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
-nav {
+.button-container {
     display: flex;
-    align-items: center;
+    gap: 10px; /* Add space between buttons */
 }
 
-.logout-btn,
-.profile-btn {
-    background-color: white;
-    color: #FF7F50; /* 포인트 색상 */
-    border: 1px solid white;
-    padding: 10px 20px; /* 조정된 패딩값 */
+.profile-button{
+    font-size: 20px;
+    font-family: 'Jua', sans-serif;
+    background-color : transparent;
+    padding: 8px 20px;
+    color: #3726cb;
+    border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
-    margin-right: 10px; /* 로그인 버튼과 버튼 사이 여백 조정 */
+    transition: font-size 0.3s; 
 }
 
-.logout-btn:hover,
-.profile-btn:hover {
-    background-color: #FF7F50; /* 포인트 색상 */
-    color: white;
+.logout-button{
+    font-size: 25px;
+    padding: 8px 20px;
+    background-color : transparent;
+    color: #3726cb;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: font-size 0.3s;
 }
 
-/* Main styles */
-main {
-    padding: 20px;
+.profile-button:hover,
+.logout-button:hover{
+    font-size: 30px; /* Increase font size on hover */
+}
+
+.content {
     text-align: center;
+    margin-top: 20px;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    position: relative; /* Required for pseudo-element positioning */
+    background: rgba(255, 255, 255, 0); /* Background color with transparency */
 }
 
-/* Intro section styles */
-.intro h2 {
-    color: #FF7F50; /* 포인트 색상 */
+.content::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        linear-gradient(to bottom,  rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.4) 5%, rgba(255, 255, 255, 0.4) 30%, rgba(255, 255, 255, 1) 50%, rgba(255, 255, 255, 1) 100%),
+        url('/images/main_back.webp') center center / cover no-repeat;
+    z-index: -1; /* Place the background image behind the content */
+}
+
+.content .heading {
+    font-size: 50px;
+    color: #3726cb;
     margin-bottom: 10px;
 }
 
-.intro p {
-    margin-bottom: 20px;
+.content .subheading {
+    font-size: 25px;
+    margin-bottom: 40px; /* Increase margin for more space */
+    font-family: 'Jua', sans-serif; /* Apply Jua font */
 }
 
-.start-btn {
-    background-color: #FF7F50; /* 포인트 색상 */
+.content .start-button {
+    font-size: 40px;
+    padding: 15px 40px; /* Ensure the button keeps its original size */
+    background-color: #4978dd;
     color: white;
     border: none;
-    padding: 15px 30px;
     border-radius: 5px;
-    font-size: 18px;
-    font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    margin: 20px 0;
+    transition: background-color 1s;
+    animation: pulsate 1.5s infinite, blink 3s infinite;
 }
 
-.start-btn:hover {
-    background-color: #e6733b;
-    transform: scale(1.05);
+.content .start-button:hover {
+    background-color: #2b59bc;
 }
 
-/* Recommendations section styles */
-.recommendations h2 {
-    color: #FF7F50; /* 포인트 색상 */
-    margin-bottom: 20px;
+@keyframes pulsate {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
 
-.hobby-list {
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.8;
+    }
+}
+
+.content .popular-hobbies {
+    margin-top: 100px; /* Increase margin for more space */
+    font-size: 30px;
+    font-family: 'Jua', sans-serif; /* Apply Jua font */
+}
+
+.content .carousel {
+    padding: 10px;
+    width: 75%; /* Reduce width to 3/4 */
+    margin-left: auto;
+    margin-right: auto; /* Center the carousel */
+    position: relative; /* For absolute positioning of controls */
+    overflow: hidden; /* Ensure overflow is hidden to avoid images being cut off */
+}
+
+.carousel-item .row {
+    display: flex;
+    justify-content: space-between; /* Ensure space between images */
+    flex-wrap: nowrap; /* Ensure images stay on the same line */
+}
+
+.carousel-item .col-md-4 {
+    flex: 1 0 30%; /* Ensure each column takes up roughly 1/3 of the row */
+    max-width: 30%; /* Ensure each column takes up roughly 1/3 of the row */
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    align-items: center;
+    padding: 0; /* Remove padding */
 }
 
-.hobby-row {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-}
-
-.hobby-item {
-    width: calc(33.333% - 15%);
-    background-color: #f9f9f9;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.hobby-item img {
-    width: 100%;
+.carousel-item img {
+    display: block;
+    width: 40px; /* Set image width to 40px */
     height: auto;
-    border-radius: 10px;
+    margin: 5px; /* Remove margin */
+    border-radius: 15px; /* Increase border radius for rounder corners */
+    object-fit: contain; /* Ensure the image fits within its container without being cut off */
 }
 
-.hobby-item p {
-    margin: 10px 0 0;
-    color: #666;
-}
-
-/* Footer styles */
-footer {
-    background-color: #FF7F50; /* 포인트 색상 */
-    color: white;
+.hobby-id {
+    font-size: 20px;
     text-align: center;
-    padding: 10px 0;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
+    margin-bottom: 0; /* No extra space below the hobby_id */
+    font-family: 'Jua', sans-serif; /* Apply Jua font */
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: black; /* Set the arrow color to black */
+}
+
+.carousel-control-prev {
+    left: -120px; /* Move prev button to the left of the carousel */
+}
+
+.carousel-control-next {
+    right: -120px; /* Move next button to the right of the carousel */
 }

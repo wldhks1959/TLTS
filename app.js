@@ -149,15 +149,15 @@ app.post('/hobby', hobbyController.searchHobby);
 
 
 const questionsAndAnswers = [
-  { question: "실내 또는 실외 활동을 선호하시나요?", button1: "실내", button2: "실외", button3: "상관없음" },
-  { question: "혼자 또는 여럿이 함께 하는 활동을 선호하시나요?", button1: "혼자", button2: "같이", button3: "상관없음" },
-  { question: "직접 하거나 눈으로만 보는 것을 선호하시나요?", button1: "직접하기", button2: "눈으로만", button3: "상관없음" },
-  { question: "활동 강도를 어떻게 선호하시나요?", button1: "가만히", button2: "적당히 움직이기", button3: "활발하게!", button4: "상관없음" },
-  { question: "힐링 또는 불태우는 것을 선호하시나요?", button1: "힐링하기", button2: "불태우기!", button3: "상관없음" },
-  { question: "예약이 필요한 활동을 선호하시나요?", button1: "좋아", button2: "싫어", button3: "상관없음" },
+  { question: "어디서 취미를 즐기는 게 좋으신가요?", button1: "실내", button2: "실외", button3: "상관없음" },
+  { question: "누구와 함께 하는 것을 좋아하시나요?", button1: "혼자", button2: "같이", button3: "상관없음" },
+  { question: "직접 즐기기 vs 보면서 즐기기", button1: "직접하기", button2: "눈으로만", button3: "상관없음" },
+  { question: "직접 즐긴다면 얼마나 활발하게?", button1: "가만히", button2: "적당히 움직이기", button3: "활발하게!", button4: "상관없음" },
+  { question: "healing vs burning!", button1: "힐링하기", button2: "불태우기!", button3: "상관없음" },
+  { question: "예약이 필요한 취미를 좋아하시나요?", button1: "좋아", button2: "싫어", button3: "상관없음" },
   { question: "장비가 필요한 활동을 선호하시나요?", button1: "좋아", button2: "싫어", button3: "상관없음" },
-  { question: "자기개발 또는 오락을 선호하시나요?", button1: "자기계발", button2: "오락", button3: "상관없음" },
-  { question: "이색적인 또는 보편적인 활동을 선호하시나요?", button1: "이색적인", button2: "보편적인", button3: "상관없음" }
+  { question: "취미를 놀이로만 즐기고 싶으신가요?", button1: "자기계발", button2: "오락", button3: "상관없음" },
+  { question: "이색적인 취미 vs 보편적인 취미", button1: "이색적인", button2: "보편적인", button3: "상관없음" }
 ];
 
 const getColumnName = (index) => {

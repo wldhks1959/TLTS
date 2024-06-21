@@ -8,6 +8,7 @@ body {
     justify-content: center;
     margin: 0;
     font-family: 'Comic Neue', cursive; /* Apply Comic Neue font to the entire body */
+
 }
 
 .header {
@@ -16,12 +17,11 @@ body {
     justify-content: space-between;
     padding: 0px 20px 0 20px; /* Reduce padding from 20px to 13px to decrease height */
     box-sizing: border-box;
-    background: white;
 }
 
 .project-name {
     font-size: 60px;
-    color: #4978dd;
+    color: #3726cb;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -30,7 +30,8 @@ body {
 .login-button {
     font-size: 25px;
     padding: 8px 20px;
-    background-color: white;
+    color: #3726cb;
+    background-color : transparent;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -59,7 +60,7 @@ body {
     width: 100%;
     height: 100%;
     background: 
-        linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 50%, rgba(255, 255, 255, 1) 100%),
+        linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.4) 5%, rgba(255, 255, 255, 0.4) 30%, rgba(255, 255, 255, 1) 50%, rgba(255, 255, 255, 1) 100%),
         url('/images/main_back.webp') center center / cover no-repeat;
     z-index: -1; /* Place the background image behind the content */
 }

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+
 /* Reset CSS */
 * {
     margin: 0;
@@ -7,7 +9,7 @@
 
 /* Body styles */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Jua', sans-serif;
     margin: 0;
     padding: 0;
     background-color: #fff;
@@ -15,25 +17,67 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    background: url('/images/main_back.webp') no-repeat center center fixed;
+    background-size: cover;
+    position: relative;
+}
+
+/* Add an overlay to manage the transparency */
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.7);
+    z-index: -1;
 }
 
 /* Header styles */
 header {
-    background-color: #FF7F50; /* 포인트 색상 */
-    color: white;
+    color: #3726cb;
     padding: 10px 0;
+    text-align: center;
+    animation: header-slide 1s ease-in-out forwards;
 }
 
 header .container {
     display: flex;
-    justify-content: center;
+    justify-content: center; /* 중앙 정렬 */
     align-items: center;
     width: 90%;
     margin: 0 auto;
+    position: relative;
+}
+
+header .logo {
+    position: absolute;
+    left: -70px;
+    top: 50%;
+    transform: translateY(-45%);
+    height: auto;
+    width: 10%;
 }
 
 header h1 {
     margin: 0;
+    font-size: 60px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Header animation */
+@keyframes header-slide {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 /* Main styles */
@@ -41,35 +85,58 @@ main {
     padding: 20px;
     text-align: center;
     flex: 1;
+    animation: fade-in 1s ease-in-out;
+}
+
+/* Fade-in animation */
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 /* Results section styles */
 .results h2 {
-    color: #FF7F50; /* 포인트 색상 */
-    margin-bottom: 20px;
+    color: #4978dd; /* 변경된 색상 */
+    margin-bottom: 40px; /* 여유있게 공백 추가 */
+    animation: bounce 2s infinite;
+}
+
+.results .subheading {
+    color: #000; /* 검정색 텍스트 */
+    font-family: 'Jua', sans-serif; /* Jua 폰트 */
+    margin-bottom: 40px; /* 여유있는 공백 추가 */
 }
 
 .hobby-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 20px; /* 간격을 늘림 */
     justify-content: center;
 }
 
 .hobby-item {
-    width: calc(33.333% - 20px);
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: calc(33.333% - 20px); /* 3x3 그리드를 위해 3개의 아이템이 100%를 차지하도록 설정 */
+    padding: 15px; /* 패딩을 늘림 */
+    border-radius: 15px;
     text-align: center;
-    margin-bottom: 20px; /* 추가된 여백 */
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.hobby-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
 .hobby-item img {
-    width: 100%;
+    width: 80%; /* 이미지 크기를 유지하면서 부모 요소의 너비에 맞게 설정 */
     height: auto;
-    border-radius: 10px;
+    border-radius: 15px;
     margin-bottom: 10px;
 }
 
@@ -79,7 +146,7 @@ main {
 }
 
 .restart-btn {
-    background-color: #FF7F50; /* 포인트 색상 */
+    background-color: #4978dd; /* 변경된 색상 */
     color: white;
     border: none;
     padding: 15px 30px;
@@ -90,18 +157,43 @@ main {
     transition: background-color 0.3s, transform 0.3s;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     margin: 20px 0;
+    animation: pulsate 1.5s infinite, blink 3s infinite;
 }
 
 .restart-btn:hover {
-    background-color: #e6733b;
+    background-color: #2b59bc;
     transform: scale(1.05);
 }
 
-/* Footer styles */
-footer {
-    background-color: #FF7F50; /* 포인트 색상 */
-    color: white;
-    text-align: center;
-    padding: 10px 0;
-    margin-top: auto;
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-30px);
+    }
+    60% {
+        transform: translateY(-15px);
+    }
+}
+
+@keyframes pulsate {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.8;
+    }
 }
