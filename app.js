@@ -84,10 +84,7 @@ app.post('/save-hobby', userService.loginCheck, userService.adminCheck, hobbyCon
 app.get('/user-count', userController.getUserCount);
 
 // 현재 활성 세션 수를 반환하는 로직
-app.get('/active-sessions', (req, res) => {
-  const activeSessions = Object.keys(req.sessionStore.sessions).length;
-  res.json({ active_sessions: activeSessions });
-});
+app.get('/active-sessions', userController.getActiveSessions);
 
 app.get('/logout', userController.logout);
 
