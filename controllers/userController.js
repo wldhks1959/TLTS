@@ -21,6 +21,11 @@ exports.register = async (req, res) => {
   }
 };
 
+exports.getUserId = (req, res) => {
+  const user_id = req.session.user_id;
+  res.json({ user_id: user_id });
+};
+
 exports.login = async (req, res) => {
   const { user_id, user_pwd } = req.body;
   try 
@@ -68,20 +73,11 @@ exports.modify = async (req, res) => {
   }
 };
 
-
-
 exports.getAllUsers = (req, res) => {
-  const query = `SELECT * FROM userinfo`;
-
-  db.query(query, (err, results) => {
-      if (err) 
-      {
-          console.error('Error fetching users:', err);
-          res.status(500).json({ error: 'Database error' });
-      } 
-      else 
-      {
-          res.status(200).json(results);
-      }
+  userService.getAllUsers().then(users => {
+    res.status(200).json(users);
+  }).catch(err => {
+    console.error('Error fetching users:', err);
+    res.status(500).json({ error: 'Database error' });
   });
 };

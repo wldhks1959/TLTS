@@ -5,23 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>취미 추천 결과</title>
     <link rel="stylesheet" href="/css/hobby_result.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&display=swap">
 </head>
 <body>
     <header>
         <div class="container">
-            <h1>취미 추천 결과</h1>
+            <img src="/images/logo.png" alt="Logo" class="logo">
+            <h1 class="animated-header">Hoppy</h1>
         </div>
     </header>
     <main>
         <section class="results">
-            <h2>당신에게 추천하는 취미</h2>
+            <h2 class="animated-heading">Enjoy Happy Hobby!</h2>
+            <p class="subheading">그림 이미지를 누르면 취미를 즐길 수 있는 장소를 추천해드려요!</p>
             <div class="hobby-list" id="hobby-list"></div>
             <button class="restart-btn" onclick="restartDiagnosis()">재진단</button>
         </section>
     </main>
-    <footer>
-        <p>&copy; 2024 취미 추천 웹사이트</p>
-    </footer>
 
     <script>
         async function fetchRecommendations() {
