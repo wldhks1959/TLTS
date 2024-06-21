@@ -1,66 +1,103 @@
 body {
+    margin: 0;
     font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f0f0f0;
+    position: relative;
 }
 
-header {
-    background-color: #FF7940; /* 최상단 배경색 주황색 */
-    color: #fff; /* 글자색 흰색 */
-    padding: 20px 0;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-header h1 {
-    margin: 0;
-    font-size: 24px;
-}
-
-.container {
-    width: 90%;
-    margin: auto;
-    overflow: hidden;
-}
-
-main {
-    padding: 20px;
-    background-color: #fff; /* 추가된 배경색 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-    border-radius: 10px; /* 테두리 반경 */
-}
-
-#search-result {
-    margin: 20px auto;
-    font-size: 24px;
-    font-weight: bold;
-    text-align: center;
-    color : #FF7940;
-}
-
-#map-container {
-    width: 60%;
-    height: 60vh; /* 높이 변경 */
-    margin: 20px auto;
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.overlay {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.8); /* 반투명 배경 */
+    padding: 10px 20px;
     border-radius: 10px;
-    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000; /* 다른 요소들보다 위에 표시 */
+}
+
+.overlay .logo {
+    height: 70px; /* 로고 높이 증가 */
+    margin-right: 10px;
+}
+
+.openbtn {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    font-size: 30px;
+    cursor: pointer;
+    background-color: transparent; /* 배경 투명 */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    z-index: 1001; /* 다른 요소들보다 위에 표시 */
 }
 
 #map {
     width: 100%;
-    height: 100%;
+    height: calc(100vh - 40px); /* 전체 화면 높이에서 footer 높이를 뺀 값 */
+}
+
+.sidebar {
+    height: 100%; /* 전체 화면 높이 */
+    width: 250px; /* 초기 너비 */
+    position: fixed;
+    z-index: 1100; /* 다른 요소들보다 위에 표시 */
+    top: 0;
+    left: 0;
+    background-color: #fff; /* 흰색 배경 */
+    overflow-x: hidden; /* 가로 스크롤 숨김 */
+    padding-top: 60px; /* 상단 패딩 */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); /* 살짝 그림자 효과 */
+}
+
+.sidebar.hidden {
+    display: none;
+}
+
+.sidebar .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+    color: black; /* X 표시 색상 */
+}
+
+#location-list {
+    padding-bottom: 60px; /* 버튼 공간 확보를 위한 패딩 */
+}
+
+.location-item {
+    padding: 10px 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.location-item .title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.location-item .address, .location-item .category {
+    margin-top: 5px;
+    font-size: 14px;
+    color: #555;
 }
 
 .button-container {
+    position: absolute;
+    bottom: 80px;
+    width: 100%;
     text-align: center;
-    margin: 20px 0;
 }
 
 button {
-    background-color: #FF7940; /* 주황색 */
+    background-color: rgba(30, 144, 255, 0.8); /* 반투명 파란색 */
     color: #fff;
     border: none;
     padding: 10px 20px;
@@ -71,57 +108,20 @@ button {
 }
 
 button:hover {
-    background-color: #cc6400; /* 어두운 주황색 */
+    background-color: rgba(28, 134, 238, 0.8); /* 어두운 반투명 파란색 */
 }
 
 footer {
-    background-color: #FF7940; /* 최하단 배경색 주황색 */
+    background-color: #1E90FF; /* 바 배경색 파란색 */
     color: #fff; /* 글자색 흰색 */
     text-align: center;
-    padding: 20px 0;
+    padding: 5px 0; /* 높이 설정 */
+    height: 30px; /* 높이 설정 */
+    display: flex;
+    align-items: center; /* 세로 가운데 정렬 */
+    justify-content: center; /* 가로 가운데 정렬 */
     box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
-}
-
-@media (max-width: 600px) {
-    header, footer {
-        text-align: center;
-    }
-
-    button {
-        display: block;
-        width: 80%;
-        margin: 10px auto;
-    }
-
-    #map-container {
-        width: 100%; /* 모바일에서는 가로 100% 유지 */
-        height: 60vh; /* 세로 높이 변경 */
-    }
-}
-
-.custom-info-window {
-    background-color: #fff;
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    font-size: 14px;
-    color: #333;
-    max-width: 200px;
-    border: none;
-}
-
-.custom-info-window .title {
-    font-size: 16px;
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: #FF7940; /* 주황색 글자 */
-}
-
-.custom-info-window .address, .custom-info-window .category {
-    margin-top: 5px;
-}
-
-.custom-info-window .category {
-    font-style: italic;
-    color: #555; /* 회색 글자 */
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }

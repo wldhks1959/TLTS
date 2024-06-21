@@ -10,15 +10,9 @@ var mapContainer = document.getElementById("map"), // 지도를 표시할 div
 // 지도를 생성합니다
 var map = new kakao.maps.Map(mapContainer, mapOption);
 
-// 기준 마커 아이콘을 설정합니다
-var centerMarkerImage = new kakao.maps.MarkerImage(
-    "./images/marker_red.png",
-    new kakao.maps.Size(24, 35)
-);
-
 // 검색 마커 아이콘을 설정합니다
 var searchMarkerImage = new kakao.maps.MarkerImage(
-    "./images/marker_yellow.png",
+    "./images/marker_red1.png",
     new kakao.maps.Size(36, 52)
 );
 
@@ -32,7 +26,6 @@ var infowindowOpen = false;
 var currentInfowindow = null;
 var starMarker = null;
 var currentKeyword = null; // 현재 키워드를 저장하는 변수
-var circle = null; // 원 객체를 저장할 변수
 var markers = [];
 var infowindows = [];
 var currentMarkerIndex = 0;
@@ -61,6 +54,15 @@ function displayMarker(place) {
 
     markers.push(marker);
     infowindows.push(localInfowindow);
+
+    // 사이드바에 장소 리스트 추가
+    var locationList = document.getElementById("location-list");
+    var locationItem = document.createElement("div");
+    locationItem.classList.add("location-item");
+    locationItem.innerHTML = '<div class="title">' + place.place_name + '</div>' +
+                             '<div class="address">' + (place.address_name ? '주소: ' + place.address_name : '주소 정보 없음') + '</div>' +
+                             '<div class="category">' + (place.category_name ? '카테고리명: ' + place.category_name : '카테고리 정보 없음') + '</div>';
+    locationList.appendChild(locationItem);
 }
 
 // 기존 마커를 모두 제거
@@ -74,6 +76,9 @@ function clearMarkers() {
         currentInfowindow.close();
         currentInfowindow = null;
     }
+
+    // 사이드바 장소 리스트 초기화
+    document.getElementById("location-list").innerHTML = "";
 }
 
 function nextTo() {
@@ -123,20 +128,7 @@ function searchByLocation(location, radius, keyword) {
             }
             map.setBounds(bounds);
 
-            if (circle) {
-                circle.setMap(null);
-            }
-            circle = new kakao.maps.Circle({
-                center: location,
-                radius: radius,
-                strokeWeight: 1,
-                strokeColor: '#0000FF',
-                strokeOpacity: 0.8,
-                strokeStyle: 'solid',
-                fillColor: '#0000FF',
-                fillOpacity: 0.3
-            });
-            circle.setMap(map);
+            
         } else if (!alertShown) {
             alert("검색 결과가 없습니다.");
             alertShown = true;
@@ -176,20 +168,7 @@ function search(keyword) {
             map.setBounds(bounds);
             showInfowindow(0);
 
-            if (circle) {
-                circle.setMap(null);
-            }
-            circle = new kakao.maps.Circle({
-                center: map.getCenter(),
-                radius: 5000,
-                strokeWeight: 1,
-                strokeColor: '#0000FF',
-                strokeOpacity: 0.8,
-                strokeStyle: 'solid',
-                fillColor: '#0000FF',
-                fillOpacity: 0.3
-            });
-            circle.setMap(map);
+            
         } else if (!alertShown) {
             alert("검색 결과가 없습니다.");
             alertShown = true;
@@ -218,11 +197,7 @@ function setMapCenterByUserLocation() {
             
             map.setCenter(locPosition);
 
-            var centerMarker = new kakao.maps.Marker({
-                position: locPosition,
-                image: centerMarkerImage,
-                map: map
-            });
+           
 
             if (currentKeyword) {
                 searchByLocation(locPosition, 5000, currentKeyword);
@@ -241,7 +216,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const hobbyPlace = urlParams.get('hobby_place');
     const hobbyId = urlParams.get('hobby_id');
     if (hobbyPlace && hobbyId) {
-        document.getElementById('search-result').innerText = `${hobbyId} 검색 결과입니다. 아래 장소에서 즐길 수 있습니다.`;
+        document.getElementById('search-result-text').innerText = `${hobbyId} 검색 결과입니다. 아래 장소에서 즐길 수 있습니다.`;
         currentKeyword = hobbyId;
         setMapCenterByUserLocation(); // 사용자의 위치를 중심으로 설정
     }
