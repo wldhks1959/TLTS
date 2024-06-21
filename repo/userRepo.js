@@ -19,16 +19,15 @@ exports.findUserByUsername = (user_id) => {
   });
 };
 
-exports.updateInfo = (user_id, hashedPassword, address) =>{
+exports.updateInfo = (user_id, hashedPassword, address) => {
   return new Promise((resolve, reject) => {
-    db.query('UPDATE userinfo SET user_pwd = ?, user_addr = ? Where user_id = ?', [hashedPassword, address, user_id], (err,result) =>{
-      if(err){
+    db.query('UPDATE userinfo SET user_pwd = ?, user_addr = ? WHERE user_id = ?', [hashedPassword, address, user_id], (err, result) => {
+      if (err) {
         reject(err);
-      }
-      else{
+      } else {
         resolve(result);
       }
-    } );
+    });
   });
 };
 
@@ -38,5 +37,16 @@ exports.getAllUsers = () => {
       if (err) reject(err);
       resolve(results);
     });
+  });
+};
+
+exports.getUserCount = (callback) => {
+  db.query('SELECT COUNT(*) as user_count FROM userinfo', (err, results) => {
+    if (err) {
+      console.error('Database query error:', err); // 오류 로그 추가
+      return callback(err, null);
+    }
+    console.log('Database query results:', results); // 쿼리 결과 로그 추가
+    callback(null, results[0].user_count);
   });
 };

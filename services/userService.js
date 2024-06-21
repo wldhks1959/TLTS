@@ -25,6 +25,10 @@ exports.getAllUsers = async () => {
   return userRepository.getAllUsers();
 };
 
+exports.getUserCount = (callback) => {
+  userRepository.getUserCount(callback);
+};
+
 // Middleware for login and admin check
 exports.loginCheck = (req, res, next) => {
   if (req.session.user_id) {
@@ -40,4 +44,15 @@ exports.adminCheck = (req, res, next) => {
   } else {
     res.send(`<script>alert('관리자만 접근 가능합니다.'); window.location.href = '/main';</script>`);
   }
+};
+
+exports.logout = (req, res, callback) => {
+  req.session.destroy(err => {
+    if (err) {
+      console.error('Error destroying session:', err);
+      callback(err);
+    } else {
+      callback(null);
+    }
+  });
 };

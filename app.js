@@ -9,33 +9,25 @@ const hobbyController = require('./controllers/hobbyController');
 
 const userService = require('./services/userService');
 
-/* 리팩토링에 의해, 이 부분은 app.js에서 사용하지 않음.
-const hobbyService = require('./services/hobbyService');
-const mapController = require('./controllers/mapController');
-const mapService = require('./services/mapService');
-const bcrypt = require('bcrypt');
-*/
-
 const app = express();
 const port = 3000;
-
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static('public'));
-app.use('/services',express.static('services')); 
-app.use('/controllers',express.static('controllers')); 
+app.use('/services', express.static('services')); 
+app.use('/controllers', express.static('controllers')); 
 app.use('/repo', express.static(__dirname + '/repo'));
 
 // session 사용 
 app.use(session({
   secret: 'secret-key',
   resave: false,
-  saveUninitialized: true, //일단 변경
+  saveUninitialized: true,
   cookie: { 
     secure: false, // https 사용 시 true로 변경 
     maxAge: 30 * 60 * 1000 // 세션 유효 기간: 30분
-   } 
+  } 
 }));
 
 // 리팩토링 시작
@@ -89,25 +81,15 @@ app.get('/get-recommendations', hobbyController.getRecommendations);
 app.get('/get-hobby-keywords', hobbyController.getHobbyKeywords);
 app.post('/save-hobby', userService.loginCheck, userService.adminCheck, hobbyController.saveHobby);
 
-
-
-
-app.get('/user-count', (req, res) => {
-  db.query('SELECT COUNT(*) as user_count FROM userinfo', (err, results) => {
-    if (err) {
-      console.error('Error fetching user count:', err);
-      res.status(500).send('Error fetching user count');
-      return;
-    }
-    res.json({ user_count: results[0].user_count });
-  });
-});
+app.get('/user-count', userController.getUserCount);
 
 // 현재 활성 세션 수를 반환하는 로직
 app.get('/active-sessions', (req, res) => {
   const activeSessions = Object.keys(req.sessionStore.sessions).length;
   res.json({ active_sessions: activeSessions });
 });
+
+app.get('/logout', userController.logout);
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
