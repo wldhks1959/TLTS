@@ -1,6 +1,3 @@
-# map test address
-https://tlts-donga.netlify.app
-
 # 아키텍처 https://drive.google.com/file/d/1udy8kmdaaLjnHSG7NMCu1PudHX6sNYtP/view?usp=drive_link
 ![아키텍처](https://github.com/wldhks1959/TLTS/assets/69555890/b68a158b-bbb9-4092-875d-73db613366e9)
 
