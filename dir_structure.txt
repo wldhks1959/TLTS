@@ -1,4 +1,4 @@
-// final update 2024.06.06 
+// final update 2024.06.22 
 
 /tlts
 ├── app.js
@@ -6,8 +6,6 @@
 │   └── db.js
 ├── controllers
 │   ├── userController.js
-│   ├── adminController.js
-│   ├── mapController.js
 │   └── hobbyController.js
 ├── public
 │   ├── css
@@ -21,7 +19,7 @@
 │   │   ├── modify.css
 │   │   └── register.css
 │   ├── html
-│   │   ├── admin.html
+│   │   ├── adminmain.html
 │   │   ├── hobbiesList.html
 │   │   ├── hobby_result.html
 │   │   ├── hobby.html
@@ -30,16 +28,16 @@
 │   │   ├── main.html
 │   │   ├── map.html
 │   │   ├── modify.html
+│   │   ├── redirect.html
 │   │   ├── register.html
 │   │   └── userinfoList.html
 │   └── images
 ├── repo
 │   ├── hobbyRepo.js
-│   ├── mapRepo.js
 │   └── userRepo.js
 ├── services
 │   ├── hobbyService.js
-│   ├── mapService.js
+│   ├── map.js
 │   └── userService.js
 ├── node_modules
 ├── package.json
