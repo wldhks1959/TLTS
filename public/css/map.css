@@ -91,7 +91,7 @@ body {
 
 .button-container {
     position: sticky;
-    bottom: 80px;
+    bottom : 10%;
     width: 100%;
     text-align: center;
 }
