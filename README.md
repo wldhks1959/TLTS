@@ -1,41 +1,20 @@
-# map test address
-https://tlts-donga.netlify.app
+# 아키텍처 
+![아키텍처](https://github.com/wldhks1959/TLTS/assets/69555890/8e208ee9-fcbc-45c8-a4ea-266718a668c2)
 
-# 아키텍처 https://drive.google.com/file/d/1udy8kmdaaLjnHSG7NMCu1PudHX6sNYtP/view?usp=drive_link
-![아키텍처](https://github.com/wldhks1959/TLTS/assets/69555890/b68a158b-bbb9-4092-875d-73db613366e9)
+# 메인 페이지
+![메인](https://github.com/wldhks1959/TLTS/assets/69555890/0677f9a0-0b8a-460e-ba0c-2d15bc060dd3)
 
-# dir_structure
-![image](https://github.com/wldhks1959/TLTS/assets/69555890/9afc4a0b-9d14-4e20-90f0-2902aa1d0275)
+# 취미 진단 페이지
+![질문](https://github.com/wldhks1959/TLTS/assets/69555890/83b4c087-54e3-49b9-9596-69ca01a7528b)
 
-# index.html
-![image](https://github.com/wldhks1959/TLTS/assets/69555890/9357952f-cb98-4ac6-abd1-5cb82eae9d2b)
+# 취미 결과 페이지
+![결과페이지](https://github.com/wldhks1959/TLTS/assets/69555890/2c00b846-63fa-43a5-9a75-333e4db206b3)
 
-# main.html
-![image](https://github.com/wldhks1959/TLTS/assets/69555890/1051fe69-ee5e-4a5f-ad61-f7f6b80a2e34)
+# 지도 페이지
+![지도](https://github.com/wldhks1959/TLTS/assets/69555890/32bfe5d5-bd0f-419a-a20b-f6718910c470)
 
-# register.html
-![image](https://github.com/wldhks1959/TLTS/assets/69555890/07dbb269-69ef-47e3-a5fc-f690e49e86da)
+# 관리자 페이지
+![admin_main](https://github.com/wldhks1959/TLTS/assets/69555890/dc06cd95-30de-405d-8b30-68f1af04b393)
 
-# login.html
-![image](https://github.com/wldhks1959/TLTS/assets/69555890/0ca03391-ac70-4756-8731-51adb2f241e8)
-
-# modify.html
-![image](https://github.com/wldhks1959/TLTS/assets/69555890/934d8c32-626d-47c2-83a6-92d2a199e687)
-
-# hobby.html
-![image](https://github.com/wldhks1959/TLTS/assets/69555890/a2113e42-4957-4560-96cc-1fecd7745884)
-
-# hobby_result.html
-![image](https://github.com/wldhks1959/TLTS/assets/69555890/e357ccc3-1030-4952-9ded-6d032e3172ed)
-
-# map.html
-![image](https://github.com/wldhks1959/TLTS/assets/69555890/d2b305b0-2e21-43e2-9f99-d8a37e976317)
-
-# admin.html
-![image](https://github.com/wldhks1959/TLTS/assets/69555890/34be273c-17f0-4040-a35c-42c368efcdad)
-
-# admin/userinfo.html
-![image](https://github.com/wldhks1959/TLTS/assets/69555890/46d240dc-34ca-4f5b-a50f-736337c40a1c)
-
-# admin/hobbyList.html
-![image](https://github.com/wldhks1959/TLTS/assets/69555890/263ec42f-8ddd-4d5d-b465-f1adf75acadf)
+# 취미 관리 페이지
+![관리자2](https://github.com/wldhks1959/TLTS/assets/69555890/94a9b6f5-36ed-4d96-86eb-fd1935643168)

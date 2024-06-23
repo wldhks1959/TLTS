@@ -30,7 +30,7 @@ body {
     left: 10px;
     font-size: 30px;
     cursor: pointer;
-    background-color: transparent; /* 배경 투명 */
+    background-color: #1E90FF; /* 배경 투명 */
     color: white;
     border: none;
     padding: 10px 15px;
