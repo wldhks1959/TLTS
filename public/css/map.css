@@ -45,7 +45,7 @@ body {
 
 .sidebar {
     height: 100%; /* 전체 화면 높이 */
-    width: 250px; /* 초기 너비 */
+    width: 25%; /* 초기 너비 */
     position: fixed;
     z-index: 1100; /* 다른 요소들보다 위에 표시 */
     top: 0;
@@ -90,7 +90,7 @@ body {
 }
 
 .button-container {
-    position: absolute;
+    position: sticky;
     bottom: 80px;
     width: 100%;
     text-align: center;
