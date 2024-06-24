@@ -56,3 +56,7 @@ exports.logout = (req, res, callback) => {
     }
   });
 };
+
+exports.deleteUser = async (user_id) => {
+  return userRepository.deleteUser(user_id);
+};

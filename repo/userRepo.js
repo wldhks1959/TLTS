@@ -50,3 +50,12 @@ exports.getUserCount = (callback) => {
     callback(null, results[0].user_count);
   });
 };
+
+exports.deleteUser = (user_id) => {
+  return new Promise((resolve, reject) => {
+    db.query('DELETE FROM userinfo WHERE user_id = ?', [user_id], (err, result) => {
+      if (err) reject(err);
+      resolve(result);
+    });
+  });
+};

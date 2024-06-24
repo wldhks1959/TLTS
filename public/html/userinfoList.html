@@ -39,6 +39,33 @@
         #userTable th {
             background-color: #f2f2f2;
         }
+        .deleteuser {
+            text-align: center;
+            margin-left: 250px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            width: 50%;
+        }
+        .deleteuser input[type="text"] {
+            width: 60%;
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .deleteuser input[type="button"] {
+            padding: 10px 20px;
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .deleteuser input[type="button"]:hover {
+            background-color: #c82333;
+        }
     </style>
 </head>
 <body>
@@ -56,6 +83,10 @@
         <a href="/logout"><i class="fas fa-sign-out-alt"></i> 로그아웃</a>
     </div>
     <div class="main-content">
+        <div class="deleteuser">
+            <input type="text" id="deleteUserId" placeholder="User ID">
+            <input type="button" value="Delete" onclick="deleteUser()">
+        </div>
         <div class="card">
             <h2>사용자 정보 목록</h2>
             <table id="userTable">
@@ -101,6 +132,28 @@
                     console.error('Error fetching users:', error);
                 });
         });
+
+        function deleteUser() {
+            const userId = document.getElementById('deleteUserId').value;
+            if (userId) {
+                fetch(`/delete-user/${userId}`, {
+                    method: 'DELETE',
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(result => {
+                    alert(result.message);
+                    window.location.reload(); // Page refresh
+                })
+                .catch(error => console.error('Failed to delete user:', error));
+            } else {
+                alert('Please enter a user ID');
+            }
+        }
     </script>
 </body>
 </html>

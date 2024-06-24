@@ -98,3 +98,14 @@ exports.getActiveSessions = (req, res) => {
   const activeSessions = Object.keys(req.sessionStore.sessions).length;
   res.json({ active_sessions: activeSessions });
 };
+
+exports.deleteUser = async (req, res) => {
+  const { id } = req.params;
+  try {
+    await userService.deleteUser(id);
+    res.json({ message: 'User deleted successfully' });
+  } catch (error) {
+    console.error('Failed to delete user:', error);
+    res.status(500).json({ error: 'Failed to delete user' });
+  }
+};

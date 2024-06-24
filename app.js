@@ -88,6 +88,9 @@ app.get('/active-sessions', userController.getActiveSessions);
 
 app.get('/logout', userController.logout);
 
+app.delete('/delete-user/:id', userService.loginCheck, userService.adminCheck, userController.deleteUser);
+
+
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
