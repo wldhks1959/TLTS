@@ -206,10 +206,10 @@
                         });
                     });
                 })
-                .catch(error => console.error('Error fetching hobbies:', error));
         }
 
         function saveHobby() {
+            
             const form = document.getElementById('hobbyForm');
             const formData = new FormData(form);
             const jsonData = {};
@@ -227,14 +227,23 @@
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
-                return response.json();
+                return response.text();
             })
-            .then(result => {
+            .then(text => {
+                let result;
+                try {
+                    result = JSON.parse(text);
+                } catch (error) {
+                    console.warn('Failed to parse JSON response:', text);
+                    result = { message: text };
+                }
                 alert(result.message);
                 fetchHobbies(); // Refresh hobby list after the operation
+                window.location.reload(); // Page refresh
             })
             .catch(error => console.error('Failed to save hobby:', error));
         }
+
 
         document.addEventListener('DOMContentLoaded', fetchHobbies);
     </script>
