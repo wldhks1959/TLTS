@@ -44,28 +44,40 @@ header {
 
 header .container {
     display: flex;
-    justify-content: center; /* 중앙 정렬 */
     align-items: center;
+    justify-content: space-between;
     width: 90%;
     margin: 0 auto;
     position: relative;
 }
 
 header .logo {
-    position: absolute;
-    left: -70px;
-    top: 50%;
-    transform: translateY(-45%);
     height: auto;
     width: 10%;
 }
 
 header h1 {
-    margin: 0;
+    margin: 0 auto;
     font-size: 60px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 2px;
+}
+
+.logout-button{
+    font-size: 25px;
+    padding: 8px 20px;
+    background-color : transparent;
+    color: #3726cb;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: font-size 0.3s;
+    font-family: 'Jua', sans-serif;
+}
+
+.logout-button:hover{
+    font-size: 30px; /* Increase font size on hover */
 }
 
 /* Header animation */
