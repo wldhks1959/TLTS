@@ -12,6 +12,7 @@
         <div class="container">
             <img src="/images/logo.png" alt="Logo" class="logo">
             <h1 class="animated-header">Hoppy</h1>
+            <button class="logout-button" onclick="redirectToLogout()">logout</button>
         </div>
     </header>
     <main>
@@ -24,6 +25,10 @@
     </main>
 
     <script>
+        function redirectToLogout() {
+            window.location.href = '/logout';
+        }
+        
         async function fetchRecommendations() {
             const response = await fetch('/get-recommendations');
             const recommendations = await response.json();
